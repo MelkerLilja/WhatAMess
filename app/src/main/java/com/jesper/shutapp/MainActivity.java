@@ -62,28 +62,32 @@ public class MainActivity extends AppCompatActivity {
 
         if(isValidEmail(email))
         {
-            showProgress();
-            Toast.makeText(this, "Login in", Toast.LENGTH_SHORT).show();
+            if(!isEmpty(email) && !isEmpty(password))
+            {
+                showProgress();
+                Toast.makeText(this, "Login in", Toast.LENGTH_SHORT).show();
 
-            //gå vidare med firebase kod
+                //gå vidare med firebase kod
+            }
         }
         else
         {
             Toast.makeText(this,"invalid email input",Toast.LENGTH_SHORT).show();
         }
-
-        //koppla till firebase
+    }
+    private Boolean isEmpty(String text)
+    {
+        return text.equals("");
     }
     private Boolean isValidEmail(String email)
     {
         for(int i = 0; i < email.length(); i++)
         {
-            if(email.charAt(i) == '@' && (email.contains(".com") || email.contains(".se")) )
+            if(email.charAt(i) == '@' && (email.contains(".com") || email.contains(".se")))
             {
                 return true;
             }
         }
         return false;
     }
-
 }
