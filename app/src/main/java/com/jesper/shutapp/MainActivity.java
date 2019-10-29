@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,9 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
         if(isValidEmail(email))
         {
+            showProgress();
+            Toast.makeText(this, "Login in", Toast.LENGTH_SHORT).show();
 
+            //gå vidare med firebase kod
         }
-        showProgress();
+        else
+        {
+            Toast.makeText(this,"invalid email input",Toast.LENGTH_SHORT).show();
+        }
+
         //koppla till firebase
     }
     private Boolean isValidEmail(String email)
