@@ -2,4 +2,8 @@
     <string name="app_name">ShutApp</string>
     <string name="email_hint">Email</string>
     <string name="Password_hint">Password</string>
+    <string name="sign_in_btn">sign in</string>
+    <string name="register_user_txt">Register User</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="register_btn">Register</string>
 </resources>
