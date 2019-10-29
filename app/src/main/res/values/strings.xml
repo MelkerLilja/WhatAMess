@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ShutApp</string>
+    <string name="email_hint">Email</string>
+    <string name="Password_hint">Password</string>
+</resources>
