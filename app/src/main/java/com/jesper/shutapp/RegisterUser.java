@@ -3,7 +3,9 @@ package com.jesper.shutapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -44,12 +46,9 @@ public class RegisterUser extends AppCompatActivity {
            {
                if(isMatchingPass(password,confPassword))
                {
-
                    showProgress();
                    registerUser(email,password);
-                   Toast.makeText(this, "Creating user", Toast.LENGTH_SHORT).show();
-
-
+                   redirectLoginScreen();
                }
                else
                {
@@ -117,5 +116,10 @@ public class RegisterUser extends AppCompatActivity {
                 hideProgress();
             }
         });
+    }
+    private void redirectLoginScreen() {
+        Intent intent = new Intent(RegisterUser.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
