@@ -46,23 +46,24 @@ public class RegisterUser extends AppCompatActivity {
 
         if(!isEmpty(email) && !isEmpty(password) && !isEmpty(confPassword))
         {
-           if(isValidEmail(email))
-           {
-               if(isMatchingPass(password,confPassword))
-               {
-                   showProgress();
-                   registerUser(email,password);
+            if(password.length() >= 6  && confPassword.length() >= 6) {
 
-               }
-               else
-               {
-                    Toast.makeText(this,"Password doesn't match",Toast.LENGTH_SHORT).show();
-               }
-           }
-           else
-           {
-               Toast.makeText(this,"Not a valid Email",Toast.LENGTH_SHORT).show();
-           }
+                if (isValidEmail(email)) {
+                    if (isMatchingPass(password, confPassword)) {
+                        showProgress();
+                        registerUser(email, password);
+
+                    } else {
+                        Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Not a valid Email", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(this,"password too short, need to be atleast 6 characters", Toast.LENGTH_LONG).show();
+            }
         }
         else
         {
