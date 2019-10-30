@@ -1,5 +1,6 @@
 package com.jesper.shutapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,10 +10,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private EditText mEmail;
     private EditText mPassword;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private String TAG = "Jesper";
 
@@ -33,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.email_edittxt);
         mPassword = findViewById(R.id.password_edittxt);
 
-        registerTxt.setOnTouchListener(new View.OnTouchListener() {
+        setupFirebaseAuth(); //sets up a firebaseListener for listening for login activity
+
+        hideSoftKeyboard();
+
+        registerTxt.setOnTouchListener(new View.OnTouchListener() //when the user presses the register
+        {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(MainActivity.this, RegisterUser.class);
@@ -43,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showProgress()
+    private void showProgress() //shows the progressbar when called upon
     {
         progressBar.setVisibility(View.VISIBLE);
     }
-    private void hideProgress()
+    private void hideProgress() // hides the progressbar when called, checks if the progressbar is visible
     {
         if(progressBar.getVisibility() == View.VISIBLE)
         {
@@ -60,14 +75,25 @@ public class MainActivity extends AppCompatActivity {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
-        if(isValidEmail(email))
+        if(isValidEmail(email)) //checks if a valid email else gives a toast for invalid
         {
-            if(!isEmpty(email) && !isEmpty(password))
+            if(!isEmpty(email) && !isEmpty(password)) //checks if both fields are filled or not
             {
                 showProgress();
                 Toast.makeText(this, "Login in", Toast.LENGTH_SHORT).show();
 
-                //gå vidare med firebase kod
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password) //making connection to the firebase database and checks if there is a user with email password credetnials
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) { //if it is successfull hide the progressbar
+                        hideProgress();
+                    }
+                }).addOnFailureListener(new OnFailureListener() { //if it fails gives a toast saying it failed
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this,"Authentication failed",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
         else
@@ -90,4 +116,45 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    private void setupFirebaseAuth() { //sets up a firebase Authentication listener
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) { //if the the user tries to log in
+                FirebaseUser user = firebaseAuth.getCurrentUser(); //if successful a user is asigned else null
+
+                if (user != null) { //if a user was found go to logged in activity
+                        Log.d(TAG, "onAuthStateChanged: Signed in" + user.getUid());
+                        Toast.makeText(MainActivity.this,"Authentivated with: " + user.getEmail(),Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(MainActivity.this,LoggedIn.class);
+                        startActivity(intent);
+                        finish();
+                }
+                else
+                {
+                    Log.d(TAG, "onAuthStateChanged: signed_out");
+                }
+            }
+        };
+    }
+    @Override
+    protected void onStart() { //if mainActivity is loaded again add a listener
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() { //if the activity is not visible anymore, stop the listener
+        super.onStop();
+        if (mAuthListener != null) {
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    private void hideSoftKeyboard() {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+
 }
