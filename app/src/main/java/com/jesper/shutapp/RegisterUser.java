@@ -3,6 +3,7 @@ package com.jesper.shutapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterUser extends AppCompatActivity {
@@ -110,12 +112,14 @@ public class RegisterUser extends AppCompatActivity {
                 {
                     Toast.makeText(RegisterUser.this,"User created",Toast.LENGTH_SHORT).show();
                     //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    redirectLoginScreen();
                     FirebaseAuth.getInstance().signOut();
+                    redirectLoginScreen();
                 }
                 else
                 {
-                    Toast.makeText(RegisterUser.this, "Unable to register", Toast.LENGTH_SHORT).show();
+                    FirebaseAuthException e = (FirebaseAuthException )task.getException();
+                    Log.d("Jesper", "Failed Registration: "+e.getMessage());
+                    //Toast.makeText(RegisterUser.this, "Unable to register", Toast.LENGTH_SHORT).show();
                 }
                 hideProgress();
             }
