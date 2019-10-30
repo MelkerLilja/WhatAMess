@@ -23,6 +23,7 @@ public class RegisterUser extends AppCompatActivity {
     private EditText mPassword;
     private EditText mConfirmedPassword;
     private ProgressBar mProgressbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +33,8 @@ public class RegisterUser extends AppCompatActivity {
         mPassword = findViewById(R.id.password_register_edittxt);
         mConfirmedPassword = findViewById(R.id.confirm_password_register_edittxt);
         mProgressbar = findViewById(R.id.progressBar);
-
     }
+
 
     public void registerOnClick(View view)
     {

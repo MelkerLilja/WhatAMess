@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
+        Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
+
         if(isValidEmail(email)) //checks if a valid email else gives a toast for invalid
         {
             if(!isEmpty(email) && !isEmpty(password)) //checks if both fields are filled or not
