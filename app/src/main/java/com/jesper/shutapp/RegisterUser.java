@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -48,7 +49,7 @@ public class RegisterUser extends AppCompatActivity {
                {
                    showProgress();
                    registerUser(email,password);
-                   redirectLoginScreen();
+
                }
                else
                {
@@ -107,6 +108,8 @@ public class RegisterUser extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     Toast.makeText(RegisterUser.this,"User created",Toast.LENGTH_SHORT).show();
+                    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    redirectLoginScreen();
                     FirebaseAuth.getInstance().signOut();
                 }
                 else
