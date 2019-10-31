@@ -2,14 +2,20 @@ package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +31,12 @@ public class RegisterUser extends AppCompatActivity {
     private EditText mPassword;
     private EditText mConfirmedPassword;
     private ProgressBar mProgressbar;
+    private CheckBox mCheckbox;
+    private Button mRegisterBtn;
+
+    private FragmentManager mFragmentManager;
+    private TermsOfService tos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +47,39 @@ public class RegisterUser extends AppCompatActivity {
         mPassword = findViewById(R.id.password_register_edittxt);
         mConfirmedPassword = findViewById(R.id.confirm_password_register_edittxt);
         mProgressbar = findViewById(R.id.progressBar);
-    }
+        mCheckbox = findViewById(R.id.tos_checkbox);
+        mRegisterBtn = findViewById(R.id.register_btn);
 
+        mFragmentManager = getSupportFragmentManager();
+        FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder);
+        TextView mTos = findViewById(R.id.tos_txt);
+        tos = new TermsOfService();
+
+        mTos.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mFragmentManager.beginTransaction().add(R.id.fragment_holder,tos,"Terms of Service").commit();
+                return false;
+            }
+        });
+        mFragmentLayout.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mFragmentManager.beginTransaction().remove(tos).commit();
+                return false;
+            }
+        });
+
+    }
 
     public void registerOnClick(View view)
     {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         String confPassword = mConfirmedPassword.getText().toString();
+
 
         if(!isEmpty(email) && !isEmpty(password) && !isEmpty(confPassword))
         {
@@ -130,5 +167,27 @@ public class RegisterUser extends AppCompatActivity {
         Intent intent = new Intent(RegisterUser.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void confirmTos(View view) {
+        if(mCheckbox.isChecked())
+        {
+            mRegisterBtn.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mRegisterBtn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mFragmentManager.findFragmentById(R.id.fragment_holder).isVisible())
+        {
+            mFragmentManager.beginTransaction().remove(tos).commit();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

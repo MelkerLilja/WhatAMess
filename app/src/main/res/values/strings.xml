@@ -6,4 +6,7 @@
     <string name="register_user_txt">Register User</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="register_btn">Register</string>
+    <string name="tos_txt">We want you to do this</string>
+    <string name="terms_of_service_txt">Terms of Service</string>
+    <string name="terms_of_service_box">Do you agree with the Terms of Service?</string>
 </resources>
