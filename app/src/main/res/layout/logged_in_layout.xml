@@ -6,10 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".LoggedIn">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="welcome in :)"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:text="welcome in :)" />
+
+    <include
+        layout="@layout/mtoolbar"
+        android:id="@+id/logged_in_toolbar"/>
 
 </RelativeLayout>

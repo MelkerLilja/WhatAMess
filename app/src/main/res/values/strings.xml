@@ -9,4 +9,9 @@
     <string name="tos_txt">We want you to do this</string>
     <string name="terms_of_service_txt">Terms of Service</string>
     <string name="terms_of_service_box">Do you agree with the Terms of Service?</string>
+    <string name="settings_menu">Settings</string>
+    <string name="log_out_menu">Log out</string>
+
+    <string name="homepage_txt">Homepage</string>
+    <string name="userid_txt">Logged in as:\n</string>
 </resources>

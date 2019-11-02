@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings">
+
+    <include
+        android:id="@+id/settings_toolbar"
+        layout="@layout/mtoolbar" />
+
+
+    <EditText
+        android:id="@+id/new_password_confirmed_edittxt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit_password_btn"
+        android:layout_centerHorizontal="true"
+        android:hint="Confirm New Password"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/submit_password_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/email_settings_edittext"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:onClick="updatePassword"
+        android:text="Change Password" />
+
+    <EditText
+        android:id="@+id/new_password_edittxt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/new_password_confirmed_edittxt"
+        android:layout_centerHorizontal="true"
+        android:hint="New Password"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/email_settings_edittext"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:hint="Change Email"
+        android:inputType="textEmailAddress"/>
+
+    <Button
+        android:id="@+id/submit_email_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email_settings_edittext"
+        android:layout_centerHorizontal="true"
+        android:text="Change Email"
+        android:layout_margin="10dp"
+        android:onClick="updateEmail"/>
+
+    <TextView
+        android:id="@+id/userid_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/new_password_edittxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30sp"
+        android:textSize="25sp" />
+</RelativeLayout>
