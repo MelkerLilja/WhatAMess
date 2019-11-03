@@ -1,34 +1,35 @@
 package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.w3c.dom.Text;
-
-import java.util.zip.Inflater;
 
 public class Settings extends AppCompatActivity {
 
     FirebaseUser user;
+    private static final int PICK_IMAGE = 100;
+    private ImageView userPic;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,8 @@ public class Settings extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        TextView textView = findViewById(R.id.userid_txt);
-        textView.setText(getString(R.string.userid_txt) + user.getEmail());
+        userPic = findViewById(R.id.user_pic_view);
+
 
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setTitle(R.string.settings_menu);
@@ -63,61 +64,52 @@ public class Settings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updatePassword(View view) {
+    public void updateUser(View view)
+    {
+        EditText newEmailEdit = findViewById(R.id.email_settings_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
-        EditText newConfPasswordEdit = findViewById(R.id.new_password_confirmed_edittxt);
+        EditText newUsername = findViewById(R.id.user_name_settings_edittxt);
 
-        String newPassword = newPasswordEdit.getText().toString();
-        String newConfPassword = newConfPasswordEdit.getText().toString();
-
-        if (newPassword.length() >= 6 && newConfPassword.length() >= 6) {
-            if (newPassword.equals(newConfPassword)) {
-                user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+        if(!newEmailEdit.getText().toString().equals(""))
+        {
+            if(isValidEmail(newEmailEdit.getText().toString()))
+            {
+                user.updateEmail(newEmailEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Settings.this, "Password accepted", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Settings.this, "Password not accepted", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(Settings.this, "Email updated",Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Settings.this, "Couldn't update password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Settings.this, "Email couldn't be updated",Toast.LENGTH_SHORT).show();
                     }
                 });
-            } else {
-                Toast.makeText(Settings.this, "The new Password doesn't match the confirmed new Password", Toast.LENGTH_LONG).show();
             }
-        } else {
-            Toast.makeText(Settings.this, "Password too short", Toast.LENGTH_LONG).show();
+            else
+            {
+                Toast.makeText(Settings.this, "Not a valid email",Toast.LENGTH_SHORT).show();
+            }
         }
-    }
-
-    public void updateEmail(View view) {
-        EditText newEmailEdit = findViewById(R.id.email_settings_edittext);
-        String newEmail = newEmailEdit.getText().toString();
-
-        if (isValidEmail(newEmail)) {
-            user.updateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+        if(!newPasswordEdit.getText().toString().equals(""))
+        {
+            user.updatePassword(newPasswordEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Intent intent = new Intent(Settings.this, Settings.class);
-                    Toast.makeText(Settings.this, "Updating window", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
-                    finish();
+                    Toast.makeText(Settings.this, "Password updated",Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Settings.this, "Couldn't update Email", Toast.LENGTH_SHORT).show();
-                    Log.d("Jesper", "onFailure: " + e.toString());
+                    Toast.makeText(Settings.this, "Password couldn't be updated",Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            Toast.makeText(Settings.this, "not a valid Email", Toast.LENGTH_SHORT).show();
         }
+        if(!newUsername.getText().toString().equals(""))
+        {
+
+        }
+
     }
 
     private Boolean isValidEmail(String email) {
@@ -129,5 +121,24 @@ public class Settings extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("Jesper", "onActivityResult: wtf" + requestCode);
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE)
+        {
+            imageUri = data.getData();
+            userPic.setImageURI(imageUri);
+
+            //skicka till databasen och spara den där också
+            //skicka den till storage för att ladda den därifrån
+        }
+    }
+
+    public void changePic(View view) {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery,PICK_IMAGE);
     }
 }

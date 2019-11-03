@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "248324106577",
-    "firebase_url": "https://shutappgrp.firebaseio.com",
-    "project_id": "shutappgrp",
-    "storage_bucket": "shutappgrp.appspot.com"
+    "project_number": "824994735614",
+    "firebase_url": "https://shutappgrp-83054.firebaseio.com",
+    "project_id": "shutappgrp-83054",
+    "storage_bucket": "shutappgrp-83054.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:248324106577:android:3c5b0e67ea114aadfe8b70",
+        "mobilesdk_app_id": "1:824994735614:android:63be7d7787f6f783b18caf",
         "android_client_info": {
           "package_name": "com.jesper.shutapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "248324106577-v526fsc6eitqnauson0u5knovjtqteb8.apps.googleusercontent.com",
+          "client_id": "824994735614-41hjchd7lmrob1eiodjulphe6n1h2cu9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.jesper.shutapp",
@@ -23,28 +23,20 @@
           }
         },
         {
-          "client_id": "248324106577-51d9tdhsaa22pq7j499h3mfj4261ci4a.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.jesper.shutapp",
-            "certificate_hash": "99383369def346ab3b49118b68629be2d47088ae"
-          }
-        },
-        {
-          "client_id": "248324106577-m6a1vtnjluod1j6p3n3gv2sdftuvmbi6.apps.googleusercontent.com",
+          "client_id": "824994735614-2jsap14gv0om4nljf7rqvvtl5ace0u6v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7v6jgNM1uNFSDrdpuEqMZhpuC1AiBYTs"
+          "current_key": "AIzaSyDdqr9iHoYVs2iBJF7w1JLIk_k7Cwt32Tk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "248324106577-m6a1vtnjluod1j6p3n3gv2sdftuvmbi6.apps.googleusercontent.com",
+              "client_id": "824994735614-2jsap14gv0om4nljf7rqvvtl5ace0u6v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

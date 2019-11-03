@@ -11,30 +11,38 @@
         layout="@layout/mtoolbar" />
 
 
-    <EditText
-        android:id="@+id/new_password_confirmed_edittxt"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/submit_password_btn"
+    <ImageView
+        android:id="@+id/user_pic_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_above="@+id/user_name_settings_edittxt"
         android:layout_centerHorizontal="true"
-        android:hint="Confirm New Password"
-        android:inputType="textPassword"/>
-
+        android:src="@drawable/placeholder"
+        android:tooltipText="press to change picture" />
     <Button
-        android:id="@+id/submit_password_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/email_settings_edittext"
+        android:layout_toEndOf="@+id/user_pic_view"
+        android:layout_above="@id/user_name_settings_edittxt"
+        android:text="change picture"
+        android:textSize="12sp"
+        android:onClick="changePic"
+        />
+
+    <EditText
+        android:id="@+id/user_name_settings_edittxt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/new_password_edittxt"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:onClick="updatePassword"
-        android:text="Change Password" />
+        android:hint="Name"
+        />
 
     <EditText
         android:id="@+id/new_password_edittxt"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/new_password_confirmed_edittxt"
+        android:layout_above="@+id/email_settings_edittext"
         android:layout_centerHorizontal="true"
         android:hint="New Password"
         android:inputType="textPassword"/>
@@ -54,16 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/email_settings_edittext"
         android:layout_centerHorizontal="true"
-        android:text="Change Email"
+        android:text="Update user"
         android:layout_margin="10dp"
-        android:onClick="updateEmail"/>
+        android:onClick="updateUser"/>
 
-    <TextView
-        android:id="@+id/userid_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/new_password_edittxt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30sp"
-        android:textSize="25sp" />
 </RelativeLayout>
