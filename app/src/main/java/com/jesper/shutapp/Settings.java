@@ -44,6 +44,7 @@ public class Settings extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setTitle(R.string.settings_menu);
         setSupportActionBar(toolbar);
+        //hej
     }
 
     @Override
