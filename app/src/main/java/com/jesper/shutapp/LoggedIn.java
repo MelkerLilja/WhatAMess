@@ -41,7 +41,7 @@ public class LoggedIn extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.settings:
-                intent = new Intent(LoggedIn.this,Settings.class);
+                intent = new Intent(LoggedIn.this,MainSettings.class);
                 startActivity(intent);
                 finish();
                 break;
