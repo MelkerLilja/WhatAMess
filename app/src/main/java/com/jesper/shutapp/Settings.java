@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Settings extends AppCompatActivity {
@@ -39,7 +40,6 @@ public class Settings extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         userPic = findViewById(R.id.user_pic_view);
-
 
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setTitle(R.string.settings_menu);
