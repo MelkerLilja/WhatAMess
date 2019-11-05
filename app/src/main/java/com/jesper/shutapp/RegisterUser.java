@@ -160,6 +160,7 @@ public class RegisterUser extends AppCompatActivity {
                     user.setName(email.substring(0,email.indexOf("@")));
                     user.setEmail(email);
                     user.setProfile_picture("");
+                    user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     FirebaseDatabase.
                             getInstance().

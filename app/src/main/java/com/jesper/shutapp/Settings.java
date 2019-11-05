@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,8 +54,7 @@ public class Settings extends AppCompatActivity {
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         userPic = findViewById(R.id.user_pic_view);
@@ -68,8 +69,7 @@ public class Settings extends AppCompatActivity {
         getUserAccountData();
     }
 
-    private void getUserAccountData()
-    {
+    private void getUserAccountData() {
         Log.d(TAG, "getUserAccountData: retrieving data from database");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child(getString(R.string.db_users)).
@@ -78,8 +78,7 @@ public class Settings extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot singleSnapshot: dataSnapshot.getChildren())
-                {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Log.d(TAG, "getUserAccountData: Data retrieved");
                     User user = singleSnapshot.getValue(User.class);
                     emailTxt.setText(user.getEmail());
@@ -113,18 +112,16 @@ public class Settings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateUser(View view)
-    {
+    public void updateUser(View view) {
         EditText newEmailEdit = findViewById(R.id.email_settings_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
         final EditText newUsername = findViewById(R.id.user_name_settings_edittxt);
 
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-        if(!newEmailEdit.getText().toString().equals("") && !FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(newEmailEdit.getText().toString()))
-        {
-            if(isValidEmail(newEmailEdit.getText().toString()))
-            {
+        if (!newEmailEdit.getText().toString().equals("") &&
+                !FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(newEmailEdit.getText().toString())) {
+            if (isValidEmail(newEmailEdit.getText().toString())) {
                 user.updateEmail(newEmailEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -143,43 +140,37 @@ public class Settings extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: couldn't change email" + e.toString());
                             }
                         });
-                        Toast.makeText(Settings.this, "Email updated",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Settings.this, "Email updated", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Settings.this, "Email couldn't be updated" ,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Settings.this, "Email couldn't be updated", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onFailure: Email couldn't be updated" + e.toString());
                     }
                 });
+            } else {
+                Toast.makeText(Settings.this, "Not a valid email", Toast.LENGTH_SHORT).show();
             }
-            else
-            {
-                Toast.makeText(Settings.this, "Not a valid email",Toast.LENGTH_SHORT).show();
-            }
+        } else {
+            Toast.makeText(Settings.this, "Enter a new email", Toast.LENGTH_SHORT).show();
         }
-        else
-            {
-                Toast.makeText(Settings.this,"Enter a new email",Toast.LENGTH_SHORT).show();
-            }
-        if(!newPasswordEdit.getText().toString().equals(""))
-        {
+        if (!newPasswordEdit.getText().toString().equals("")) {
             user.updatePassword(newPasswordEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
 
-                    Toast.makeText(Settings.this, "Password updated",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Settings.this, "Password updated", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Settings.this, "Password couldn't be updated",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Settings.this, "Password couldn't be updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }
-        if(!newUsername.getText().toString().equals(""))
-        {
-                //update username here
+        if (!newUsername.getText().toString().equals("")) {
+            //update username here
             reference.child(getString(R.string.db_users)).
                     child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
                     child(getString(R.string.field_name)).
@@ -213,8 +204,7 @@ public class Settings extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("Jesper", "onActivityResult: wtf" + requestCode);
-        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE)
-        {
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
             userPic.setImageURI(imageUri);
 
@@ -226,6 +216,6 @@ public class Settings extends AppCompatActivity {
 
     public void changePic(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery,PICK_IMAGE);
+        startActivityForResult(gallery, PICK_IMAGE);
     }
 }
