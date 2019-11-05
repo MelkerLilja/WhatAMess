@@ -2,7 +2,8 @@ package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
-        import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
         import android.app.Activity;
         import android.content.Intent;
@@ -36,6 +37,7 @@ public class RegisterUser extends AppCompatActivity {
     private ProgressBar mProgressbar;
     private CheckBox mCheckbox;
     private Button mRegisterBtn;
+    private Toolbar toolbarRegister;
 
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
@@ -53,6 +55,11 @@ public class RegisterUser extends AppCompatActivity {
         mProgressbar = findViewById(R.id.progressBar);
         mCheckbox = findViewById(R.id.tos_checkbox);
         mRegisterBtn = findViewById(R.id.register_btn);
+        toolbarRegister=findViewById(R.id.register_toolbar);
+
+        setSupportActionBar(toolbarRegister);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mFragmentManager = getSupportFragmentManager();
         FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder);
