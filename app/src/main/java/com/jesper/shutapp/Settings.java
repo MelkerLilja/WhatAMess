@@ -119,7 +119,7 @@ public class Settings extends AppCompatActivity {
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
         final EditText newUsername = findViewById(R.id.user_name_settings_edittxt);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         if(!newEmailEdit.getText().toString().equals("") && !FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(newEmailEdit.getText().toString()))
         {
@@ -129,12 +129,27 @@ public class Settings extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //update email in database here
+                        reference.child(getString(R.string.db_users)).
+                                child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                                child(getString(R.string.field_email)).
+                                setValue(emailTxt.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                emailTxt.setText(emailTxt.getText().toString());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: couldn't change email" + e.toString());
+                            }
+                        });
                         Toast.makeText(Settings.this, "Email updated",Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Settings.this, "Email couldn't be updated",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Settings.this, "Email couldn't be updated" ,Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onFailure: Email couldn't be updated" + e.toString());
                     }
                 });
             }
