@@ -155,7 +155,7 @@ public class RegisterUser extends AppCompatActivity {
                     Toast.makeText(RegisterUser.this,"User created",Toast.LENGTH_SHORT).show();
                     //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                    //add user to database
+                    //adds user to database
                     User user = new User();
                     user.setName(email.substring(0,email.indexOf("@")));
                     user.setEmail(email);
@@ -184,6 +184,7 @@ public class RegisterUser extends AppCompatActivity {
                             Log.d(TAG, "onFailure: couldn't add user" + e.toString());
                         }
                     });
+                    //end of adding user to database
 
 
                     FirebaseAuth.getInstance().signOut();

@@ -11,6 +11,8 @@
         layout="@layout/mtoolbar" />
 
 
+
+
     <ImageView
         android:id="@+id/user_pic_view"
         android:layout_width="150dp"
@@ -56,6 +58,7 @@
         android:hint="Change Email"
         android:inputType="textEmailAddress"/>
 
+
     <Button
         android:id="@+id/submit_email_btn"
         android:layout_width="wrap_content"
@@ -65,5 +68,6 @@
         android:text="Update user"
         android:layout_margin="10dp"
         android:onClick="updateUser"/>
+
 
 </RelativeLayout>
