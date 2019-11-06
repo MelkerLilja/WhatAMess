@@ -14,4 +14,10 @@
 
     <string name="homepage_txt">Homepage</string>
     <string name="userid_txt">Logged in as:\n</string>
+
+    //---firebase adding user---//
+    <string name="db_users">users</string>
+    <string name="field_name">name</string>
+    <string name="field_email">email</string>
+    <string name="field_picture">profile_picture</string>
 </resources>
