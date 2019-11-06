@@ -22,14 +22,10 @@ public class MessageAdapter extends BaseAdapter {
     Context context;
     private ArrayList<Chat> chatList;
 
-
-
     public MessageAdapter(Context context,  ArrayList<Chat> chatList) { //Constructor for MessageAdapter with the Context and our chatList.
         this.context = context;
         this.chatList = chatList;
-
     }
-
 
     @Override
     public int getCount() {
