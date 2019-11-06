@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +32,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.model.User;
 
 
@@ -40,6 +44,7 @@ public class Settings extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
+    private StorageReference mStorageRef;
 
     private EditText usernameTxt;
     private EditText emailTxt;
@@ -51,6 +56,8 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
 
+
+
         init();
     }
 
@@ -61,7 +68,7 @@ public class Settings extends AppCompatActivity {
         usernameTxt = findViewById(R.id.user_name_settings_edittxt);
         emailTxt = findViewById(R.id.email_settings_edittext);
 
-
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setTitle(R.string.settings_menu);
         setSupportActionBar(toolbar);
@@ -206,7 +213,39 @@ public class Settings extends AppCompatActivity {
         Log.d("Jesper", "onActivityResult: wtf" + requestCode);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
-            userPic.setImageURI(imageUri);
+
+            String path = imageUri.toString();
+            String filename = path.substring(path.lastIndexOf("/")+1);
+            String uid = user.getUid();
+
+            final StorageReference riverRef = mStorageRef.child("images/"+uid+"/"+filename+".jpg");
+            riverRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.d("Jesper", "onSuccess: Picture added");
+
+
+                            //userPic.setImageURI(uri);
+                            //lägg uri till databasen
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: Picture couldn't be added");
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Jesper", "onFailure: BUUUU " + e.toString());
+                }
+            });
+
+
 
             //skicka den till storage för att ladda den därifrån (får en html till projektet)
             //skicka till databasen och spara den där också
