@@ -1,4 +1,4 @@
-package com.jesper.shutapp;
+package com.jesper.shutapp.model;
 
 public class Chat { //A chat class that includes all of the info we want, need to add like time etc later.
     private String message;

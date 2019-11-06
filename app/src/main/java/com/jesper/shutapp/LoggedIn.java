@@ -69,4 +69,10 @@ public class LoggedIn extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void userbtn(View view) {
+        Intent intent = new Intent (LoggedIn.this, UsersListActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -7,10 +7,18 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".ChatActivity">
 
+    <TextView
+        android:id="@+id/text_userName_chat"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="30sp"
+        android:background="@color/colorPrimary"/>
+
     <ListView
         android:id="@+id/listview_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/text_userName_chat"
         android:layout_above="@id/layout_sendMessage"/>
 
  <RelativeLayout
@@ -36,6 +44,8 @@
          android:background="@drawable/ic_button_send"
          android:id="@+id/btn_send"
          android:layout_alignParentEnd="true" />
+
+
 
  </RelativeLayout>
 

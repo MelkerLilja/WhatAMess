@@ -1,26 +1,25 @@
 package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.model.Chat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ public class ChatActivity extends AppCompatActivity {
     EditText txtSend;
     String message;
     ListView messagesList;
+    TextView userNameChat;
     
     String sender = "Anton"; //These are examples will be changed to userid senderid "photo" etc.
     String receiver = "Kalle";
@@ -38,15 +38,31 @@ public class ChatActivity extends AppCompatActivity {
     MessageAdapter adapter;
     DatabaseReference reference;
     ArrayList<Chat> chatList;
+    FirebaseUser fuser;
+
+    String userid;
+
+
+    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        
+
         btnSend = findViewById(R.id.btn_send);
         txtSend = findViewById(R.id.text_send);
         messagesList = findViewById(R.id.listview_message);
+        userNameChat = findViewById(R.id.text_userName_chat);
+
+
+        intent = getIntent();
+        userid = intent.getStringExtra("userid");
+        userNameChat.setText(userid);
+
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
         
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +70,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 message = txtSend.getText().toString(); //Getting EditText value and adds it into sendMessage method.
                 if (!message.equals("")) {
-                    sendMessage(message);
+                    sendMessage(fuser.getUid(), userid, message);
                 } else {
                     Toast.makeText(ChatActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
@@ -62,11 +78,11 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats").child(userid);
         reference.addValueEventListener(new ValueEventListener() { //Listens for data change and calls upon readmessage method if so
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                readMessage();
+                readMessage(fuser.getUid(), userid);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -75,20 +91,19 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-
-    private void sendMessage(String message) { //Method takes in String msg and push it as a hashMap to database.
+    private void sendMessage(String sender, String receiver, String message) { //Method takes in String msg and push it as a hashMap to database.
 
         reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>(); //Need to fix sender/receiver and add like time photo etc..
-        hashMap.put("message", message);
-        hashMap.put("receiver", receiver);
         hashMap.put("sender", sender);
+        hashMap.put("receiver", receiver);
+        hashMap.put("message", message);
 
         reference.child("chats").push().setValue(hashMap);
     }
-    
-    private void readMessage() {
+
+    private void readMessage(final String myid, final String userid) {
         chatList = new ArrayList<>(); //Arraylist to store our chats
 
         reference = FirebaseDatabase.getInstance().getReference("chats");
@@ -98,7 +113,9 @@ public class ChatActivity extends AppCompatActivity {
                 chatList.clear(); 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class); //Getting the hashMap value into our chat object and adds it to our arraylist.
-                    chatList.add(chat);
+                    if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) || chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
+                        chatList.add(chat);
+                    }
                 }
                 adapter = new MessageAdapter(ChatActivity.this, chatList); //Creates our adapter with our ChatActivity and our chatList as constructor.
                 messagesList.setAdapter(adapter); //Set our listview to with our adapter

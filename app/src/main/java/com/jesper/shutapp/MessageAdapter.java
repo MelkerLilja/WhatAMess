@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.jesper.shutapp.model.Chat;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class MessageAdapter extends BaseAdapter {
 
