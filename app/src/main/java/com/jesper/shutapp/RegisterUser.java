@@ -25,6 +25,8 @@ import androidx.annotation.NonNull;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseAuthException;
         import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.jesper.shutapp.model.User;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -35,8 +37,9 @@ public class RegisterUser extends AppCompatActivity {
     private CheckBox mCheckbox;
     private Button mRegisterBtn;
 
-    private FragmentManager mFragmentManager;
+    public static FragmentManager mFragmentManager;
     private TermsOfService tos;
+    private final String TAG = "Database";
 
 
     @Override
@@ -52,6 +55,7 @@ public class RegisterUser extends AppCompatActivity {
         mRegisterBtn = findViewById(R.id.register_btn);
 
         mFragmentManager = getSupportFragmentManager();
+
         FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder);
         TextView mTos = findViewById(R.id.tos_txt);
         tos = new TermsOfService();
@@ -142,7 +146,7 @@ public class RegisterUser extends AppCompatActivity {
         }
     }
 
-    private void registerUser(String email, String password)
+    private void registerUser(final String email, final String password)
     {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -152,9 +156,36 @@ public class RegisterUser extends AppCompatActivity {
                     Toast.makeText(RegisterUser.this,"User created",Toast.LENGTH_SHORT).show();
                     //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                    //add user to database
+                    //adds user to database
+                    User user = new User();
+                    user.setName(email.substring(0,email.indexOf("@")));
+                    user.setEmail(email);
+                    user.setProfile_picture("");
 
-
+                    FirebaseDatabase.
+                            getInstance().
+                            getReference().
+                            child(getString(R.string.db_users)).
+                            child(FirebaseAuth.getInstance().getUid()).
+                            setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                Log.d(TAG, "onComplete: added user to database");
+                            }
+                            else
+                            {
+                                Log.d(TAG, "onComplete: added user to database");
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: couldn't add user" + e.toString());
+                        }
+                    });
+                    //end of adding user to database
                     FirebaseAuth.getInstance().signOut();
                     redirectLoginScreen();
                 }
@@ -167,7 +198,6 @@ public class RegisterUser extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Log.d("Jesper", "Failed Registration: "+e.getMessage());
             }
         });
