@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mPassword;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    //hej
+
     private String TAG = "Jesper";
 
     @Override
