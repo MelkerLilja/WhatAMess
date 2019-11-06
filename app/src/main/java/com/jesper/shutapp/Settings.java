@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,17 +12,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +32,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.model.User;
 
-
 public class Settings extends AppCompatActivity {
 
     FirebaseUser user;
@@ -48,15 +42,13 @@ public class Settings extends AppCompatActivity {
 
     private EditText usernameTxt;
     private EditText emailTxt;
-    private final String TAG = "Log";
+    private final String TAG = "Settings";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
-
-
 
         init();
     }
@@ -91,6 +83,10 @@ public class Settings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
 
+                    if(!user.getEmail().equals(""))
+                    {
+                        Glide.with(Settings.this).load(user.getProfile_picture()).into(userPic);
+                    }
                 }
             }
 
@@ -210,7 +206,8 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("Jesper", "onActivityResult: wtf" + requestCode);
+
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
 
@@ -225,27 +222,38 @@ public class Settings extends AppCompatActivity {
                     riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Log.d("Jesper", "onSuccess: Picture added");
+                            Log.d("Jesper", "onSuccess: Picture added" + uri);
 
+                            Glide.with(Settings.this).load(uri).into(userPic);
 
-                            //userPic.setImageURI(uri);
-                            //lägg uri till databasen
+                            reference.child(getString(R.string.db_users)).
+                                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                                    child(getString(R.string.field_picture)).
+                                    setValue(uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "onSuccess: image url added to user database table");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure: couldn't imageurl" + e.toString());
+                                }
+                            });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: Picture couldn't be added");
+                            Log.d(TAG, "onFailure: Picture couldn't be added " + e.toString());
                         }
                     });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("Jesper", "onFailure: BUUUU " + e.toString());
+                    Log.d(TAG, "onFailure: BUUUU " + e.toString());
                 }
             });
-
-
 
             //skicka den till storage för att ladda den därifrån (får en html till projektet)
             //skicka till databasen och spara den där också
