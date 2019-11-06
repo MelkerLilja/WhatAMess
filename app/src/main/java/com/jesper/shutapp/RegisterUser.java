@@ -37,7 +37,7 @@ public class RegisterUser extends AppCompatActivity {
     private CheckBox mCheckbox;
     private Button mRegisterBtn;
 
-    public static FragmentManager mFragmentManager;
+    private FragmentManager mFragmentManager;
     private TermsOfService tos;
     private final String TAG = "Database";
 
@@ -55,7 +55,6 @@ public class RegisterUser extends AppCompatActivity {
         mRegisterBtn = findViewById(R.id.register_btn);
 
         mFragmentManager = getSupportFragmentManager();
-
         FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder);
         TextView mTos = findViewById(R.id.tos_txt);
         tos = new TermsOfService();
@@ -161,6 +160,7 @@ public class RegisterUser extends AppCompatActivity {
                     user.setName(email.substring(0,email.indexOf("@")));
                     user.setEmail(email);
                     user.setProfile_picture("");
+                    user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     FirebaseDatabase.
                             getInstance().
@@ -186,6 +186,8 @@ public class RegisterUser extends AppCompatActivity {
                         }
                     });
                     //end of adding user to database
+
+
                     FirebaseAuth.getInstance().signOut();
                     redirectLoginScreen();
                 }
@@ -198,6 +200,7 @@ public class RegisterUser extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
                 Log.d("Jesper", "Failed Registration: "+e.getMessage());
             }
         });
