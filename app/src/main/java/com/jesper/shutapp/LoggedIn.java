@@ -28,17 +28,6 @@ public class LoggedIn extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.logged_in_toolbar);
         toolbar.setTitle(R.string.homepage_txt);
         setSupportActionBar(toolbar);
-
-        btn = findViewById(R.id.btn_chat);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { //Created button and onclick to call the ChatActivity class
-                Intent intent = new Intent(LoggedIn.this, ChatActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
     @Override
