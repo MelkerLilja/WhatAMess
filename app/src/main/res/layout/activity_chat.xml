@@ -8,10 +8,10 @@
     tools:context=".ChatActivity">
 
     <ListView
-        android:id="@+id/listview_messages"
+        android:id="@+id/listview_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layout_sendMessage"/>
+        android:layout_above="@id/layout_sendMessage"/>
 
  <RelativeLayout
      android:id="@+id/layout_sendMessage"
