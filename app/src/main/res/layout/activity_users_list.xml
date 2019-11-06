@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".UsersListActivity">
 
     <TextView
@@ -39,6 +40,8 @@
         android:id="@+id/users_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:layout_below="@+id/search_users"/>
 
 

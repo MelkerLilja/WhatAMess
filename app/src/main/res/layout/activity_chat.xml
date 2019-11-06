@@ -4,21 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="#fff"
     tools:context=".ChatActivity">
 
     <TextView
         android:id="@+id/text_userName_chat"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:textSize="30sp"
-        android:background="@color/colorPrimary"/>
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/example_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"/>
+
 
     <ListView
         android:id="@+id/listview_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/text_userName_chat"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:layout_above="@id/layout_sendMessage"/>
 
  <RelativeLayout
@@ -48,6 +60,6 @@
 
 
  </RelativeLayout>
-
-
 </RelativeLayout>
+
+

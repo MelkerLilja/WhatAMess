@@ -19,7 +19,6 @@ import java.util.zip.Inflater;
 
 public class LoggedIn extends AppCompatActivity {
 
-    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

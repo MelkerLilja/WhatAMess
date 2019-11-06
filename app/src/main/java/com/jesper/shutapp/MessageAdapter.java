@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.jesper.shutapp.model.Chat;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class MessageAdapter extends BaseAdapter {
 
     Context context;
     private ArrayList<Chat> chatList;
+    FirebaseUser fuser;
 
     public MessageAdapter(Context context,  ArrayList<Chat> chatList) { //Constructor for MessageAdapter with the Context and our chatList.
         this.context = context;
@@ -46,6 +49,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        int type = getItemViewType(position);
 
         ViewHolder holder = null;
 
@@ -53,9 +57,15 @@ public class MessageAdapter extends BaseAdapter {
         holder = new ViewHolder();
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.chat_item_left, parent, false);
-            holder.message = (TextView) convertView.findViewById(R.id.show_message);
-            convertView.setTag(holder);
+            if (type == 0) {
+                convertView = mInflater.inflate(R.layout.chat_item_left, parent, false);
+                holder.message = (TextView) convertView.findViewById(R.id.show_message);
+                convertView.setTag(holder);
+            } else {
+                convertView = mInflater.inflate(R.layout.chat_item_right, parent, false);
+                holder.message = (TextView) convertView.findViewById(R.id.show_message);
+                convertView.setTag(holder);
+            }
         }
         else {
             holder = (ViewHolder) convertView.getTag();
@@ -65,5 +75,16 @@ public class MessageAdapter extends BaseAdapter {
         holder.message.setText(chat_pos.getMessage());
 
         return convertView;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (chatList.get(position).getSender().equals(fuser.getUid())){
+            return MSG_TYPE_RIGHT;
+        } else {
+            return MSG_TYPE_LEFT;
+        }
     }
 }

@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.Chat;
+import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,9 +32,6 @@ public class ChatActivity extends AppCompatActivity {
     String message;
     ListView messagesList;
     TextView userNameChat;
-    
-    String sender = "Anton"; //These are examples will be changed to userid senderid "photo" etc.
-    String receiver = "Kalle";
 
     MessageAdapter adapter;
     DatabaseReference reference;
@@ -41,6 +39,7 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseUser fuser;
 
     String userid;
+    String username;
 
 
     Intent intent;
@@ -59,7 +58,9 @@ public class ChatActivity extends AppCompatActivity {
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
-        userNameChat.setText(userid);
+        username = intent.getStringExtra("username");
+        userNameChat.setText(username);
+
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 

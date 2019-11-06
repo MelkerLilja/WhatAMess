@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="#e6e6e6"
+    android:background="#fff"
     android:padding="8dp"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/profile_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
@@ -18,8 +18,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/profile_image"
+        android:textStyle="bold"
         android:layout_marginStart="5dp"
         android:textSize="18sp"
         android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/text_email_user"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

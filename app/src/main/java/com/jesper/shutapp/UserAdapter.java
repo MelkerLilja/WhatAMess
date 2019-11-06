@@ -43,6 +43,7 @@ public class UserAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView userName;
+        TextView userEmail;
     }
 
     @Override
@@ -57,6 +58,7 @@ public class UserAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.user_item_list, parent, false);
             holder.userName = (TextView) convertView.findViewById(R.id.text_userName);
+            holder.userEmail = (TextView) convertView.findViewById(R.id.text_email_user);
             convertView.setTag(holder);
         }
         else {
@@ -68,12 +70,14 @@ public class UserAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent (context, ChatActivity.class);
                 intent.putExtra("userid", user.getUid());
+                intent.putExtra("username", user.getName());
                 context.startActivity(intent);
             }
         });
 
         User user_pos = usersList.get(position);
         holder.userName.setText(user_pos.getName());
+        holder.userEmail.setText(user_pos.getEmail());
 
         return convertView;
     }
