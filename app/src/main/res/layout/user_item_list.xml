@@ -23,11 +23,13 @@
         android:padding="8dp"/>
 
     <TextView
-        android:id="@+id/text_email_user"
+        android:id="@+id/last_message"
         android:layout_marginTop="30dp"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginStart="13dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:maxLines="1"/>
 
 </RelativeLayout>
