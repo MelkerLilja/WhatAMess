@@ -33,6 +33,7 @@ public class UsersListActivity extends AppCompatActivity {
 
     ListView usersListView;
     UserAdapter userAdapter;
+    ImageView user_pic;
 
     Toolbar mToolbar;
 
@@ -51,6 +52,7 @@ public class UsersListActivity extends AppCompatActivity {
         usersListView = findViewById(R.id.users_list);
         userName = findViewById(R.id.user_name_homescreen);
         userName.setText(user.getEmail());
+        user_pic = findViewById(R.id.user_picture);
 
 
 
@@ -58,6 +60,8 @@ public class UsersListActivity extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
+
+        //Glide.with(UsersListActivity.this).load(usersList.get(i).getEmail()).into(user_pic);
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
@@ -68,10 +72,10 @@ public class UsersListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {}});
 
-            }
-        });
+
+
     }
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
@@ -91,6 +95,7 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override
@@ -108,7 +113,7 @@ public class UsersListActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.settings:
-                intent = new Intent(UsersListActivity.this,Settings.class);
+                intent = new Intent(UsersListActivity.this,MainSettings.class);
                 startActivity(intent);
                 finish();
                 break;

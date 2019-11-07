@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jesper.shutapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,7 @@
         <activity android:name=".UsersListActivity"></activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".Settings" />
+        <activity android:name=".MainSettings"></activity>
         <activity android:name=".TermsOfService" />
         <activity android:name=".LoggedIn" />
         <activity android:name=".RegisterUser" />

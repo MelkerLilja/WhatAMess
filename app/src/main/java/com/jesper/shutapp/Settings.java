@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,7 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.model.User;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Settings extends AppCompatActivity {
@@ -41,10 +40,11 @@ public class Settings extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
+    private StorageReference mStorageRef;
 
     private EditText usernameTxt;
     private EditText emailTxt;
-    private final String TAG = "Log";
+    private final String TAG = "Settings";
 
 
     @Override
@@ -62,10 +62,7 @@ public class Settings extends AppCompatActivity {
         usernameTxt = findViewById(R.id.user_name_settings_edittxt);
         emailTxt = findViewById(R.id.email_settings_edittext);
 
-        Glide.with(this).load("https://www.cfdating.com/user_images/default.png").into(userPic);
-
-
-
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setTitle(R.string.settings_menu);
         setSupportActionBar(toolbar);
@@ -88,6 +85,10 @@ public class Settings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
 
+                    if(!user.getEmail().equals("nothing"))
+                    {
+                        Glide.with(Settings.this).load(user.getProfile_picture()).into(userPic);
+                    }
                 }
             }
 
@@ -96,6 +97,7 @@ public class Settings extends AppCompatActivity {
                 Log.d(TAG, "getUserAccountData: couldn't retrieve data");
             }
         });
+
     }
 
     @Override
@@ -207,13 +209,54 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("Jesper", "onActivityResult: wtf" + requestCode);
+
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
-            userPic.setImageURI(imageUri);
 
-            //skicka den till storage för att ladda den därifrån (får en html till projektet)
-            //skicka till databasen och spara den där också
+            String path = imageUri.toString();
+            String filename = path.substring(path.lastIndexOf("/")+1);
+            String uid = user.getUid();
+
+            final StorageReference riverRef = mStorageRef.child("images/"+uid+"/"+filename+".jpg");
+            riverRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.d("Jesper", "onSuccess: Picture added" + uri);
+
+                            Glide.with(Settings.this).load(uri).into(userPic);
+
+                            reference.child(getString(R.string.db_users)).
+                                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                                    child(getString(R.string.field_picture)).
+                                    setValue(uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "onSuccess: image url added to user database table");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure: couldn't save imageurl" + e.toString());
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: Picture couldn't be added " + e.toString());
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: Couldn't  " + e.toString());
+                }
+            });
 
         }
     }
@@ -221,5 +264,12 @@ public class Settings extends AppCompatActivity {
     public void changePic(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Settings.this, MainSettings.class);
+        startActivity(intent);
+        finish();
     }
 }

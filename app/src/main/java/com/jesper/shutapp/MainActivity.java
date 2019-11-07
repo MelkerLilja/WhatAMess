@@ -2,6 +2,7 @@ package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -62,58 +63,53 @@ public class MainActivity extends AppCompatActivity {
     {
         progressBar.setVisibility(View.VISIBLE);
     }
+
     private void hideProgress() // hides the progressbar when called, checks if the progressbar is visible
     {
-        if(progressBar.getVisibility() == View.VISIBLE)
-        {
+        if (progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
-    public void submitOnClick(View view)
-    {
+    public void submitOnClick(View view) {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
 
-        if(isValidEmail(email)) //checks if a valid email else gives a toast for invalid
+        if (isValidEmail(email)) //checks if a valid email else gives a toast for invalid
         {
-            if(!isEmpty(email) && !isEmpty(password)) //checks if both fields are filled or not
+            if (!isEmpty(email) && !isEmpty(password)) //checks if both fields are filled or not
             {
                 showProgress();
                 Toast.makeText(this, "Login in", Toast.LENGTH_SHORT).show();
 
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password) //making connection to the firebase database and checks if there is a user with email password credetnials
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password) //making connection to the firebase database and checks if there is a user with email password credetnials
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) { //if it is successfull hide the progressbar
-                        hideProgress();
-                    }
-                }).addOnFailureListener(new OnFailureListener() { //if it fails gives a toast saying it failed
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) { //if it is successfull hide the progressbar
+                                hideProgress();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() { //if it fails gives a toast saying it failed
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this,"Authentication failed",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-        }
-        else
-        {
-            Toast.makeText(this,"invalid email input",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "invalid email input", Toast.LENGTH_SHORT).show();
         }
     }
-    private Boolean isEmpty(String text)
-    {
+
+    private Boolean isEmpty(String text) {
         return text.equals("");
     }
-    private Boolean isValidEmail(String email)
-    {
-        for(int i = 0; i < email.length(); i++)
-        {
-            if(email.charAt(i) == '@' && (email.contains(".com") || email.contains(".se")))
-            {
+
+    private Boolean isValidEmail(String email) {
+        for (int i = 0; i < email.length(); i++) {
+            if (email.charAt(i) == '@' && (email.contains(".com") || email.contains(".se"))) {
                 return true;
             }
         }
@@ -127,20 +123,19 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser(); //if successful a user is asigned else null
 
                 if (user != null) { //if a user was found go to logged in activity
-                        Log.d(TAG, "onAuthStateChanged: Signed in" + user.getUid());
-                        Toast.makeText(MainActivity.this,"Authentivated with: " + user.getEmail(),Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onAuthStateChanged: Signed in" + user.getUid());
+                    Toast.makeText(MainActivity.this, "Authentivated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(MainActivity.this,UsersListActivity.class);
-                        startActivity(intent);
-                        finish();
-                }
-                else
-                {
+                    Intent intent = new Intent(MainActivity.this, UsersListActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
                     Log.d(TAG, "onAuthStateChanged: signed_out");
                 }
             }
         };
     }
+
     @Override
     protected void onStart() { //if mainActivity is loaded again add a listener
         super.onStart();
