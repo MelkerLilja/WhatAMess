@@ -15,6 +15,7 @@
         <activity android:name=".UsersListActivity"></activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".Settings" />
+        <activity android:name=".MainSettings"></activity>
         <activity android:name=".TermsOfService" />
         <activity android:name=".LoggedIn" />
         <activity android:name=".RegisterUser" />

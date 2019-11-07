@@ -31,6 +31,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.model.User;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class Settings extends AppCompatActivity {
 
@@ -95,6 +97,7 @@ public class Settings extends AppCompatActivity {
                 Log.d(TAG, "getUserAccountData: couldn't retrieve data");
             }
         });
+
     }
 
     @Override
