@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".ChatActivity">
+
+    <TextView
+        android:id="@+id/text_userName_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/example_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"/>
+
+
+    <ListView
+        android:id="@+id/listview_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_userName_chat"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_above="@id/layout_sendMessage"/>
+
+ <RelativeLayout
+     android:id="@+id/layout_sendMessage"
+     android:layout_width="match_parent"
+     android:padding="5dp"
+     android:background="#fff"
+     android:layout_alignParentBottom="true"
+     android:layout_height="wrap_content">
+
+     <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/text_send"
+         android:background="@android:color/transparent"
+         android:hint="Type a message..."
+         android:layout_toStartOf="@id/btn_send"
+         android:layout_centerVertical="true"/>
+
+     <ImageButton
+         android:layout_width="40dp"
+         android:layout_height="40dp"
+         android:background="@drawable/ic_button_send"
+         android:id="@+id/btn_send"
+         android:layout_alignParentEnd="true" />
+
+
+
+ </RelativeLayout>
+</RelativeLayout>
+
+

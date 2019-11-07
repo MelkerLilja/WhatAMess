@@ -12,6 +12,7 @@
     <string name="settings_menu">Settings</string>
     <string name="log_out_menu">Log out</string>
 
+    <string name="settings_txt">Settings</string>
     <string name="homepage_txt">Homepage</string>
     <string name="userid_txt">Logged in as:\n</string>
 
@@ -20,4 +21,9 @@
     <string name="field_name">name</string>
     <string name="field_email">email</string>
     <string name="field_picture">profile_picture</string>
+    <string name="user_data_txt">User data</string>
+    <string name="theme">Theme</string>
+    <string name="log_out_txt">Log out</string>
+    <string name="delete_account_txt">Delete account</string>
+    <string name="terms_of_service">Terms of service</string>
 </resources>
