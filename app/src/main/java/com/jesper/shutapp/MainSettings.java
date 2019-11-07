@@ -1,5 +1,6 @@
 package com.jesper.shutapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -7,6 +8,9 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainSettings extends AppCompatActivity {
 
 
+    private FragmentManager mFragmentManager;
+    private TermsOfService tos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +32,19 @@ public class MainSettings extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.logged_in_toolbar);
         toolbar.setTitle(R.string.settings_txt);
         setSupportActionBar(toolbar);
+        tos = new TermsOfService();
+
+        mFragmentManager = getSupportFragmentManager();
+
+        FrameLayout mFragmentHolder = findViewById(R.id.fragment_main_settings_holder);
+        mFragmentHolder.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mFragmentManager.beginTransaction().remove(tos).commit();
+
+                return false;
+            }
+        });
 
     }
 
@@ -47,7 +67,7 @@ public class MainSettings extends AppCompatActivity {
 
     // Enter terms of service fragment/activity
     public void terms_of_service(View view) {
-
+        mFragmentManager.beginTransaction().add(R.id.fragment_main_settings_holder,tos,"TOS").commit();
     }
 
     // Log out and return to MainActivity
@@ -64,4 +84,31 @@ public class MainSettings extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.settings_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+
+        switch (item.getItemId()) {
+            case R.id.settings:
+                intent = new Intent(MainSettings.this, MainSettings.class);
+                startActivity(intent);
+                break;
+
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                intent = new Intent(MainSettings.this, MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
