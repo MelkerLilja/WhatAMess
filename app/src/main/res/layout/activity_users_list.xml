@@ -22,6 +22,9 @@
         android:layout_height="40dp"
         android:layout_below="@id/users_text"/>
 
+    <include layout="@layout/mtoolbar"
+        android:id="@+id/userlist_toolbar" />
+
     <ImageView
         android:id="@+id/user_picture"
         android:layout_width="30dp"

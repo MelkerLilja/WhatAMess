@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onAuthStateChanged: Signed in" + user.getUid());
                         Toast.makeText(MainActivity.this,"Authentivated with: " + user.getEmail(),Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(MainActivity.this,LoggedIn.class);
+                        Intent intent = new Intent(MainActivity.this,UsersListActivity.class);
                         startActivity(intent);
                         finish();
                 }

@@ -3,8 +3,13 @@ package com.jesper.shutapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -27,6 +32,8 @@ public class UsersListActivity extends AppCompatActivity {
     ListView usersListView;
     UserAdapter userAdapter;
 
+    Toolbar mToolbar;
+
     TextView userName;
 
     ArrayList<User> usersList;
@@ -42,6 +49,9 @@ public class UsersListActivity extends AppCompatActivity {
         userName = findViewById(R.id.user_name_homescreen);
         userName.setText(user.getEmail());
 
+        mToolbar = findViewById(R.id.userlist_toolbar);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
 
 
 
@@ -80,5 +90,33 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+
+        switch(item.getItemId())
+        {
+            case R.id.settings:
+                intent = new Intent(UsersListActivity.this,Settings.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                intent = new Intent(UsersListActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
