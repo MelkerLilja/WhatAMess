@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +34,7 @@ public class UsersListActivity extends AppCompatActivity {
 
     ListView usersListView;
     UserAdapter userAdapter;
-    ImageView user_pic;
+    ImageView userPicture;
 
     Toolbar mToolbar;
 
@@ -47,22 +48,15 @@ public class UsersListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_list);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         usersList = new ArrayList<>();
         usersListView = findViewById(R.id.users_list);
         userName = findViewById(R.id.user_name_homescreen);
-        userName.setText(user.getEmail());
-        user_pic = findViewById(R.id.user_picture);
-
-
-
+        userPicture = findViewById(R.id.user_picture);
         mToolbar = findViewById(R.id.userlist_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
-
-        //Glide.with(UsersListActivity.this).load(usersList.get(i).getEmail()).into(user_pic);
-
+        setCurrentUser();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -74,9 +68,8 @@ public class UsersListActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}});
 
-
-
     }
+
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -124,5 +117,24 @@ public class UsersListActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setCurrentUser() {
+        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                userName.setText(user.getName());
+                Glide.with(UsersListActivity.this).load(user.getProfile_picture()).into(userPicture);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

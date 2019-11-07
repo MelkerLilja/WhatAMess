@@ -8,36 +8,32 @@
     android:background="#fff"
     tools:context=".UsersListActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Users"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:id="@+id/users_text"/>
-
     <SearchView
         android:id="@+id/search_users"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/users_text"/>
+        android:layout_below="@id/user_name_homescreen"/>
 
     <include layout="@layout/mtoolbar"
         android:id="@+id/userlist_toolbar" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="10dp"
         android:id="@+id/user_picture"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/user_name_homescreen"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_toEndOf="@id/user_picture"/>
+        android:layout_below="@id/user_picture"/>
 
     <ListView
         android:id="@+id/users_list"

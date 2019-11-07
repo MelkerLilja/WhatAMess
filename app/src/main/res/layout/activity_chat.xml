@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     tools:context=".ChatActivity">
 
@@ -11,17 +11,20 @@
         android:id="@+id/text_userName_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:textColor="#000"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image_user_chat"/>
 
-    <ImageView
-        android:id="@+id/example_pic"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/ic_launcher_round"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_user_chat"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true" />
+
+
 
 
     <ListView

@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
 
@@ -44,6 +46,7 @@ public class UserAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView userName;
         TextView userEmail;
+        ImageView profilePicture;
     }
 
     @Override
@@ -59,6 +62,8 @@ public class UserAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.user_item_list, parent, false);
             holder.userName = (TextView) convertView.findViewById(R.id.text_userName);
             holder.userEmail = (TextView) convertView.findViewById(R.id.text_email_user);
+            holder.profilePicture = (ImageView) convertView.findViewById(R.id.profile_image);
+
             convertView.setTag(holder);
         }
         else {
@@ -71,6 +76,7 @@ public class UserAdapter extends BaseAdapter {
                 Intent intent = new Intent (context, ChatActivity.class);
                 intent.putExtra("userid", user.getUid());
                 intent.putExtra("username", user.getName());
+                intent.putExtra("userpic", user.getProfile_picture());
                 context.startActivity(intent);
             }
         });
@@ -78,6 +84,8 @@ public class UserAdapter extends BaseAdapter {
         User user_pos = usersList.get(position);
         holder.userName.setText(user_pos.getName());
         holder.userEmail.setText(user_pos.getEmail());
+        Glide.with(context).load(user.getProfile_picture()).into(holder.profilePicture);
+
 
         return convertView;
     }
