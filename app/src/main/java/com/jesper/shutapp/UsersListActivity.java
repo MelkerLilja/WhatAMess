@@ -67,10 +67,6 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
     }
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
