@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -45,6 +48,14 @@ public class MainSettings extends AppCompatActivity {
 
     // Change from dark to day theme
     public void theme(View view) {
+
+        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("theme_key", "day");
+        editor.putString("theme_key", "night");
+        editor.apply();
+
+
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             Toast.makeText(this, "Day theme activated", Toast.LENGTH_SHORT).show();
@@ -52,11 +63,31 @@ public class MainSettings extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             Toast.makeText(this, "Night theme activated", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     // Enter terms of service fragment/activity
     public void terms_of_service(View view) {
 
+        RegisterUser.mFragmentManager = getSupportFragmentManager();
+        FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder_main_settings);
+        TextView mTos1 = findViewById(R.id.tos_txt);
+        RegisterUser.tos = new TermsOfService();
+
+        mTos1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                RegisterUser.mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, RegisterUser.tos, "Terms of Service").commit();
+                return false;
+            }
+        });
+        mFragmentLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                RegisterUser.mFragmentManager.beginTransaction().remove(RegisterUser.tos).commit();
+                return false;
+            }
+        });
 
     }
 

@@ -35,8 +35,8 @@ public class RegisterUser extends AppCompatActivity {
     private CheckBox mCheckbox;
     private Button mRegisterBtn;
 
-    private FragmentManager mFragmentManager;
-    private TermsOfService tos;
+    public static FragmentManager mFragmentManager;
+    public static TermsOfService tos;
 
 
     @Override
