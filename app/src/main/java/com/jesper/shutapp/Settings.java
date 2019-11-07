@@ -100,24 +100,6 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout_settings) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(Settings.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void updateUser(View view) {
         EditText newEmailEdit = findViewById(R.id.email_settings_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
