@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,6 +61,9 @@ public class Settings extends AppCompatActivity {
         userPic = findViewById(R.id.user_pic_view);
         usernameTxt = findViewById(R.id.user_name_settings_edittxt);
         emailTxt = findViewById(R.id.email_settings_edittext);
+
+        Glide.with(this).load("https://www.cfdating.com/user_images/default.png").into(userPic);
+
 
 
         Toolbar toolbar = findViewById(R.id.settings_toolbar);

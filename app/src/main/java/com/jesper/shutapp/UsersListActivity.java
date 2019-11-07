@@ -12,9 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -38,6 +40,7 @@ public class UsersListActivity extends AppCompatActivity {
 
     ArrayList<User> usersList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class UsersListActivity extends AppCompatActivity {
         usersListView = findViewById(R.id.users_list);
         userName = findViewById(R.id.user_name_homescreen);
         userName.setText(user.getEmail());
+
+
 
         mToolbar = findViewById(R.id.userlist_toolbar);
         mToolbar.setTitle("");
