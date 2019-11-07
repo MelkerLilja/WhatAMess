@@ -255,14 +255,18 @@ public class Settings extends AppCompatActivity {
                 }
             });
 
-            //skicka den till storage för att ladda den därifrån (får en html till projektet)
-            //skicka till databasen och spara den där också
-
         }
     }
 
     public void changePic(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Settings.this, UsersListActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

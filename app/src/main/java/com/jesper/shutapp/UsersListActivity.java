@@ -12,9 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -31,6 +33,7 @@ public class UsersListActivity extends AppCompatActivity {
 
     ListView usersListView;
     UserAdapter userAdapter;
+    ImageView user_pic;
 
     Toolbar mToolbar;
 
@@ -48,11 +51,14 @@ public class UsersListActivity extends AppCompatActivity {
         usersListView = findViewById(R.id.users_list);
         userName = findViewById(R.id.user_name_homescreen);
         userName.setText(user.getEmail());
+        user_pic = findViewById(R.id.user_picture);
 
         mToolbar = findViewById(R.id.userlist_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
+
+        //Glide.with(UsersListActivity.this).load(usersList.get(i).getEmail()).into(user_pic);
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
@@ -63,10 +69,10 @@ public class UsersListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {}});
 
-            }
-        });
+
+
     }
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
@@ -86,6 +92,7 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override
