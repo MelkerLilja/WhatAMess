@@ -240,7 +240,7 @@ public class Settings extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: couldn't imageurl" + e.toString());
+                                    Log.d(TAG, "onFailure: couldn't save imageurl" + e.toString());
                                 }
                             });
                         }
@@ -254,7 +254,7 @@ public class Settings extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: BUUUU " + e.toString());
+                    Log.d(TAG, "onFailure: Couldn't  " + e.toString());
                 }
             });
 
@@ -268,7 +268,7 @@ public class Settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Settings.this, UsersListActivity.class);
+        Intent intent = new Intent(Settings.this, MainSettings.class);
         startActivity(intent);
         finish();
     }

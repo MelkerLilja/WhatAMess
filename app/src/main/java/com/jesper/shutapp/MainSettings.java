@@ -111,4 +111,10 @@ public class MainSettings extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MainSettings.this, UsersListActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

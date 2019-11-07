@@ -110,7 +110,7 @@ public class UsersListActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.settings:
-                intent = new Intent(UsersListActivity.this,Settings.class);
+                intent = new Intent(UsersListActivity.this,MainSettings.class);
                 startActivity(intent);
                 finish();
                 break;
