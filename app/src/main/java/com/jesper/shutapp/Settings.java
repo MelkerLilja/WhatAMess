@@ -83,7 +83,7 @@ public class Settings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
 
-                    if(!user.getEmail().equals(""))
+                    if(!user.getEmail().equals("nothing"))
                     {
                         Glide.with(Settings.this).load(user.getProfile_picture()).into(userPic);
                     }
