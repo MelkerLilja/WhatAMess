@@ -92,6 +92,14 @@ public class MainSettings extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        // fixed so the homebutton brings the user back to UserListAcitivity
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(MainSettings.this, UsersListActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -108,8 +116,12 @@ public class MainSettings extends AppCompatActivity {
         userPic = findViewById(R.id.user_pic_view);
         usernameTxt = findViewById(R.id.user_name_settings_edittxt);
         emailTxt = findViewById(R.id.email_settings_edittext);
-
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        Toolbar toolbar = findViewById(R.id.logged_in_toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getUserAccountData();
     }
 
@@ -330,7 +342,6 @@ public class MainSettings extends AppCompatActivity {
 
     // Delete account and return to MainActivity
     public void delete_account(View view) {
-
 
     }
 }

@@ -11,10 +11,18 @@
     <string name="terms_of_service_box">Do you agree with the Terms of Service?</string>
     <string name="settings_menu">Settings</string>
     <string name="log_out_menu">Log out</string>
-
     <string name="settings_txt">Settings</string>
     <string name="homepage_txt">Homepage</string>
     <string name="userid_txt">Logged in as:\n</string>
+
+    //--- MainSettings strings ---//
+    <string name="change_profile_pic_txt">Change profile picture</string>
+    <string name="name_title_txt">Name</string>
+    <string name="password_title_txt">Password</string>
+    <string name="password_hint">New password</string>
+    <string name="email_title_txt">Email</string>
+    <string name="change_email_hint">Change Email</string>
+    <string name="update_profile_txt">Update profile</string>
 
     //---firebase adding user---//
     <string name="db_users">users</string>
