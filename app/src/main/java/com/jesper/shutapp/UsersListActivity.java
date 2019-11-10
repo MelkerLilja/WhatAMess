@@ -56,10 +56,11 @@ public class UsersListActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.userlist_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
         //Glide.with(UsersListActivity.this).load(usersList.get(i).getEmail()).into(user_pic);
-
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {

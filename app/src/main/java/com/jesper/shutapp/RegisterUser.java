@@ -2,7 +2,8 @@ package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
-        import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
         import android.app.Activity;
         import android.content.Intent;
@@ -58,6 +59,10 @@ public class RegisterUser extends AppCompatActivity {
         FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder);
         TextView mTos = findViewById(R.id.tos_txt);
         tos = new TermsOfService();
+
+        Toolbar mToolbar = findViewById(R.id.register_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mTos.setOnTouchListener(new View.OnTouchListener()
         {
