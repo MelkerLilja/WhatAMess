@@ -25,13 +25,13 @@ public class MainSettings extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
 
+    Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_settings);
-        Toolbar toolbar = findViewById(R.id.logged_in_toolbar);
-        toolbar.setTitle(R.string.settings_txt);
-        setSupportActionBar(toolbar);
+
         tos = new TermsOfService();
 
         mFragmentManager = getSupportFragmentManager();
@@ -45,6 +45,11 @@ public class MainSettings extends AppCompatActivity {
                 return false;
             }
         });
+
+        mToolbar = findViewById(R.id.user_settings_toolbar);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

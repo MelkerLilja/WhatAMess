@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <include layout="@layout/mtoolbar"
+        android:id="@+id/settings_toolbar" />
+
     <ImageView
         android:id="@+id/shutAppLogo_img"
         android:layout_width="200dp"

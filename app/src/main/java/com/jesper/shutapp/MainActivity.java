@@ -3,6 +3,7 @@ package com.jesper.shutapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mPassword;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+
     private String TAG = "Jesper";
 
     @Override
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
     private void showProgress() //shows the progressbar when called upon
