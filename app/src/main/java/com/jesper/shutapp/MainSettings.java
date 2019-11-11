@@ -124,12 +124,6 @@ public class MainSettings extends AppCompatActivity {
         usernameTxt = findViewById(R.id.user_name_settings_edittxt);
         emailTxt = findViewById(R.id.email_settings_edittext);
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
-        Toolbar toolbar = findViewById(R.id.logged_in_toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getUserAccountData();
     }
 
     private void getUserAccountData() {
