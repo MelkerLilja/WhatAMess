@@ -166,7 +166,7 @@ public class RegisterUser extends AppCompatActivity {
                     User user = new User();
                     user.setName(email.substring(0,email.indexOf("@")));
                     user.setEmail(email);
-                    user.setProfile_picture("");
+                    user.setProfile_picture("https://www.cfdating.com/user_images/default.png");
                     user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     FirebaseDatabase.

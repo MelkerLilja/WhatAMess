@@ -18,7 +18,6 @@
         android:layout_height="150dp"
         android:layout_above="@+id/user_name_settings_edittxt"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/placeholder"
         android:tooltipText="press to change picture" />
     <Button
         android:layout_width="wrap_content"

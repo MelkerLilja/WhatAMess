@@ -41,6 +41,7 @@ public class Settings extends AppCompatActivity {
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
+    static String currentUser;
 
     private EditText usernameTxt;
     private EditText emailTxt;

@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +34,7 @@ public class ChatActivity extends AppCompatActivity {
     String message;
     ListView messagesList;
     TextView userNameChat;
+    ImageView userImage;
 
     MessageAdapter adapter;
     DatabaseReference reference;
@@ -40,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
 
     String userid;
     String username;
+    String userpic;
 
 
     Intent intent;
@@ -54,11 +58,16 @@ public class ChatActivity extends AppCompatActivity {
         txtSend = findViewById(R.id.text_send);
         messagesList = findViewById(R.id.listview_message);
         userNameChat = findViewById(R.id.text_userName_chat);
+        userImage = findViewById(R.id.image_user_chat);
 
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
         username = intent.getStringExtra("username");
+        userpic = intent.getStringExtra("userpic");
+
+
+        Glide.with(this).load(userpic).into(userImage);
         userNameChat.setText(username);
 
 
