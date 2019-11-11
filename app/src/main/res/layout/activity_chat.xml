@@ -6,6 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ChatActivity">
 
+    <include layout="@layout/mtoolbar"
+        android:id="@+id/activity_chat" />
+
     <TextView
         android:id="@+id/text_userName_chat"
         android:layout_width="wrap_content"

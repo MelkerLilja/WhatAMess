@@ -46,6 +46,7 @@ public class Settings extends AppCompatActivity {
     private EditText usernameTxt;
     private EditText emailTxt;
     private final String TAG = "Settings";
+    Toolbar mToolbar;
 
 
     @Override
@@ -66,7 +67,8 @@ public class Settings extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         toolbar.setTitle(R.string.settings_menu);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getUserAccountData();
     }

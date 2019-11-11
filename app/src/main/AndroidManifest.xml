@@ -12,13 +12,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UsersListActivity"></activity>
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".Settings" />
-        <activity android:name=".MainSettings"></activity>
+        <activity android:name=".UsersListActivity"/>
+        <activity android:name=".ChatActivity" >
+            <meta-data
+                android:value=".UsersListActivity"
+                android:name="android.support.PARENT_ACTIVITY"/>
+        </activity>
+        <activity android:name=".Settings" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainSettings"/>
+        </activity>
+        <activity android:name=".MainSettings">
+            <meta-data
+                android:value=".UsersListActivity"
+                android:name="android.support.PARENT_ACTIVITY"/>
+        </activity>
         <activity android:name=".TermsOfService" />
-        <activity android:name=".LoggedIn" />
-        <activity android:name=".RegisterUser" />
+
+        <activity android:name=".RegisterUser" >
+            <meta-data
+                android:value=".MainActivity"
+                android:name="android.support.PARENT_ACTIVITY"/>
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

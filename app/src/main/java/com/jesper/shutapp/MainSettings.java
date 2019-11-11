@@ -56,6 +56,8 @@ public class MainSettings extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
 
+    Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,11 @@ public class MainSettings extends AppCompatActivity {
                 return false;
             }
         });
+        mToolbar = findViewById(R.id.user_settings_toolbar);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -259,10 +266,10 @@ public class MainSettings extends AppCompatActivity {
             imageUri = data.getData();
 
             String path = imageUri.toString();
-            String filename = path.substring(path.lastIndexOf("/")+1);
+            String filename = path.substring(path.lastIndexOf("/") + 1);
             String uid = user.getUid();
 
-            final StorageReference riverRef = mStorageRef.child("images/"+uid+"/"+filename+".jpg");
+            final StorageReference riverRef = mStorageRef.child("images/" + uid + "/" + filename + ".jpg");
             riverRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -308,40 +315,6 @@ public class MainSettings extends AppCompatActivity {
     public void changePic(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
-    }
-
-    // Enter Settings activity
-    public void user_data(View view) {
-        Intent intent = new Intent(this, Settings.class);
-        startActivity(intent);
-    }
-
-    // Change from dark to day theme
-    public void theme(View view) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            Toast.makeText(this, "Day theme activated", Toast.LENGTH_SHORT).show();
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            Toast.makeText(this, "Night theme activated", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Enter terms of service fragment/activity
-    public void terms_of_service(View view) {
-        mFragmentManager.beginTransaction().add(R.id.fragment_main_settings_holder,tos,"TOS").commit();
-    }
-
-    // Log out and return to MainActivity
-    public void log_out(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    // Delete account and return to MainActivity
-    public void delete_account(View view) {
-
-    }
-}

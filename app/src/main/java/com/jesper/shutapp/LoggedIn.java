@@ -27,7 +27,7 @@ public class LoggedIn extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.logged_in_toolbar);
         toolbar.setTitle(R.string.homepage_txt);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //commit
     }
 
     @Override

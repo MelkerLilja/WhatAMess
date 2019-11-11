@@ -21,7 +21,7 @@
         android:id="@+id/settings_title"/>
 
     <include
-        android:id="@+id/logged_in_toolbar"
+        android:id="@+id/user_settings_toolbar"
         layout="@layout/mtoolbar" />
 
     <de.hdodenhof.circleimageview.CircleImageView

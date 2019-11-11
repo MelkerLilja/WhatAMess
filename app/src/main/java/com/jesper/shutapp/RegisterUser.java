@@ -66,6 +66,10 @@ public class RegisterUser extends AppCompatActivity {
         TextView mTos = findViewById(R.id.tos_txt);
         tos = new TermsOfService();
 
+        Toolbar mToolbar = findViewById(R.id.register_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mTos.setOnTouchListener(new View.OnTouchListener()
         {
             @Override

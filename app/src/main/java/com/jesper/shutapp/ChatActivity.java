@@ -2,6 +2,7 @@ package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     ListView messagesList;
     TextView userNameChat;
     ImageView userImage;
+    Toolbar mToolbar;
 
     MessageAdapter adapter;
     DatabaseReference reference;
@@ -60,7 +62,6 @@ public class ChatActivity extends AppCompatActivity {
         userNameChat = findViewById(R.id.text_userName_chat);
         userImage = findViewById(R.id.image_user_chat);
 
-
         intent = getIntent();
         userid = intent.getStringExtra("userid");
         username = intent.getStringExtra("username");
@@ -69,6 +70,11 @@ public class ChatActivity extends AppCompatActivity {
 
         Glide.with(this).load(userpic).into(userImage);
         userNameChat.setText(username);
+
+        mToolbar=findViewById(R.id.userlist_toolbar);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();

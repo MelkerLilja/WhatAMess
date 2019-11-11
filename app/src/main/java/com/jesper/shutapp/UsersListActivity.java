@@ -55,6 +55,7 @@ public class UsersListActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.userlist_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setCurrentUser();
 
