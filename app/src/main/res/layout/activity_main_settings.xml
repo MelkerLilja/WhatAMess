@@ -203,7 +203,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:id="@+id/fragment_main_settings_holder"/>
+        android:id="@+id/fragment_holder_main_settings"/>
+
 
 </RelativeLayout>
 

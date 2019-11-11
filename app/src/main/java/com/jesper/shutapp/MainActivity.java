@@ -7,7 +7,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -39,7 +42,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        String theme = sp.getString("theme_key", "default");
+
+
+        if (theme.equals("day")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        } else if (theme.equals("night")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        }
+
+
         setContentView(R.layout.activity_main);
+
 
         TextView registerTxt = findViewById(R.id.register_link);
         progressBar = findViewById(R.id.progressBar);

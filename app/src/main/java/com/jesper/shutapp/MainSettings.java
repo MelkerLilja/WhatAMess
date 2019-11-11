@@ -7,15 +7,19 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -24,10 +28,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -87,7 +97,7 @@ public class MainSettings extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu,menu);
+        inflater.inflate(R.menu.logout_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -106,8 +116,30 @@ public class MainSettings extends AppCompatActivity {
             startActivity(intent);
             finish();
             return true;
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    // Change from dark to day theme
+    public void theme(View view) {
+
+        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("theme_key", "day");
+        editor.putString("theme_key", "night");
+        editor.apply();
+
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            Toast.makeText(this, "Day theme activated", Toast.LENGTH_SHORT).show();
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            Toast.makeText(this, "Night theme activated", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -141,14 +173,14 @@ public class MainSettings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
 
-                    if(!user.getEmail().equals("nothing")) {
+                    if (!user.getEmail().equals("nothing")) {
 
                         //Test if the user have uploaded a profile pic or not
                         //First example will use a default pic, other will chose the uploaded pic
 
-                        if(user.getProfile_picture() == null) {
+                        if (user.getProfile_picture() == null) {
                             Glide.with(MainSettings.this).load(R.drawable.placeholder).into(userPic);
-                        } else{
+                        } else {
                             Glide.with(MainSettings.this).load(user.getProfile_picture()).into(userPic);
                         }
                     }
@@ -309,6 +341,36 @@ public class MainSettings extends AppCompatActivity {
     public void changePic(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
-        }
     }
+
+    // Log out and return to MainActivity
+    public void log_out(View view) {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    // Delete account and return to MainActivity
+    public void delete_account(View view) {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("HEJ", "User account deleted.");
+                            //FirebaseDatabase.getInstance().getReference().child(getString
+                            // (R.string.db_users)).child(FirebaseAuth.getInstance().
+                            // getCurrentUser().getUid()).removeValue();
+                        }
+
+                    }
+                });
+        log_out(view);
+        finish();
+    }
+}
 

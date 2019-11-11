@@ -1,33 +1,32 @@
 package com.jesper.shutapp;
 
 import androidx.annotation.NonNull;
-        import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
-        import android.app.Activity;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.MotionEvent;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.CheckBox;
-        import android.widget.EditText;
-        import android.widget.FrameLayout;
-        import android.widget.ProgressBar;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnFailureListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseAuthException;
-        import com.google.firebase.auth.FirebaseUser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jesper.shutapp.model.User;
+
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -74,12 +73,11 @@ public class RegisterUser extends AppCompatActivity {
         {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                mFragmentManager.beginTransaction().add(R.id.fragment_holder,tos,"Terms of Service").commit();
+                mFragmentManager.beginTransaction().add(R.id.fragment_holder, tos, "Terms of Service").commit();
                 return false;
             }
         });
-        mFragmentLayout.setOnTouchListener(new View.OnTouchListener()
-        {
+        mFragmentLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mFragmentManager.beginTransaction().remove(tos).commit();
@@ -89,16 +87,14 @@ public class RegisterUser extends AppCompatActivity {
 
     }
 
-    public void registerOnClick(View view)
-    {
+    public void registerOnClick(View view) {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         String confPassword = mConfirmedPassword.getText().toString();
 
 
-        if(!isEmpty(email) && !isEmpty(password) && !isEmpty(confPassword))
-        {
-            if(password.length() >= 6  && confPassword.length() >= 6) {
+        if (!isEmpty(email) && !isEmpty(password) && !isEmpty(confPassword)) {
+            if (password.length() >= 6 && confPassword.length() >= 6) {
 
                 if (isValidEmail(email)) {
                     if (isMatchingPass(password, confPassword)) {
@@ -111,59 +107,48 @@ public class RegisterUser extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Not a valid Email", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(this, "password too short, need to be atleast 6 characters", Toast.LENGTH_LONG).show();
             }
-            else
-            {
-                Toast.makeText(this,"password too short, need to be atleast 6 characters", Toast.LENGTH_LONG).show();
-            }
-        }
-        else
-        {
-            Toast.makeText(this,"You have to fill all the fields",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "You have to fill all the fields", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    private Boolean isValidEmail(String email)
-    {
-        for(int i = 0; i < email.length(); i++)
-        {
-            if(email.charAt(i) == '@' && (email.contains(".com") || email.contains(".se")) )
-            {
+    private Boolean isValidEmail(String email) {
+        for (int i = 0; i < email.length(); i++) {
+            if (email.charAt(i) == '@' && (email.contains(".com") || email.contains(".se"))) {
                 return true;
             }
         }
         return false;
     } //att fixa
-    private Boolean isEmpty(String text)
-    {
+
+    private Boolean isEmpty(String text) {
         return (text.equals(""));
     }
-    private Boolean isMatchingPass(String password, String confirmedPassword)
-    {
+
+    private Boolean isMatchingPass(String password, String confirmedPassword) {
         return password.equals(confirmedPassword);
     }
 
-    private void showProgress()
-    {
+    private void showProgress() {
         mProgressbar.setVisibility(View.VISIBLE);
     }
-    private void hideProgress()
-    {
-        if (mProgressbar.getVisibility() == View.VISIBLE)
-        {
+
+    private void hideProgress() {
+        if (mProgressbar.getVisibility() == View.VISIBLE) {
             mProgressbar.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void registerUser(final String email, final String password)
-    {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void registerUser(final String email, String password) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful())
-                {
-                    Toast.makeText(RegisterUser.this,"User created",Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    Toast.makeText(RegisterUser.this, "User created", Toast.LENGTH_SHORT).show();
                     //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                     //adds user to database
@@ -201,9 +186,7 @@ public class RegisterUser extends AppCompatActivity {
 
                     FirebaseAuth.getInstance().signOut();
                     redirectLoginScreen();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(RegisterUser.this, "Unable to register", Toast.LENGTH_SHORT).show();
                 }
                 hideProgress();
@@ -212,10 +195,12 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                Log.d("Jesper", "Failed Registration: "+e.getMessage());
+                Log.d("Jesper", "Failed Registration: " + e.getMessage());
             }
         });
     }
+
+
     private void redirectLoginScreen() {
         Intent intent = new Intent(RegisterUser.this, MainActivity.class);
         startActivity(intent);
@@ -223,23 +208,18 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     public void confirmTos(View view) {
-        if(mCheckbox.isChecked())
-        {
+        if (mCheckbox.isChecked()) {
             mRegisterBtn.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             mRegisterBtn.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onBackPressed() {
-        if(mFragmentManager.findFragmentById(R.id.fragment_holder).isVisible())
-        {
+        if (mFragmentManager.findFragmentById(R.id.fragment_holder).isVisible()) {
             mFragmentManager.beginTransaction().remove(tos).commit();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
