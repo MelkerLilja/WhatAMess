@@ -71,15 +71,16 @@ public class ChatActivity extends AppCompatActivity {
         Glide.with(this).load(userpic).into(userImage);
         userNameChat.setText(username);
 
-        mToolbar=findViewById(R.id.userlist_toolbar);
+        mToolbar=findViewById(R.id.activity_chat_toolbar);
+
+
+
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

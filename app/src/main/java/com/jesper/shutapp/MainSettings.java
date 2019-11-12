@@ -78,7 +78,7 @@ public class MainSettings extends AppCompatActivity {
         tos = new TermsOfService();
         mFragmentManager = getSupportFragmentManager();
 
-        FrameLayout mFragmentHolder = findViewById(R.id.fragment_main_settings_holder);
+        FrameLayout mFragmentHolder = findViewById(R.id.fragment_holder_main_settings);
         mFragmentHolder.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

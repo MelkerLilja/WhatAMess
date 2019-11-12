@@ -7,7 +7,7 @@
     tools:context=".ChatActivity">
 
     <include layout="@layout/mtoolbar"
-        android:id="@+id/activity_chat" />
+        android:id="@+id/activity_chat_toolbar" />
 
     <TextView
         android:id="@+id/text_userName_chat"
@@ -56,8 +56,6 @@
          android:background="@drawable/ic_button_send"
          android:id="@+id/btn_send"
          android:layout_alignParentEnd="true" />
-
-
 
  </RelativeLayout>
 </RelativeLayout>
