@@ -23,6 +23,8 @@
     <string name="email_title_txt">Email</string>
     <string name="change_email_hint">Change Email</string>
     <string name="update_profile_txt">Update profile</string>
+    <string name="user_bio_txt">Bio</string>
+    <string name="user_bio_hint">Write your bio here</string>
 
     //---firebase adding user---//
     <string name="db_users">users</string>
