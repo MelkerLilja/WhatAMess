@@ -1,4 +1,4 @@
-package com.jesper.shutapp;
+package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,9 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,8 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Settings extends AppCompatActivity {

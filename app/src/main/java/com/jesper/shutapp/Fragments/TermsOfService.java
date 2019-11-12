@@ -1,4 +1,4 @@
-package com.jesper.shutapp;
+package com.jesper.shutapp.Fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.jesper.shutapp.R;
 
 public class TermsOfService extends Fragment {
     @Nullable

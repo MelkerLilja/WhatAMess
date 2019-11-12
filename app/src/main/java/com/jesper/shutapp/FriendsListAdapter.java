@@ -20,13 +20,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class UserAdapter extends BaseAdapter {
+public class FriendsListAdapter extends BaseAdapter {
 
 
     Context context;
@@ -34,7 +34,7 @@ public class UserAdapter extends BaseAdapter {
     String theLastMessage;
 
 
-    public UserAdapter(Context context,  ArrayList<User> usersList) { //Constructor for MessageAdapter with the Context and our chatList.
+    public FriendsListAdapter(Context context, ArrayList<User> usersList) { //Constructor for MessageListAdapter with the Context and our chatList.
         this.context = context;
         this.usersList = usersList;
     }

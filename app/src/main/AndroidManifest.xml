@@ -12,29 +12,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UsersListActivity"/>
-        <activity android:name=".ChatActivity" >
+        <activity android:name=".Activities.UsersListActivity"/>
+        <activity android:name=".Activities.ChatActivity" >
             <meta-data
-                android:value=".UsersListActivity"
+                android:value=".Activities.UsersListActivity"
                 android:name="android.support.PARENT_ACTIVITY"/>
         </activity>
-        <activity android:name=".Settings" >
+        <activity android:name=".Activities.Settings" >
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainSettings"/>
+                android:value=".Activities.MainSettings"/>
         </activity>
-        <activity android:name=".MainSettings">
+        <activity android:name=".Activities.MainSettings">
             <meta-data
-                android:value=".UsersListActivity"
+                android:value=".Activities.UsersListActivity"
                 android:name="android.support.PARENT_ACTIVITY"/>
         </activity>
-        <activity android:name=".TermsOfService" />
+        <activity android:name=".Fragments.TermsOfService" />
 
-        <activity android:name=".RegisterUser" >
+        <activity android:name=".Activities.RegisterUser" >
             <meta-data
-                android:value=".MainActivity"
+                android:value=".Activities.MainActivity"
                 android:name="android.support.PARENT_ACTIVITY"/>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

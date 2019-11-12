@@ -1,23 +1,18 @@
-package com.jesper.shutapp;
+package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.zip.Inflater;
+import com.jesper.shutapp.R;
 
 public class LoggedIn extends AppCompatActivity {
 
@@ -47,7 +42,7 @@ public class LoggedIn extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.settings:
-                intent = new Intent(LoggedIn.this,Settings.class);
+                intent = new Intent(LoggedIn.this, Settings.class);
                 startActivity(intent);
                 finish();
                 break;

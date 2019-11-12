@@ -1,4 +1,4 @@
-package com.jesper.shutapp;
+package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +22,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.MessageListAdapter;
+import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
-import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class ChatActivity extends AppCompatActivity {
     ImageView userImage;
     Toolbar mToolbar;
 
-    MessageAdapter adapter;
+    MessageListAdapter adapter;
     DatabaseReference reference;
     ArrayList<Chat> chatList;
     FirebaseUser fuser;
@@ -134,7 +135,7 @@ public class ChatActivity extends AppCompatActivity {
                         chatList.add(chat);
                     }
                 }
-                adapter = new MessageAdapter(ChatActivity.this, chatList); //Creates our adapter with our ChatActivity and our chatList as constructor.
+                adapter = new MessageListAdapter(ChatActivity.this, chatList); //Creates our adapter with our ChatActivity and our chatList as constructor.
                 messagesList.setAdapter(adapter); //Set our listview to with our adapter
             }
             @Override
