@@ -56,7 +56,7 @@ public class LoggedIn extends AppCompatActivity {
     }
 
     public void userbtn(View view) {
-        Intent intent = new Intent (LoggedIn.this, UsersListActivity.class);
+        Intent intent = new Intent (LoggedIn.this, FragmentHolderActivity.class);
         startActivity(intent);
         finish();
     }

@@ -106,7 +106,7 @@ public class MainSettings extends AppCompatActivity {
 
         // fixed so the homebutton brings the user back to UserListAcitivity
         if (item.getItemId() == android.R.id.home) {
-            Intent intent = new Intent(MainSettings.this, UsersListActivity.class);
+            Intent intent = new Intent(MainSettings.this, FragmentHolderActivity.class);
             startActivity(intent);
             finish();
             return true;
@@ -138,7 +138,7 @@ public class MainSettings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MainSettings.this, UsersListActivity.class);
+        Intent intent = new Intent(MainSettings.this, FragmentHolderActivity.class);
         startActivity(intent);
         finish();
     }

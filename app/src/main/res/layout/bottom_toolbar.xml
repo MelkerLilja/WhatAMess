@@ -12,6 +12,7 @@
             android:id="@+id/search_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="btnSearchFragment"
             android:layout_weight="1"
             android:src="@drawable/search_black"
             android:tint="@color/daynight"/>
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="btnContactsFragment"
             android:src="@drawable/contacts_black"
             android:tint="@color/daynight"/>
 
@@ -29,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="btnMessageFragment"
             android:src="@drawable/message_black"
             android:tint="@color/daynight" />
 
@@ -37,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="btnProfileFragment"
             android:src="@drawable/profile_black"
             android:tint="@color/daynight"/>
 
