@@ -371,15 +371,24 @@ public class MainSettings extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //Remove user from database
+
+        DatabaseReference userRef =FirebaseDatabase.getInstance().getReference()
+                .child("users").child(user.getUid());
+
+        userRef.removeValue();
+
+        //Remove user from Authentication
+
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("HEJ", "User account deleted.");
-                            //FirebaseDatabase.getInstance().getReference().child(getString
-                            // (R.string.db_users)).child(FirebaseAuth.getInstance().
-                            // getCurrentUser().getUid()).removeValue();
+                            FirebaseDatabase.getInstance().getReference().child(getString
+                             (R.string.db_users)).child(FirebaseAuth.getInstance().
+                            getCurrentUser().getUid()).removeValue();
                         }
 
                     }
