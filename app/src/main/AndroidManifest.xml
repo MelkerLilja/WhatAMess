@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jesper.shutapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,27 +12,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UsersListActivity"/>
-        <activity android:name=".ChatActivity" >
+        <activity android:name=".ProfileSetting">
             <meta-data
-                android:value=".UsersListActivity"
                 android:name="android.support.PARENT_ACTIVITY"/>
+               <!-- android:value=".**********" -->
+
         </activity>
-        <activity android:name=".Settings" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainSettings"/>
+        <activity android:name=".UsersListActivity" />
+        <activity android:name=".ChatActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UsersListActivity" />
+        </activity>
+        <activity android:name=".Settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainSettings" />
         </activity>
         <activity android:name=".MainSettings">
             <meta-data
-                android:value=".UsersListActivity"
-                android:name="android.support.PARENT_ACTIVITY"/>
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UsersListActivity" />
         </activity>
         <activity android:name=".TermsOfService" />
-
-        <activity android:name=".RegisterUser" >
+        <activity android:name=".RegisterUser">
             <meta-data
-                android:value=".MainActivity"
-                android:name="android.support.PARENT_ACTIVITY"/>
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
