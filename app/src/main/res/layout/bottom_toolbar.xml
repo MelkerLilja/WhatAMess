@@ -13,28 +13,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/search_black" />
+            android:src="@drawable/search_black"
+            android:tint="@color/daynight"/>
 
         <ImageView
             android:id="@+id/contacts_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/contacts_black" />
+            android:src="@drawable/contacts_black"
+            android:tint="@color/daynight"/>
 
         <ImageView
             android:id="@+id/message_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/message_black" />
+            android:src="@drawable/message_black"
+            android:tint="@color/daynight" />
 
         <ImageView
             android:id="@+id/profile_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/profile_black" />
+            android:src="@drawable/profile_black"
+            android:tint="@color/daynight"/>
 
     </LinearLayout>
 

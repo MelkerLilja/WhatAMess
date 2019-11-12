@@ -5,12 +5,14 @@ public class User {
     private String email;
     private String profile_picture;
     private String uid;
+    private String bio;
 
-    public User(String name, String email, String profile_picture,String uid) {
+    public User(String name, String email, String profile_picture,String uid,String Bio) {
         this.name = name;
         this.email = email;
         this.profile_picture = profile_picture;
         this.uid = uid;
+        this.bio = bio;
     }
 
     public User() {}
@@ -47,6 +49,14 @@ public class User {
         this.uid = uid;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -54,6 +64,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", profile_picture='" + profile_picture + '\'' +
                 ", uid='" + uid + '\'' +
+                ", bio='" + bio + '\'' +
                 '}';
     }
 }

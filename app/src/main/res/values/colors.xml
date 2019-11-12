@@ -9,4 +9,5 @@
     <color name="linkBlue">#4d94ff</color>
     <color name="background_tos_fragment">#AA5E5E5E</color>
     <color name="text_tos_fragment">#555555</color>
+    <color name="daynight">#000000</color>
 </resources>

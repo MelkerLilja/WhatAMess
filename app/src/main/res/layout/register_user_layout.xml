@@ -67,7 +67,6 @@
         android:text="@string/terms_of_service_box"
         android:id="@+id/tos_checkbox"/>
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

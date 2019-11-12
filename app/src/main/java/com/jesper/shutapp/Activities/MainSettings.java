@@ -146,10 +146,11 @@ public class MainSettings extends AppCompatActivity {
 
     private void init() {
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userPic = findViewById(R.id.user_pic_view);
-        usernameTxt = findViewById(R.id.user_name_settings_edittxt);
-        emailTxt = findViewById(R.id.email_settings_edittext);
+        userPic = findViewById(R.id.user_mainpic_view);
+        usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
+        emailTxt = findViewById(R.id.email_mainsettings_edittext);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        getUserAccountData();
     }
 
     private void getUserAccountData() {
@@ -365,6 +366,10 @@ public class MainSettings extends AppCompatActivity {
                 });
         log_out(view);
         finish();
+    }
+
+    public void terms_of_service(View view) {
+        mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, tos, "Terms of Service").commit();
     }
 }
 
