@@ -30,6 +30,7 @@
     <string name="db_users">users</string>
     <string name="field_name">name</string>
     <string name="field_email">email</string>
+    <string name="field_bio">bio</string>
     <string name="field_picture">profile_picture</string>
     <string name="user_data_txt">User data</string>
     <string name="theme">Theme</string>

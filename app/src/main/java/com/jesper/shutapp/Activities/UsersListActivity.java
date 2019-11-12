@@ -126,7 +126,9 @@ public class UsersListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 userName.setText(user.getName());
-                Glide.with(UsersListActivity.this).load(user.getProfile_picture()).into(userPicture);
+
+                // DENNA MÅSTE KOLLAS PÅ!! NÄR MAN SPARAR/UPPDATERAR INNE I MAINSETTINGS BRÅKAR DENNA NEDERSTÅENDE RAD //
+               // Glide.with(UsersListActivity.this).load(user.getProfile_picture()).into(userPicture);
             }
 
             @Override

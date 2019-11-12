@@ -191,9 +191,11 @@ public class MainSettings extends AppCompatActivity {
     }
 
     public void updateUser(View view) {
-        EditText newEmailEdit = findViewById(R.id.email_settings_edittext);
+        EditText newEmailEdit = findViewById(R.id.email_mainsettings_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
-        final EditText newUsername = findViewById(R.id.user_name_settings_edittxt);
+        final EditText newBioEdit = findViewById(R.id.user_bio_edittxt);
+
+        final EditText newUsername = findViewById(R.id.user_name_mainsettings_edittxt);
 
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -264,6 +266,24 @@ public class MainSettings extends AppCompatActivity {
                 }
             });
         }
+        if (!newBioEdit.getText().toString().equals("")) {
+            //update userbio here
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_bio)).
+                    setValue(newBioEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    newBioEdit.setText(newBioEdit.getText().toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: couldn't change username" + e.toString());
+                }
+            });
+        }
+
 
     }
 
