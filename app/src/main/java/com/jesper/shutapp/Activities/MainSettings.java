@@ -5,13 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -44,6 +48,11 @@ import com.jesper.shutapp.R;
 import com.jesper.shutapp.Fragments.TermsOfService;
 import com.jesper.shutapp.model.User;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainSettings extends AppCompatActivity {
 
     FirebaseUser user;
@@ -56,6 +65,8 @@ public class MainSettings extends AppCompatActivity {
     private EditText emailTxt;
     private final String TAG = "Settings";
 
+    String currentImagePath = null;
+    private static final int IMAGE_CODE = 101;
 
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
@@ -329,6 +340,53 @@ public class MainSettings extends AppCompatActivity {
                     Log.d(TAG, "onFailure: Couldn't  " + e.toString());
                 }
             });
+        }
+        if(resultCode == RESULT_OK && requestCode == IMAGE_CODE)
+        {
+            Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
+            Log.d(TAG, "onActivityResult: " +imageUri);
+            userPic.setImageBitmap(bitmap);
+
+            String uid = user.getUid();
+            final StorageReference riverRef = mStorageRef.child("images/" + uid + "/" + "camera.jpg");
+            riverRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.d("Jesper", "onSuccess: Picture added" + uri);
+
+                            Glide.with(MainSettings.this).load(uri).into(userPic);
+
+                            reference.child(getString(R.string.db_users)).
+                                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                                    child(getString(R.string.field_picture)).
+                                    setValue(uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "onSuccess: image url added to user database table");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure: couldn't save imageurl" + e.toString());
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: Picture couldn't be added " + e.toString());
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: Couldn't  " + e.toString());
+                }
+            });
 
         }
     }
@@ -370,6 +428,39 @@ public class MainSettings extends AppCompatActivity {
 
     public void terms_of_service(View view) {
         mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, tos, "Terms of Service").commit();
+    }
+
+    public void takePic(View view)
+    {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if(cameraIntent.resolveActivity(getPackageManager())!= null)
+        {
+            File imageFile = null;
+            try {
+                imageFile = getImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(imageFile != null)
+            {
+                Uri imageUri = FileProvider.getUriForFile(this,"com.jesper.shutapp",imageFile);
+                this.imageUri = imageUri;
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                startActivityForResult(cameraIntent,IMAGE_CODE);
+            }
+        }
+    }
+
+    private File getImageFile() throws IOException
+    {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageName = timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imageFile = File.createTempFile(imageName,".jpg", storageDir);
+        currentImagePath = imageFile.getAbsolutePath();
+
+        return imageFile;
     }
 }
 
