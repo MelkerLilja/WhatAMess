@@ -55,6 +55,7 @@ import java.util.Date;
 
 public class MainSettings extends AppCompatActivity {
 
+
     FirebaseUser user;
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 public class UsersListActivity extends AppCompatActivity {
 
+    private static boolean active = false;
     ListView usersListView;
     FriendsListAdapter friendsListAdapter;
     ImageView userPicture;
@@ -87,7 +88,6 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     @Override
@@ -127,7 +127,10 @@ public class UsersListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 userName.setText(user.getName());
-                Glide.with(UsersListActivity.this).load(user.getProfile_picture()).into(userPicture);
+                if(active)
+                {
+                    Glide.with(UsersListActivity.this).load(user.getProfile_picture()).into(userPicture);
+                }
             }
 
             @Override
@@ -135,5 +138,17 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        active = false;
     }
 }
