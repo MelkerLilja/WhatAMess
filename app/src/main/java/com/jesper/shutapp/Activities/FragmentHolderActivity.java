@@ -9,13 +9,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.jesper.shutapp.Fragments.ContactsFragment;
 import com.jesper.shutapp.Fragments.MessagesFragment;
 import com.jesper.shutapp.Fragments.ProfileFragment;
 import com.jesper.shutapp.Fragments.SearchFragment;
 import com.jesper.shutapp.R;
 
+import java.util.HashMap;
+
 public class FragmentHolderActivity extends AppCompatActivity {
+
+    DatabaseReference reference;
+    FirebaseUser fuser;
 
 
 
@@ -63,5 +72,28 @@ public class FragmentHolderActivity extends AppCompatActivity {
     public void btnSearchFragment(View view) {
         SearchFragment searchFragment = new SearchFragment();
         changeFragment(searchFragment);
+    }
+
+    private void status (String status) {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

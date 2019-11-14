@@ -6,13 +6,15 @@ public class User {
     private String profile_picture;
     private String uid;
     private String bio;
+    private String status = "offline";
 
-    public User(String name, String email, String profile_picture,String uid,String Bio) {
+    public User(String name, String email, String profile_picture,String uid,String Bio, String status) {
         this.name = name;
         this.email = email;
         this.profile_picture = profile_picture;
         this.uid = uid;
         this.bio = bio;
+        this.status = status;
     }
 
     public User() {}
@@ -55,6 +57,14 @@ public class User {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

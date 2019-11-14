@@ -51,12 +51,10 @@ public class MainSettings extends AppCompatActivity {
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-
+    private static boolean active = false;
     private EditText usernameTxt;
     private EditText emailTxt;
     private final String TAG = "Settings";
-
-
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
 
@@ -370,6 +368,18 @@ public class MainSettings extends AppCompatActivity {
 
     public void terms_of_service(View view) {
         mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, tos, "Terms of Service").commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        active = false;
     }
 }
 
