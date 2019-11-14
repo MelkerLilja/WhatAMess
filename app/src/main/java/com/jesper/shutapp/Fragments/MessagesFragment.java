@@ -39,17 +39,16 @@ import java.util.ArrayList;
  */
 public class MessagesFragment extends Fragment {
 
-
     ListView usersListView;
     FriendsListAdapter friendsListAdapter;
     ImageView userPicture;
     TextView userName;
     ArrayList<User> usersList;
+    private static boolean active = false;
 
     public MessagesFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,13 +57,6 @@ public class MessagesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
 
         init(view);
-
-
-
-
-
-
-
 
         return view;
     }
@@ -119,9 +111,12 @@ public class MessagesFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                userName.setText(user.getName());
-                Glide.with(getActivity()).load(user.getProfile_picture()).into(userPicture);
+
+                if (active) {
+                    User user = dataSnapshot.getValue(User.class);
+                    userName.setText(user.getName());
+                    Glide.with(getActivity()).load(user.getProfile_picture()).into(userPicture);
+                }
             }
 
             @Override
@@ -129,6 +124,18 @@ public class MessagesFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
     }
 }
 
