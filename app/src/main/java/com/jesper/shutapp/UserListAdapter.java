@@ -86,9 +86,7 @@ public class UserListAdapter extends BaseAdapter {
         User user_pos = usersList.get(position);
         holder.userName.setText(user_pos.getName());
         Glide.with(context).load(user.getProfile_picture()).into(holder.profilePicture);
-
-
-
+        
         return convertView;
     }
 }

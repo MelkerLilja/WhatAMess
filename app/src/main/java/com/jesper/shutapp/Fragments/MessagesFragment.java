@@ -114,7 +114,7 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (active) {
+                if (isVisible()) {
                     User user = dataSnapshot.getValue(User.class);
                     userName.setText(user.getName());
                     Glide.with(getActivity()).load(user.getProfile_picture()).into(userPicture);

@@ -1,4 +1,4 @@
-package com.jesper.shutapp;
+package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.jesper.shutapp.R;
 
 import org.w3c.dom.Text;
 
