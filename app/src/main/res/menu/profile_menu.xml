@@ -7,4 +7,10 @@
         android:icon="@drawable/ic_settings_black_24dp"
         app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/add_as_friend"
+        android:title="@string/add_friend_menu"
+        android:icon="@drawable/addpersonicon"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>
