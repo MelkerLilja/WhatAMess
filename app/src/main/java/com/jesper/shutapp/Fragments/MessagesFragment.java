@@ -47,7 +47,6 @@ public class MessagesFragment extends Fragment {
     Toolbar mToolbar;
     TextView userName;
     ArrayList<User> usersList;
-    private static boolean active = false;
 
     public MessagesFragment() {
         // Required empty public constructor
