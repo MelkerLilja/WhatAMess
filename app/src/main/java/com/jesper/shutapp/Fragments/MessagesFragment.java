@@ -1,14 +1,19 @@
-package com.jesper.shutapp.Activities;
+package com.jesper.shutapp.Fragments;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,13 +26,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.Activities.MainActivity;
+import com.jesper.shutapp.Activities.MainSettings;
 import com.jesper.shutapp.FriendsListAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
 
-public class UsersListActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MessagesFragment extends Fragment {
 
     private static boolean active = false;
     ListView usersListView;
@@ -36,26 +46,32 @@ public class UsersListActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     TextView userName;
-
     ArrayList<User> usersList;
+    private static boolean active = false;
 
+    public MessagesFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_users_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_messages, container, false);
+
+        init(view);
+
+        return view;
+    }
+    //Initiate all view and variables and set Current user.
+    private void init (View view) {
 
         usersList = new ArrayList<>();
-        usersListView = findViewById(R.id.users_list);
-        userName = findViewById(R.id.user_name_homescreen);
-        userPicture = findViewById(R.id.user_picture);
-        mToolbar = findViewById(R.id.userlist_toolbar);
-        mToolbar.setTitle("");
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        usersListView = view.findViewById(R.id.users_list);
+        userName = view.findViewById(R.id.user_name_homescreen);
+        userPicture = view.findViewById(R.id.user_picture);
 
         setCurrentUser();
-
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -66,9 +82,9 @@ public class UsersListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}});
-
     }
 
+    //Generate all user to the list
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -78,7 +94,7 @@ public class UsersListActivity extends AppCompatActivity {
                     User user = snapshot.getValue(User.class);
                     usersList.add(user);
                 }
-                friendsListAdapter = new FriendsListAdapter(UsersListActivity.this, usersList);
+                friendsListAdapter = new FriendsListAdapter(getActivity(), usersList);
                 usersListView.setAdapter(friendsListAdapter);
             }
 
@@ -87,36 +103,10 @@ public class UsersListActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu,menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-
-        switch(item.getItemId())
-        {
-            case R.id.settings:
-                intent = new Intent(UsersListActivity.this, MainSettings.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                intent = new Intent(UsersListActivity.this, MainActivity.class);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    //Method for setting up the current user
     private void setCurrentUser() {
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
@@ -124,11 +114,11 @@ public class UsersListActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                userName.setText(user.getName());
-                if(active)
-                {
-                    Glide.with(UsersListActivity.this).load(user.getProfile_picture()).into(userPicture);
+
+                if (active) {
+                    User user = dataSnapshot.getValue(User.class);
+                    userName.setText(user.getName());
+                    Glide.with(getActivity()).load(user.getProfile_picture()).into(userPicture);
                 }
             }
 
@@ -140,13 +130,13 @@ public class UsersListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         active = true;
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         active = false;
     }

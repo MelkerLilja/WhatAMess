@@ -3,6 +3,7 @@ package com.jesper.shutapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,8 @@ public class FriendsListAdapter extends BaseAdapter {
         TextView userEmail;
         ImageView profilePicture;
         TextView lastMessage;
+        ImageView imgOn;
+        ImageView imgOff;
     }
 
     @Override
@@ -76,11 +79,21 @@ public class FriendsListAdapter extends BaseAdapter {
           //  holder.userEmail = (TextView) convertView.findViewById(R.id.last_message);
             holder.profilePicture = (ImageView) convertView.findViewById(R.id.profile_image);
             holder.lastMessage = (TextView) convertView.findViewById(R.id.last_message);
+            holder.imgOn = (ImageView) convertView.findViewById(R.id.img_on);
+            holder.imgOff = (ImageView) convertView.findViewById(R.id.img_off);
 
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
+        }
+
+        if (user.getStatus().equals("online")){
+            holder.imgOn.setVisibility(View.VISIBLE);
+            holder.imgOff.setVisibility(View.GONE);
+        }   else {
+            holder.imgOn.setVisibility(View.GONE);
+            holder.imgOff.setVisibility(View.VISIBLE);
         }
 
         convertView.setOnClickListener(new View.OnClickListener() {

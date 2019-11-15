@@ -47,7 +47,6 @@ import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.Fragments.TermsOfService;
 import com.jesper.shutapp.model.User;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -55,13 +54,11 @@ import java.util.Date;
 
 public class MainSettings extends AppCompatActivity {
 
-
     FirebaseUser user;
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-
     private EditText usernameTxt;
     private EditText emailTxt;
     private final String TAG = "Settings";
@@ -152,7 +149,7 @@ public class MainSettings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MainSettings.this, UsersListActivity.class);
+        Intent intent = new Intent(MainSettings.this, FragmentHolderActivity.class);
         startActivity(intent);
         finish();
     }
@@ -203,6 +200,7 @@ public class MainSettings extends AppCompatActivity {
                 Log.d(TAG, "getUserAccountData: couldn't retrieve data");
             }
         });
+
     }
 
     public void updateUser(View view) {

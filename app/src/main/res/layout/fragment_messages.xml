@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.UsersListActivity">
+    tools:context=".Fragments.MessagesFragment">
+
+    <include layout="@layout/mtoolbar"
+        android:id="@+id/userlist_toolbar" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,13 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@id/user_name_homescreen"/>
-
-    <include layout="@layout/mtoolbar"
-        android:id="@+id/userlist_toolbar" />
-
-    <include
-        android:id="@+id/bottom_nav_menu"
-        layout="@layout/bottom_toolbar" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="10dp"
@@ -52,13 +46,13 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_below="@+id/search_users"
-        android:layout_above="@+id/bottom_nav_menu"/>
+        android:layout_below="@+id/search_users"/>
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_nav_menu" />
+        android:layout_height="match_parent" />
+
+
 
 </RelativeLayout>
