@@ -184,7 +184,6 @@ public class MainSettings extends AppCompatActivity {
 
                         //Test if the user have uploaded a profile pic or not
                         //First example will use a default pic, other will chose the uploaded pic
-
                         if (user.getProfile_picture() == null) {
                             Glide.with(MainSettings.this).load(R.drawable.placeholder).into(userPic);
                         } else {
@@ -199,7 +198,6 @@ public class MainSettings extends AppCompatActivity {
                 Log.d(TAG, "getUserAccountData: couldn't retrieve data");
             }
         });
-
     }
 
     public void updateUser(View view) {
