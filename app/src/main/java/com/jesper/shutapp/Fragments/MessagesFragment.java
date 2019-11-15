@@ -89,6 +89,10 @@ public class MessagesFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(usersList.size() >= 1)
+                {
+                    usersList.clear();
+                }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
                     usersList.add(user);
