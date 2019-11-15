@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jesper.shutapp.Activities.MainSettings;
 import com.jesper.shutapp.Activities.Settings;
@@ -27,6 +29,9 @@ import com.jesper.shutapp.R;
 public class ProfileFragment extends Fragment {
 
     Toolbar mToolbar;
+    private ImageView profileImg;
+    private TextView usernameText;
+    private TextView bioText;
 
 
     public ProfileFragment() {
@@ -42,6 +47,9 @@ public class ProfileFragment extends Fragment {
 
         setHasOptionsMenu(true);
         mToolbar = view.findViewById(R.id.include_toolbar_xml);
+        profileImg = view.findViewById(R.id.profile_image);
+        usernameText = view.findViewById(R.id.user_name_profile_text);
+        bioText = view.findViewById(R.id.bio_profile_text);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
 
