@@ -74,6 +74,8 @@ public class MainSettings extends AppCompatActivity {
 
     Toolbar mToolbar;
 
+    private static boolean active = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,10 +186,13 @@ public class MainSettings extends AppCompatActivity {
 
                         //Test if the user have uploaded a profile pic or not
                         //First example will use a default pic, other will chose the uploaded pic
-                        if (user.getProfile_picture() == null) {
-                            Glide.with(MainSettings.this).load(R.drawable.placeholder).into(userPic);
-                        } else {
-                            Glide.with(MainSettings.this).load(user.getProfile_picture()).into(userPic);
+
+                        if (active) {
+                            if (user.getProfile_picture() == null) {
+                                Glide.with(MainSettings.this).load(R.drawable.placeholder).into(userPic);
+                            } else {
+                                Glide.with(MainSettings.this).load(user.getProfile_picture()).into(userPic);
+                            }
                         }
                     }
                 }
@@ -461,5 +466,18 @@ public class MainSettings extends AppCompatActivity {
 
         return imageFile;
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        active = false;
+    }
+
 }
 
