@@ -30,16 +30,6 @@ public class ContactsFragment extends Fragment {
 
 
 
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 
