@@ -30,8 +30,6 @@ import java.util.ArrayList;
  */
 public class ContactsFragment extends Fragment {
 
-    ArrayList<User> friendsList;
-    DatabaseReference reference;
     ListView listView;
 
 
@@ -46,17 +44,6 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         listView = view.findViewById(R.id.listview_friends_list);
-
-      /*  String test = "3o3rDoZroZXq1lnazaeM8niRDWo1";
-
-        User user = new User();
-        user.setName("test");
-        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-
-
-        reference = FirebaseDatabase.getInstance().getReference();
-
-        reference.child("users").child(test).child("friends").push().setValue(user);*/
 
         return view;
 
