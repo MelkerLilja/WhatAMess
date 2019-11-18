@@ -41,6 +41,7 @@ public class UsersListActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     ArrayList<String> nameList;
     ArrayList<String> profilePicList;
+    ArrayList<User> usersList;
     SearchAdapter searchAdapter;
     Toolbar mToolbar;
 
@@ -144,6 +145,9 @@ public class UsersListActivity extends AppCompatActivity {
         });
     }
 
+
+
+
     /*
 
     private void generateUsers() {
@@ -220,4 +224,5 @@ public class UsersListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
