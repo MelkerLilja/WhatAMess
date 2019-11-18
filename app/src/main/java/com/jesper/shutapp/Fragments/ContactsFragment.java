@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,9 +35,6 @@ public class ContactsFragment extends Fragment {
     ListView listView;
 
 
-
-
-
     public ContactsFragment() {
     }
 
@@ -48,28 +47,19 @@ public class ContactsFragment extends Fragment {
 
         listView = view.findViewById(R.id.listview_friends_list);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("users").
+      /*  String test = "3o3rDoZroZXq1lnazaeM8niRDWo1";
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user = snapshot.getValue(User.class);
-                    friendsList.add(user);
-                }
-                FriendsListAdapter friendsListAdapter = new FriendsListAdapter(getActivity(), friendsList);
-                listView.setAdapter(friendsListAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        User user = new User();
+        user.setName("test");
+        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
 
 
+        reference = FirebaseDatabase.getInstance().getReference();
+
+        reference.child("users").child(test).child("friends").push().setValue(user);*/
 
         return view;
+
     }
 
 }
