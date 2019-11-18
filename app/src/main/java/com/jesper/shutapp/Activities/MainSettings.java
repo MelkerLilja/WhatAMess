@@ -130,18 +130,18 @@ public class MainSettings extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("theme_key", "day");
-        editor.putString("theme_key", "night");
-        editor.apply();
-
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             Toast.makeText(this, "Day theme activated", Toast.LENGTH_SHORT).show();
+            editor.putString("theme_key", "day");
+
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             Toast.makeText(this, "Night theme activated", Toast.LENGTH_SHORT).show();
+            editor.putString("theme_key", "night");
         }
+        editor.apply();
 
     }
 

@@ -24,8 +24,6 @@
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:textSize="18sp"/>
-
-
     </RelativeLayout>
 
 </RelativeLayout>

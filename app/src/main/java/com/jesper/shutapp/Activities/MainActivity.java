@@ -33,29 +33,22 @@ public class MainActivity extends AppCompatActivity {
     private EditText mPassword;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-
     private String TAG = "Jesper";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
         String theme = sp.getString("theme_key", "default");
 
-
         if (theme.equals("day")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         } else if (theme.equals("night")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         }
 
-
         setContentView(R.layout.activity_main);
-
 
         TextView registerTxt = findViewById(R.id.register_link);
         progressBar = findViewById(R.id.progressBar);
