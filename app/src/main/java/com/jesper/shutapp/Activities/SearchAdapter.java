@@ -3,6 +3,7 @@ package com.jesper.shutapp.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,18 +33,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     Context context;
     ArrayList<String> nameList;
     ArrayList<String> profilePicList;
+    final String TAG = "LALA";
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder{
+    public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView profilePic;
         TextView nameOfUser;
-        RelativeLayout parentLayout;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
 
             profilePic = itemView.findViewById(R.id.profile_pic);
             nameOfUser = itemView.findViewById(R.id.name_of_user);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(itemView.getContext(), TestActivity.class);
+            itemView.getContext().startActivity(intent);
+            Log.d("MELKER", "onClick: click");
         }
     }
 
@@ -58,12 +67,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public SearchAdapter.SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.search_list_item, parent, false);
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked");
+            }
+        });
+
         return new SearchAdapter.SearchViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, final int position) {
         holder.nameOfUser.setText(nameList.get(position));
+
         Glide.with(context).load(profilePicList.get(position)).into(holder.profilePic);
     }
 

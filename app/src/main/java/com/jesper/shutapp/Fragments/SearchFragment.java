@@ -1,6 +1,8 @@
 package com.jesper.shutapp.Fragments;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -25,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.Activities.FragmentHolderActivity;
 import com.jesper.shutapp.Activities.SearchAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.UserListAdapter;
@@ -39,6 +43,7 @@ public class SearchFragment extends Fragment {
     UserListAdapter adapter;
     ArrayList<User>userSearchList;
     ListView listView;
+    Context context;
 
 
     /* Min från förut */
@@ -52,6 +57,7 @@ public class SearchFragment extends Fragment {
     ArrayList<User> usersList;
     SearchAdapter searchAdapter;
 
+
     public SearchFragment() {
 
     }
@@ -61,8 +67,6 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_users, container, false);
         userSearchList = new ArrayList<>();
-
-        listView = view.findViewById(R.id.listview_search_users);
 
 
         searchUser = view.findViewById(R.id.search_users);
@@ -106,7 +110,7 @@ public class SearchFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                generateUsers();
+               // generateUsers();
             }
 
             @Override
@@ -152,10 +156,16 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    public static void gogogoo(Context context) {
+
+        Intent intent = new Intent (context, ProfileFragment.class);
+        context.startActivity(intent);
+    }
 
 
 
 
+/*
 
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
@@ -176,4 +186,7 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+
+ */
 }
