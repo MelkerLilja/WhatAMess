@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -96,4 +98,5 @@ public class FragmentHolderActivity extends AppCompatActivity {
         super.onPause();
         status("offline");
     }
+
 }

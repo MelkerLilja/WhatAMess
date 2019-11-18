@@ -36,6 +36,12 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    def recyclerview_version = "1.0.0"
+
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:$recyclerview_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
