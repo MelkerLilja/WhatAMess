@@ -54,7 +54,7 @@ public class SearchFragment extends Fragment {
     FirebaseUser firebaseUser;
     ArrayList<String> nameList;
     ArrayList<String> profilePicList;
-    ArrayList<User> usersList;
+    ArrayList<String> userBio;
     SearchAdapter searchAdapter;
 
 
@@ -81,6 +81,7 @@ public class SearchFragment extends Fragment {
 
         nameList = new ArrayList<>();
         profilePicList = new ArrayList<>();
+        userBio = new ArrayList<>();
 
         searchUser.addTextChangedListener(new TextWatcher() {
             @Override
@@ -105,17 +106,6 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               // generateUsers();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}});
-
         return view;
     }
 
@@ -134,10 +124,13 @@ public class SearchFragment extends Fragment {
                     String uid = snapshot.getKey();
                     String name = snapshot.child("name").getValue(String.class);
                     String profilePic = snapshot.child("profile_picture").getValue(String.class);
+                    String bio = snapshot.child("bio").getValue(String.class);
 
                     if (name.toLowerCase().contains(searchedString.toLowerCase())){
                         nameList.add(name);
                         profilePicList.add(profilePic);
+                        userBio.add(bio);
+
                         counter++;
                     }
 
@@ -145,7 +138,7 @@ public class SearchFragment extends Fragment {
                         break;
                 }
 
-                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList);
+                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio);
                 recyclerView.setAdapter(searchAdapter);
             }
 
@@ -155,38 +148,4 @@ public class SearchFragment extends Fragment {
             }
         });
     }
-
-    public static void gogogoo(Context context) {
-
-        Intent intent = new Intent (context, ProfileFragment.class);
-        context.startActivity(intent);
-    }
-
-
-
-
-/*
-
-    private void generateUsers() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-                    userSearchList.add(user);
-                }
-                adapter = new UserListAdapter(getActivity(), userSearchList);
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
- */
 }

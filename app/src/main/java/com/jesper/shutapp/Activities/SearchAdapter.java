@@ -33,6 +33,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     Context context;
     ArrayList<String> nameList;
     ArrayList<String> profilePicList;
+    ArrayList<String> userBio;
     final String TAG = "LALA";
 
     public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -50,17 +51,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(itemView.getContext(), TestActivity.class);
+            Intent intent = new Intent(itemView.getContext(), UserPageActivity.class);
+            String name = nameList.get(getAdapterPosition());
+            String bio = userBio.get(getAdapterPosition());
+            String photo = profilePicList.get(getAdapterPosition());
+            intent.putExtra("bio", bio);
+            intent.putExtra("photo", photo);
+            intent.putExtra("name", name);
             itemView.getContext().startActivity(intent);
             Log.d("MELKER", "onClick: click");
         }
     }
 
 
-    public SearchAdapter(Context context, ArrayList<String> nameList, ArrayList<String> profilePicList) {
+    public SearchAdapter(Context context, ArrayList<String> nameList, ArrayList<String> profilePicList, ArrayList<String> userBio) {
         this.context = context;
         this.nameList = nameList;
         this.profilePicList = profilePicList;
+        this.userBio = userBio;
     }
 
     @NonNull
