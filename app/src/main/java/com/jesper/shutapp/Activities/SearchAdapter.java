@@ -44,7 +44,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
             profilePic = itemView.findViewById(R.id.profile_pic);
             nameOfUser = itemView.findViewById(R.id.name_of_user);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }
 
