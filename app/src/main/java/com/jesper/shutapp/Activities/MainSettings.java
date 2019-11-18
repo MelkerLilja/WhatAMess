@@ -61,6 +61,7 @@ public class MainSettings extends AppCompatActivity {
     private StorageReference mStorageRef;
     private EditText usernameTxt;
     private EditText emailTxt;
+    private EditText bioTxt;
     private final String TAG = "Settings";
 
     String currentImagePath = null;
@@ -158,6 +159,7 @@ public class MainSettings extends AppCompatActivity {
         userPic = findViewById(R.id.user_mainpic_view);
         usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
         emailTxt = findViewById(R.id.email_mainsettings_edittext);
+        bioTxt = findViewById(R.id.user_bio_edittxt);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         getUserAccountData();
     }
@@ -176,6 +178,8 @@ public class MainSettings extends AppCompatActivity {
                     User user = singleSnapshot.getValue(User.class);
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
+                    bioTxt.setText(user.getBio());
+
 
                     if (!user.getEmail().equals("nothing")) {
 

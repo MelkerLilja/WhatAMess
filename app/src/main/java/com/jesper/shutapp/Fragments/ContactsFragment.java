@@ -33,9 +33,6 @@ public class ContactsFragment extends Fragment {
     ListView listView;
 
 
-
-
-
     public ContactsFragment() {
     }
 
@@ -48,7 +45,7 @@ public class ContactsFragment extends Fragment {
 
         listView = view.findViewById(R.id.listview_friends_list);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("users").
+        reference = FirebaseDatabase.getInstance().getReference().child("users");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,8 +63,6 @@ public class ContactsFragment extends Fragment {
 
             }
         });
-
-
 
         return view;
     }
