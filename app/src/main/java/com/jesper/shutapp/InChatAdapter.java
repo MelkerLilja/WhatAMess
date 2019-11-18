@@ -14,7 +14,7 @@ import com.jesper.shutapp.model.Chat;
 
 import java.util.ArrayList;
 
-public class MessageListAdapter extends BaseAdapter {
+public class InChatAdapter extends BaseAdapter {
 
     public static final int MSG_TYPE_LEFT = 0; // Need to use later on with our user to check which chat layout we want
     public static final int MSG_TYPE_RIGHT = 1;
@@ -23,7 +23,7 @@ public class MessageListAdapter extends BaseAdapter {
     private ArrayList<Chat> chatList;
     FirebaseUser fuser;
 
-    public MessageListAdapter(Context context, ArrayList<Chat> chatList) { //Constructor for MessageListAdapter with the Context and our chatList.
+    public InChatAdapter(Context context, ArrayList<Chat> chatList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
         this.chatList = chatList;
     }
