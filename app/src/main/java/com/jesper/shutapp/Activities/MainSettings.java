@@ -202,9 +202,11 @@ public class MainSettings extends AppCompatActivity {
     }
 
     public void updateUser(View view) {
-        EditText newEmailEdit = findViewById(R.id.email_settings_edittext);
+        EditText newEmailEdit = findViewById(R.id.email_mainsettings_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
-        final EditText newUsername = findViewById(R.id.user_name_settings_edittxt);
+        final EditText newBioEdit = findViewById(R.id.user_bio_edittxt);
+
+        final EditText newUsername = findViewById(R.id.user_name_mainsettings_edittxt);
 
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -275,6 +277,24 @@ public class MainSettings extends AppCompatActivity {
                 }
             });
         }
+        if (!newBioEdit.getText().toString().equals("")) {
+            //update userbio here
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_bio)).
+                    setValue(newBioEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    newBioEdit.setText(newBioEdit.getText().toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: couldn't change username" + e.toString());
+                }
+            });
+        }
+
 
     }
 
@@ -409,15 +429,24 @@ public class MainSettings extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //Remove user from database
+
+        DatabaseReference userRef =FirebaseDatabase.getInstance().getReference()
+                .child("users").child(user.getUid());
+
+        userRef.removeValue();
+
+        //Remove user from Authentication
+
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("HEJ", "User account deleted.");
-                            //FirebaseDatabase.getInstance().getReference().child(getString
-                            // (R.string.db_users)).child(FirebaseAuth.getInstance().
-                            // getCurrentUser().getUid()).removeValue();
+                            FirebaseDatabase.getInstance().getReference().child(getString
+                             (R.string.db_users)).child(FirebaseAuth.getInstance().
+                            getCurrentUser().getUid()).removeValue();
                         }
 
                     }
