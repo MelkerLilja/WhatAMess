@@ -1,20 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ProfileFragment">
+    android:fillViewport="true">
 
-    <include
-        layout="@layout/mtoolbar"
-        android:id="@+id/include_toolbar_xml"/>
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".Activities.ProfileSetting">
 
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:textSize="28sp"
-       android:text="PROFILE"
-       android:layout_centerInParent="true"/>
+        <include
+            android:id="@+id/include_toolbar_xml"
+            layout="@layout/mtoolbar"></include>
 
-</RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@+id/include_toolbar_xml"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/placeholder"
+            android:tooltipText="press to change picture" />
+
+        <TextView
+            android:id="@+id/user_name_profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name_profile_text"
+            android:layout_marginLeft="50dp"
+            android:text="Bio" />
+
+        <TextView
+            android:id="@+id/bio_profile_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bio_profile_text"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
+
+
+    </RelativeLayout>
+</ScrollView>

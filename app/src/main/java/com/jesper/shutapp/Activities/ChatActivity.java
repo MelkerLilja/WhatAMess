@@ -6,6 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,7 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.MessageListAdapter;
+import com.jesper.shutapp.InChatAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
 
@@ -39,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     ImageView userImage;
     Toolbar mToolbar;
 
-    MessageListAdapter adapter;
+    InChatAdapter adapter;
     DatabaseReference reference;
     ArrayList<Chat> chatList;
     FirebaseUser fuser;
@@ -135,7 +138,7 @@ public class ChatActivity extends AppCompatActivity {
                         chatList.add(chat);
                     }
                 }
-                adapter = new MessageListAdapter(ChatActivity.this, chatList); //Creates our adapter with our ChatActivity and our chatList as constructor.
+                adapter = new InChatAdapter(ChatActivity.this, chatList); //Creates our adapter with our ChatActivity and our chatList as constructor.
                 messagesList.setAdapter(adapter); //Set our listview to with our adapter
             }
             @Override
@@ -144,4 +147,24 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater= getMenuInflater();
+        inflater.inflate(R.menu.chat_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId())  {
+          //  case R.id.add_personToChat_button: methodmethod();
+            //    break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

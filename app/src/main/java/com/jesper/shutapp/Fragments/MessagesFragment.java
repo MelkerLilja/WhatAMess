@@ -1,7 +1,6 @@
 package com.jesper.shutapp.Fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,9 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,9 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.Activities.MainActivity;
-import com.jesper.shutapp.Activities.MainSettings;
-import com.jesper.shutapp.FriendsListAdapter;
+import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
 
@@ -41,7 +35,7 @@ public class MessagesFragment extends Fragment {
 
     private static boolean active = false;
     ListView usersListView;
-    FriendsListAdapter friendsListAdapter;
+    MessagesAdapter messagesAdapter;
     ImageView userPicture;
 
     Toolbar mToolbar;
@@ -97,8 +91,8 @@ public class MessagesFragment extends Fragment {
                     User user = snapshot.getValue(User.class);
                     usersList.add(user);
                 }
-                friendsListAdapter = new FriendsListAdapter(getActivity(), usersList);
-                usersListView.setAdapter(friendsListAdapter);
+                messagesAdapter = new MessagesAdapter(getActivity(), usersList);
+                usersListView.setAdapter(messagesAdapter);
             }
 
             @Override
