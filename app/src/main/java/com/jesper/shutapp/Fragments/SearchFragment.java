@@ -55,6 +55,7 @@ public class SearchFragment extends Fragment {
     ArrayList<String> nameList;
     ArrayList<String> profilePicList;
     ArrayList<String> userBio;
+    ArrayList<String> userUid;
     SearchAdapter searchAdapter;
 
 
@@ -82,6 +83,7 @@ public class SearchFragment extends Fragment {
         nameList = new ArrayList<>();
         profilePicList = new ArrayList<>();
         userBio = new ArrayList<>();
+        userUid = new ArrayList<>();
 
         searchUser.addTextChangedListener(new TextWatcher() {
             @Override
@@ -121,15 +123,17 @@ public class SearchFragment extends Fragment {
                 int counter = 0;
 
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    String uid = snapshot.getKey();
                     String name = snapshot.child("name").getValue(String.class);
                     String profilePic = snapshot.child("profile_picture").getValue(String.class);
                     String bio = snapshot.child("bio").getValue(String.class);
+                    String uid = snapshot.child("uid").getValue(String.class);
+
 
                     if (name.toLowerCase().contains(searchedString.toLowerCase())){
                         nameList.add(name);
                         profilePicList.add(profilePic);
                         userBio.add(bio);
+                        userUid.add(uid);
 
                         counter++;
                     }
@@ -138,7 +142,7 @@ public class SearchFragment extends Fragment {
                         break;
                 }
 
-                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio);
+                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid);
                 recyclerView.setAdapter(searchAdapter);
             }
 

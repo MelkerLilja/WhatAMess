@@ -39,6 +39,14 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"/>
 
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/addpersonicon"
+            android:layout_below="@id/image_user_page"
+            android:layout_centerHorizontal="true"
+            android:onClick="btnAddFriend"/>
+
 
 
 </RelativeLayout>

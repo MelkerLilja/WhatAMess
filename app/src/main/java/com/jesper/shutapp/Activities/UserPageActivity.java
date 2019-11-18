@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class UserPageActivity extends AppCompatActivity {
     String name;
     String bio;
     String photo;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +34,19 @@ public class UserPageActivity extends AppCompatActivity {
         name = intent.getStringExtra("name");
         bio = intent.getStringExtra("bio");
         photo = intent.getStringExtra("photo");
+        uid = intent.getStringExtra("uid");
 
         Glide.with(this).load(photo).into(imageView);
 
         userName.setText(name);
         userBio.setText(bio);
 
+
+    }
+
+    //Call the add friend method.
+
+    public void btnAddFriend(View view) {
 
     }
 }
