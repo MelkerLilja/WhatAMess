@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.Activities.UsersListActivity;
-import com.jesper.shutapp.FriendsListAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.UserListAdapter;
 import com.jesper.shutapp.model.User;
@@ -27,21 +26,28 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchUsers extends Fragment {
-    UserListAdapter userListAdapter;
+public class SearchFragment extends Fragment {
+    UserListAdapter adapter;
     ArrayList<User>userSearchList;
     ListView listView;
 
-
-    public SearchUsers() {
+    public SearchFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_users, container, false);
+        userSearchList = new ArrayList<>();
+
+        listView = view.findViewById(R.id.listview_search_users);
+
+
+
+
+
+
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -56,6 +62,11 @@ public class SearchUsers extends Fragment {
         return view;
     }
 
+
+
+
+
+
     private void generateUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -65,8 +76,8 @@ public class SearchUsers extends Fragment {
                     User user = snapshot.getValue(User.class);
                     userSearchList.add(user);
                 }
-                userListAdapter = new UserListAdapter(getActivity(), userSearchList);
-                listView.setAdapter(userListAdapter);
+                adapter = new UserListAdapter(getActivity(), userSearchList);
+                listView.setAdapter(adapter);
             }
 
             @Override

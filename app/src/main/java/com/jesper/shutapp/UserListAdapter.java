@@ -29,6 +29,8 @@ public class UserListAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView userName;
         ImageView profilePicture;
+        ImageView imgOn;
+        ImageView imgOff;
     }
 
     @Override
@@ -59,6 +61,8 @@ public class UserListAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.user_item_list, parent, false);
             holder.userName = (TextView) convertView.findViewById(R.id.text_userName);
             holder.profilePicture = (ImageView) convertView.findViewById(R.id.profile_image);
+            holder.imgOn = (ImageView) convertView.findViewById(R.id.img_on);
+            holder.imgOff = (ImageView) convertView.findViewById(R.id.img_off);
 
             convertView.setTag(holder);
         }
@@ -76,13 +80,13 @@ public class UserListAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+        holder.imgOn.setVisibility(View.GONE);
+        holder.imgOff.setVisibility(View.GONE);
 
         User user_pos = usersList.get(position);
         holder.userName.setText(user_pos.getName());
         Glide.with(context).load(user.getProfile_picture()).into(holder.profilePicture);
-
-
-
+        
         return convertView;
     }
 }

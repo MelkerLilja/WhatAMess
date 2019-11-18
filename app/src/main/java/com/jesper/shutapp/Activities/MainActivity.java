@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
-        Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
-
         if (isValidEmail(email)) //checks if a valid email else gives a toast for invalid
         {
             if (!isEmpty(email) && !isEmpty(password)) //checks if both fields are filled or not
@@ -142,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser(); //if successful a user is asigned else null
 
                 if (user != null) { //if a user was found go to logged in activity
-                    Log.d(TAG, "onAuthStateChanged: Signed in" + user.getUid());
-                    Toast.makeText(MainActivity.this, "Authentivated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onAuthStateChanged: Signed in " + user.getUid());
+                    Toast.makeText(MainActivity.this, "Authenticated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(MainActivity.this, UsersListActivity.class);
+                    Intent intent = new Intent(MainActivity.this, FragmentHolderActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

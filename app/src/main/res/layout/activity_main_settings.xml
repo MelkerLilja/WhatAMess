@@ -35,6 +35,15 @@
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cameraicon"
+            android:tint="@color/daynight"
+            android:layout_above="@+id/change_profile_pic"
+            android:layout_toEndOf="@+id/user_mainpic_view"
+            android:onClick="takePic"/>
+
         <TextView
             android:id="@+id/change_profile_pic"
             android:layout_width="wrap_content"
