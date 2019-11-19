@@ -99,6 +99,8 @@ public class SearchFragment extends Fragment {
                 } else {
                     nameList.clear();
                     profilePicList.clear();
+                    userBio.clear();
+                    userUid.clear();
                     recyclerView.removeAllViews();
                 }
             }
