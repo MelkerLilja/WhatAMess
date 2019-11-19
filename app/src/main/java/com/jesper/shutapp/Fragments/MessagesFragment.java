@@ -44,6 +44,7 @@ public class MessagesFragment extends Fragment {
     Toolbar mToolbar;
     TextView userName;
     ArrayList<User> usersList;
+    ArrayList<User> chatUsers;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -63,6 +64,7 @@ public class MessagesFragment extends Fragment {
     //Initiate all view and variables and set Current user.
     private void init (View view) {
         usersList = new ArrayList<>();
+        chatUsers = new ArrayList<>();
         usersListView = view.findViewById(R.id.users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
@@ -73,6 +75,7 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 generateUsers();
+
             }
 
             @Override
@@ -81,7 +84,7 @@ public class MessagesFragment extends Fragment {
 
     //Generate all user to the list
     private void generateUsers() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,6 +94,7 @@ public class MessagesFragment extends Fragment {
                 }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
+
                     usersList.add(user);
                 }
                 messagesAdapter = new MessagesAdapter(getActivity(), usersList);
@@ -139,4 +143,5 @@ public class MessagesFragment extends Fragment {
         super.onStop();
         active = false;
     }
+
 }

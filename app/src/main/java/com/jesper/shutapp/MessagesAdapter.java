@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class MessagesAdapter extends BaseAdapter {
 
-
+    boolean haveLastMessage;
     Context context;
     private ArrayList<User> usersList;
     String theLastMessage;
@@ -112,7 +112,12 @@ public class MessagesAdapter extends BaseAdapter {
         User user_pos = usersList.get(position);
         holder.userName.setText(user_pos.getName());
         Glide.with(context).load(user.getProfile_picture()).into(holder.profilePicture);
+
         lastMessageMethod(user.getUid(), holder.lastMessage);
+
+        if (!haveLastMessage) {
+            usersList.remove(position);
+        }
 
         //OnLongClick for being able to delete a chat message
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -152,7 +157,8 @@ public class MessagesAdapter extends BaseAdapter {
 
     //Method that displays the last message sent by users in our Messages view.
     private void lastMessageMethod(final String userid, final TextView lastMessage) { //A method that loops the chat messages and checks what the last message sent
-        theLastMessage = "default";                                                  //between the user and receiver then adds it to the user item.
+        theLastMessage = "default";
+        //between the user and receiver then adds it to the user item.
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
 
@@ -163,19 +169,21 @@ public class MessagesAdapter extends BaseAdapter {
                     Chat chat = snapshot.getValue(Chat.class);
                     if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())) {
-                        theLastMessage = chat.getMessage();
+                            theLastMessage = chat.getMessage();
                     }
                 }
                 switch (theLastMessage) {
-                    case "default":
+                    case "default":  haveLastMessage = false;
                         lastMessage.setText("No Message");
+
                         break;
 
-                    default:
+                    default:    haveLastMessage = true;
                         lastMessage.setText(theLastMessage);
                         break;
                 }
                 theLastMessage = "default";
+
             }
 
             @Override
@@ -183,7 +191,11 @@ public class MessagesAdapter extends BaseAdapter {
 
             }
         });
+
     }
+
+
+
 
     //Method that checks all history between two users and deletes it from Firebase.
     private void deleteChat(final User user) {
