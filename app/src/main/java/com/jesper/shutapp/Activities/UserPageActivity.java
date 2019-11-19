@@ -138,6 +138,7 @@ public class UserPageActivity extends AppCompatActivity {
         intent.putExtra("userid", uid);
         intent.putExtra("username", name);
         intent.putExtra("userpic", photo);
+        intent.putExtra("bio", bio);
         startActivity(intent);
     }
 }

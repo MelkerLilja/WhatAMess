@@ -1,10 +1,8 @@
 package com.jesper.shutapp.Activities;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,7 +35,6 @@ import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.InChatAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,20 +47,17 @@ public class ChatActivity extends AppCompatActivity {
     TextView userNameChat;
     ImageView userImage;
     Toolbar mToolbar;
-
     InChatAdapter adapter;
     DatabaseReference reference;
     ArrayList<Chat> chatList;
     FirebaseUser fuser;
-
     String userid;
     String username;
     String userpic;
-
+    String userbio;
     Intent intent;
     private static String TAG = "JesperChat";
     private static int PICK_IMAGE = 100;
-    private String imageLink;
     private RequestManager imageLoader;
 
     @Override
@@ -72,28 +65,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        btnSend = findViewById(R.id.btn_send);
-        txtSend = findViewById(R.id.text_send);
-        messagesList = findViewById(R.id.listview_message);
-        userNameChat = findViewById(R.id.text_userName_chat);
-        userImage = findViewById(R.id.image_user_chat);
+        init();
 
-        intent = getIntent();
-        userid = intent.getStringExtra("userid");
-        username = intent.getStringExtra("username");
-        userpic = intent.getStringExtra("userpic");
 
-        imageLoader = Glide.with(this);
-        imageLoader.load(userpic).into(userImage);
-        userNameChat.setText(username);
 
-        mToolbar = findViewById(R.id.activity_chat_toolbar);
-
-        mToolbar.setTitle("");
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,11 +97,38 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String sender, String receiver, String message) { //Method takes in String msg and push it as a hashMap to database.
+    private void init () {
+        btnSend = findViewById(R.id.btn_send);
+        txtSend = findViewById(R.id.text_send);
+        messagesList = findViewById(R.id.listview_message);
+        userNameChat = findViewById(R.id.text_userName_chat);
+        userImage = findViewById(R.id.image_user_chat);
+
+        intent = getIntent();
+        userid = intent.getStringExtra("userid");
+        username = intent.getStringExtra("username");
+        userpic = intent.getStringExtra("userpic");
+        userbio = intent.getStringExtra("bio");
+
+        imageLoader = Glide.with(this);
+        imageLoader.load(userpic).into(userImage);
+        userNameChat.setText(username);
+
+        mToolbar = findViewById(R.id.activity_chat_toolbar);
+
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    //Method takes in String msg and push it as a hashMap to database.
+    private void sendMessage(String sender, String receiver, String message) {
 
         reference = FirebaseDatabase.getInstance().getReference();
 
-        HashMap<String, Object> hashMap = new HashMap<>(); //Need to fix sender/receiver and add like time photo etc..
+        HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
@@ -134,6 +136,7 @@ public class ChatActivity extends AppCompatActivity {
         reference.child("chats").push().setValue(hashMap);
     }
 
+    //Method that listens for data changes and adds the messages to our chatlist.
     private void readMessage(final String myid, final String userid) {
         chatList = new ArrayList<>(); //Arraylist to store our chats
 
@@ -176,7 +179,6 @@ public class ChatActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     public void addPic(View view) {
         Log.d(TAG, "addPic: CLICK");
@@ -221,5 +223,14 @@ public class ChatActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void btnUserProfile(View view) {
+        Intent intent = new Intent(ChatActivity.this, UserPageActivity.class);
+        intent.putExtra("name", username);
+        intent.putExtra("bio", userbio);
+        intent.putExtra("photo",userpic);
+        intent.putExtra("uid", userid);
+        startActivity(intent);
     }
 }

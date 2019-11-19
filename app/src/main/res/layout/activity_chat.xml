@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="15sp"
         android:textColor="@color/daynight"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/image_user_chat"/>
@@ -23,8 +24,17 @@
         android:id="@+id/image_user_chat"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:onClick="btnUserProfile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+
 
     <ListView
         android:id="@+id/listview_message"
