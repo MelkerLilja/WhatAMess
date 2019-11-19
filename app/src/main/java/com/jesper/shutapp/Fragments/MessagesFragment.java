@@ -82,20 +82,20 @@ public class MessagesFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chatUsers.clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
 
-                    if (chat.getSender().equals(fuser.getUid())){
-                        if (!chatUsers.contains(chat.getReceiver())) {
-                            chatUsers.add(chat.getReceiver());
+                        if (chat.getSender().equals(fuser.getUid())) {
+                            if (!chatUsers.contains(chat.getReceiver())) {
+                                chatUsers.add(chat.getReceiver());
+                            }
+                        }
+                        if (chat.getReceiver().equals(fuser.getUid())) {
+                            if (!chatUsers.contains(chat.getSender())) {
+                                chatUsers.add(chat.getSender());
+                            }
                         }
                     }
-                    if (chat.getReceiver().equals(fuser.getUid())){
-                        if (!chatUsers.contains(chat.getSender())) {
-                            chatUsers.add(chat.getSender());
-                        }
-                    }
-                }
                 readChats();
             }
 
