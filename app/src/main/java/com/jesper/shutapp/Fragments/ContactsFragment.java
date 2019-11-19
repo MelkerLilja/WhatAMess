@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,9 +30,10 @@ import java.util.ArrayList;
  */
 public class ContactsFragment extends Fragment {
 
-    ArrayList<User> friendsList;
-    DatabaseReference reference;
     ListView listView;
+    ArrayList<User> friendList;
+    FriendsListAdapter friendsListAdapter;
+    FirebaseUser fuser;
 
 
     public ContactsFragment() {
@@ -42,19 +45,32 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+        friendList = new ArrayList<>();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         listView = view.findViewById(R.id.listview_friends_list);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("users");
+        generateFriendList();
 
+        return view;
+
+    }
+
+    //Generate all user to the list
+    private void generateFriendList() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+             /*   if(friendList.size() >= 1)
+                {
+                    friendList.clear();
+                }*/
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
-                    friendsList.add(user);
+                    friendList.add(user);
                 }
-                FriendsListAdapter friendsListAdapter = new FriendsListAdapter(getActivity(), friendsList);
+                friendsListAdapter = new FriendsListAdapter(getActivity(), friendList);
                 listView.setAdapter(friendsListAdapter);
             }
 
@@ -64,7 +80,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        return view;
     }
+
 
 }
