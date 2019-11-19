@@ -79,7 +79,7 @@ public class InChatAdapter extends BaseAdapter {
         }
 
         Chat chat_pos = chatList.get(position);
-        if (chat_pos.getMessage().contains("firebasestorage.googleapis.com")) {
+        if (chat_pos.getMessage().contains(".jpg") || chat_pos.getMessage().contains(".png")) {
             Glide.with(context).load(chat_pos.getMessage()).into(holder.image);
             Log.d("JesperChat", "getView: ");
 
