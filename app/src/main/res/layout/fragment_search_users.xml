@@ -16,13 +16,6 @@
         android:layout_marginTop="5dp"
         android:id="@+id/users_text"/>
 
-    <EditText
-        android:id="@+id/search_users"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textColor="@color/daynight"
-        android:layout_below="@id/user_name_homescreen"/>
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="10dp"
         android:id="@+id/user_picture"
@@ -45,6 +38,8 @@
             android:layout_height="40dp"
             android:background="@drawable/search_edittext"
             android:hint="@string/find_friend_hint"
+            android:autofillHints="@string/find_friend_hint"
+            android:inputType="text"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:padding="10dp"
@@ -78,8 +73,7 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_below="@+id/user_name_homescreen"
-        android:layout_above="@+id/bottom_nav_menu"/>
+        android:layout_below="@+id/user_name_homescreen" />
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
