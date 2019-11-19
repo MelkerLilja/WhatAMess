@@ -31,6 +31,9 @@ import java.util.ArrayList;
 public class ContactsFragment extends Fragment {
 
     ListView listView;
+    ArrayList<User> friendList;
+    FriendsListAdapter friendsListAdapter;
+    FirebaseUser fuser;
 
 
     public ContactsFragment() {
@@ -42,11 +45,42 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+        friendList = new ArrayList<>();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         listView = view.findViewById(R.id.listview_friends_list);
+
+        generateFriendList();
 
         return view;
 
     }
+
+    //Generate all user to the list
+    private void generateFriendList() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+             /*   if(friendList.size() >= 1)
+                {
+                    friendList.clear();
+                }*/
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    friendList.add(user);
+                }
+                friendsListAdapter = new FriendsListAdapter(getActivity(), friendList);
+                listView.setAdapter(friendsListAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
 }

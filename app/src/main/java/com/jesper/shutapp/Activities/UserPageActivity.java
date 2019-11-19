@@ -98,11 +98,6 @@ public class UserPageActivity extends AppCompatActivity {
     public void btnAddFriend(View view) {
         Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show();
 
-
-
-
-
-
             reference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
