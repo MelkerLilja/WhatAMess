@@ -24,6 +24,7 @@
         android:layout_below="@+id/shutAppLogo_img"
         android:layout_centerHorizontal="true"
         android:hint="@string/email_hint"
+        android:textColor="@color/daynight"
         android:inputType="textEmailAddress"/>
 
     <EditText
@@ -33,6 +34,7 @@
         android:layout_below="@+id/email_edittxt"
         android:layout_centerHorizontal="true"
         android:hint="@string/Password_hint"
+        android:textColor="@color/daynight"
         android:inputType="textPassword" />
 
     <Button
@@ -42,6 +44,7 @@
         android:layout_below="@+id/password_edittxt"
         android:layout_centerHorizontal="true"
         android:onClick="submitOnClick"
+        android:textColor="@color/daynight"
         android:text="@string/sign_in_btn" />
 
     <TextView

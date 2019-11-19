@@ -18,6 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:text="@string/settings_menu"
+            android:textColor="@color/daynight"
             android:textSize="30sp" />
 
         <include
@@ -52,6 +53,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
             android:onClick="changePic"
+            android:textColor="@color/daynight"
             android:text="@string/change_profile_pic_txt"
             android:textSize="15sp" />
 
@@ -61,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/change_profile_pic"
             android:layout_marginStart="17dp"
+            android:textColor="@color/daynight"
             android:layout_marginTop="10dp"
             android:text="@string/name_title_txt" />
 
@@ -71,6 +74,7 @@
             android:layout_below="@+id/user_name_title"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="25dp"
+            android:textColor="@color/daynight"
             android:autofillHints="@string/name_title_txt"
             android:hint="@string/name_title_txt"
             android:inputType="text" />
@@ -82,6 +86,7 @@
             android:layout_below="@id/user_name_mainsettings_edittxt"
             android:layout_marginStart="17dp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/daynight"
             android:text="@string/user_bio_txt" />
 
         <EditText
@@ -91,6 +96,7 @@
             android:layout_below="@+id/user_bio_title"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="25dp"
+            android:textColor="@color/daynight"
             android:autofillHints="@string/user_bio_hint"
             android:hint="@string/user_bio_hint"
             android:inputType="text" />
@@ -103,6 +109,7 @@
             android:layout_below="@id/user_bio_edittxt"
             android:layout_marginStart="17dp"
             android:layout_marginTop="5dp"
+            android:textColor="@color/daynight"
             android:text="@string/password_title_txt" />
 
         <EditText
@@ -112,6 +119,7 @@
             android:layout_below="@+id/password_title"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="25dp"
+            android:textColor="@color/daynight"
             android:autofillHints="@string/password_hint"
             android:hint="@string/password_hint"
             android:inputType="textPassword" />
@@ -123,6 +131,7 @@
             android:layout_below="@id/new_password_edittxt"
             android:layout_marginStart="17dp"
             android:layout_marginTop="5dp"
+            android:textColor="@color/daynight"
             android:text="@string/email_title_txt" />
 
         <EditText
@@ -134,6 +143,7 @@
             android:layout_marginStart="25dp"
             android:autofillHints="@string/change_email_hint"
             android:hint="@string/change_email_hint"
+            android:textColor="@color/daynight"
             android:inputType="textEmailAddress" />
 
         <TextView
@@ -162,7 +172,7 @@
             android:layout_below="@+id/divider_line"
             android:layout_centerHorizontal="true"
             android:text="@string/theme"
-            android:textColor="@color/black"
+            android:textColor="@color/daynight"
             android:textStyle="bold" />
 
         <TextView
@@ -174,6 +184,7 @@
             android:clickable="true"
             android:onClick="theme"
             android:text="@string/theme"
+            android:textColor="@color/daynight"
             android:textSize="25sp" />
 
         <View
@@ -193,6 +204,7 @@
             android:clickable="true"
             android:onClick="terms_of_service"
             android:text="@string/terms_of_service"
+            android:textColor="@color/daynight"
             android:textSize="25sp" />
 
         <View

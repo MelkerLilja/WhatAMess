@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:textSize="12sp"
+        android:textColor="@color/daynight"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/image_user_chat"/>
 
@@ -41,14 +42,27 @@
      android:layout_alignParentBottom="true"
      android:layout_height="wrap_content">
 
+
+
      <EditText
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:id="@+id/text_send"
          android:background="@android:color/transparent"
+         android:layout_toEndOf="@+id/add_image_image"
          android:hint="Type a message..."
+         android:textColor="@color/daynight"
          android:layout_toStartOf="@id/btn_send"
          android:layout_centerVertical="true"/>
+     <ImageView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@drawable/addimage"
+         android:tint="@color/daynight"
+         android:id="@+id/add_image_image"
+         android:layout_marginTop="10dp"
+         android:onClick="addPic"
+         />
 
      <ImageButton
          android:layout_width="40dp"
@@ -56,6 +70,7 @@
          android:background="@drawable/ic_button_send"
          android:id="@+id/btn_send"
          android:layout_alignParentEnd="true" />
+
 
  </RelativeLayout>
 </RelativeLayout>

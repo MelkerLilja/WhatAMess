@@ -2,14 +2,19 @@ package com.jesper.shutapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.model.Chat;
 
 import java.util.ArrayList;
@@ -45,6 +50,7 @@ public class InChatAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView message;
+        ImageView image;
     }
 
     @Override
@@ -60,20 +66,26 @@ public class InChatAdapter extends BaseAdapter {
             if (type == 0) {
                 convertView = mInflater.inflate(R.layout.chat_item_left, parent, false);
                 holder.message = (TextView) convertView.findViewById(R.id.show_message);
+                holder.image = convertView.findViewById(R.id.image_received);
                 convertView.setTag(holder);
             } else {
                 convertView = mInflater.inflate(R.layout.chat_item_right, parent, false);
                 holder.message = (TextView) convertView.findViewById(R.id.show_message);
+                holder.image = convertView.findViewById(R.id.image_sent);
                 convertView.setTag(holder);
             }
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         Chat chat_pos = chatList.get(position);
-        holder.message.setText(chat_pos.getMessage());
+        if (chat_pos.getMessage().contains("firebasestorage.googleapis.com")) {
+            Glide.with(context).load(chat_pos.getMessage()).into(holder.image);
+            Log.d("JesperChat", "getView: ");
 
+        } else {
+            holder.message.setText(chat_pos.getMessage());
+        }
         return convertView;
     }
 
@@ -81,7 +93,7 @@ public class InChatAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (chatList.get(position).getSender().equals(fuser.getUid())){
+        if (chatList.get(position).getSender().equals(fuser.getUid())) {
             return MSG_TYPE_RIGHT;
         } else {
             return MSG_TYPE_LEFT;

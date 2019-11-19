@@ -21,6 +21,7 @@
             android:layout_below="@id/image_user_page"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
+            android:textColor="@color/daynight"
             android:textSize="18dp" />
 
         <TextView
@@ -28,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_username_userpage"
+            android:textColor="@color/daynight"
             android:layout_marginLeft="50dp"
             android:text="Bio" />
 
@@ -37,12 +39,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bio_profile_text"
             android:layout_marginLeft="50dp"
+            android:textColor="@color/daynight"
             android:layout_marginRight="50dp"/>
 
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/addpersonicon"
+            android:tint="@color/daynight"
             android:layout_below="@id/image_user_page"
             android:layout_centerHorizontal="true"
             android:onClick="btnAddFriend"/>

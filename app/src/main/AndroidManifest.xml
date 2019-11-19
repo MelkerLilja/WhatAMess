@@ -28,11 +28,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.FragmentHolderActivity" />
         </activity>
-        <activity android:name=".Activities.Settings">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainSettings" />
-        </activity>
         <activity android:name=".Activities.MainSettings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

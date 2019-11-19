@@ -35,9 +35,6 @@ public class ProfileSetting extends AppCompatActivity {
         profileImg = findViewById(R.id.profile_image);
         usernameText = findViewById(R.id.user_name_profile_text);
         bioText = findViewById(R.id.bio_profile_text);
-
-
-
     }
 
     @Override

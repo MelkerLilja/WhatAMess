@@ -11,7 +11,7 @@
 
         <include
             android:id="@+id/include_toolbar_xml"
-            layout="@layout/mtoolbar"></include>
+            layout="@layout/mtoolbar" />
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -31,6 +31,7 @@
             android:layout_below="@id/profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
+            android:textColor="@color/daynight"
             android:textSize="18dp" />
 
         <TextView
@@ -38,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/user_name_profile_text"
             android:layout_marginLeft="50dp"
-            android:text="Bio" />
+            android:text="Bio"
+            android:textColor="@color/daynight" />
 
         <TextView
             android:id="@+id/bio_profile_text"
@@ -46,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bio_profile_text"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:textColor="@color/daynight" />
 
 
     </RelativeLayout>
