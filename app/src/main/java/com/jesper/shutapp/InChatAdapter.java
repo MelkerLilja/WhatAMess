@@ -2,14 +2,25 @@ package com.jesper.shutapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.Chat;
 
 import java.util.ArrayList;
@@ -21,7 +32,9 @@ public class InChatAdapter extends BaseAdapter {
 
     Context context;
     private ArrayList<Chat> chatList;
-    FirebaseUser fuser;
+
+    FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
     public InChatAdapter(Context context, ArrayList<Chat> chatList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -48,7 +61,7 @@ public class InChatAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         int type = getItemViewType(position);
 
         ViewHolder holder = null;
@@ -71,7 +84,7 @@ public class InChatAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Chat chat_pos = chatList.get(position);
+        final Chat chat_pos = chatList.get(position);
         holder.message.setText(chat_pos.getMessage());
 
         return convertView;
@@ -87,4 +100,5 @@ public class InChatAdapter extends BaseAdapter {
             return MSG_TYPE_LEFT;
         }
     }
+
 }

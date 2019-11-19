@@ -55,12 +55,9 @@ public class UserPageActivity extends AppCompatActivity {
         init();
         checkIfFriends();
 
-
         Glide.with(this).load(photo).into(imageView);
         userName.setText(name);
         userBio.setText(bio);
-
-
 
     }
 

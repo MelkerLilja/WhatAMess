@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
+import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
@@ -57,14 +59,13 @@ public class MessagesFragment extends Fragment {
 
         return view;
     }
+
     //Initiate all view and variables and set Current user.
     private void init (View view) {
-
         usersList = new ArrayList<>();
         usersListView = view.findViewById(R.id.users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
-
         setCurrentUser();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");

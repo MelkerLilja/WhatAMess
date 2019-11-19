@@ -33,7 +33,6 @@ public class FriendsListAdapter extends BaseAdapter {
     Context context;
     private ArrayList<User> friendsList;
 
-
     public FriendsListAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
         this.friendsList = friendsList;
@@ -102,7 +101,6 @@ public class FriendsListAdapter extends BaseAdapter {
                 builder.setMessage("Are you sure you want to delete " + user.getName() + " as friend?");
                 builder.setCancelable(true);
 
-                //Positive Button and it onClicked event listener
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -124,12 +122,6 @@ public class FriendsListAdapter extends BaseAdapter {
             }
         });
 
-
-
-
-
-
-
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +142,7 @@ public class FriendsListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void deleteFriend(User user){
+    private void deleteFriend(User user){ //NEED TO ADD SO THAT USER REMOVES FROM LIST DIRECLY
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.child("users").child(fuser.getUid()).child("friends").child(user.getUid()).removeValue();
