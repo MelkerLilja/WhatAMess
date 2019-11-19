@@ -37,6 +37,7 @@ public class MessagesFragment extends Fragment {
     ListView usersListView;
     MessagesAdapter messagesAdapter;
     ImageView userPicture;
+    FirebaseUser fuser;
 
     Toolbar mToolbar;
     TextView userName;
@@ -79,7 +80,7 @@ public class MessagesFragment extends Fragment {
 
     //Generate all user to the list
     private void generateUsers() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,7 +106,7 @@ public class MessagesFragment extends Fragment {
 
     //Method for setting up the current user
     private void setCurrentUser() {
-        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {

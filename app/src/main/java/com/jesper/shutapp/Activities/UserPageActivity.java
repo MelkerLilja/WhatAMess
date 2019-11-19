@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
 
+import java.util.ArrayList;
+
 public class UserPageActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser fuser;
@@ -36,22 +38,28 @@ public class UserPageActivity extends AppCompatActivity {
     String bio;
     String photo;
     String uid;
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
 
-        init();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
         intent = getIntent();
         name = intent.getStringExtra("name");
         bio = intent.getStringExtra("bio");
         photo = intent.getStringExtra("photo");
         uid = intent.getStringExtra("uid");
+
+        init();
+        checkIfFriends();
+
+
         Glide.with(this).load(photo).into(imageView);
         userName.setText(name);
         userBio.setText(bio);
+
 
 
     }
@@ -65,41 +73,71 @@ public class UserPageActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference();
     }
 
-    //Call the add friend method.
+    private void checkIfFriends() {
 
+        reference.child("users").child(fuser.getUid()).child("friends").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    btnAddFriend.setVisibility(View.GONE);
+                    btnFriendAdded.setVisibility(View.VISIBLE);
+                } else {
+                    btnAddFriend.setVisibility(View.VISIBLE);
+                    btnFriendAdded.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Call the add friend method.
     public void btnAddFriend(View view) {
         Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show();
 
-        btnAddFriend.setVisibility(View.GONE);
-        btnFriendAdded.setVisibility(View.VISIBLE);
 
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        reference.child("users").child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                User user = dataSnapshot.getValue(User.class);
-                reference.child("users").child(fuser.getUid()).child("friends").child(uid).setValue(user);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+            reference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    reference.child("users").child(fuser.getUid()).child("friends").child(uid).setValue(user);
+                }
 
-        reference.child("users").child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                reference.child("users").child(uid).child("friends").child(fuser.getUid()).setValue(user);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
+            reference.child("users").child(fuser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    reference.child("users").child(uid).child("friends").child(fuser.getUid()).setValue(user);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+    }
+
+    public void btnRemoveFriend(View view) {
+        reference.child("users").child(fuser.getUid()).child("friends").child(uid).removeValue();
+        reference.child("users").child(uid).child("friends").child(fuser.getUid()).removeValue();
+
+        btnAddFriend.setVisibility(View.VISIBLE);
+        btnFriendAdded.setVisibility(View.GONE);
+
+        Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show();
     }
 }

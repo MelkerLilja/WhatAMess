@@ -115,6 +115,8 @@ public class SearchFragment extends Fragment {
 
                 nameList.clear();
                 profilePicList.clear();
+                userBio.clear();
+                userUid.clear();
                 recyclerView.removeAllViews();
                 int counter = 0;
 
