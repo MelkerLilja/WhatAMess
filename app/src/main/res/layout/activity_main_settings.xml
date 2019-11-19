@@ -32,7 +32,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:onClick="changePic"
-            app:civ_border_color="#FF000000"
+            app:civ_border_color="@color/black"
             app:civ_border_width="2dp" />
 
         <ImageView
@@ -162,7 +162,6 @@
             android:layout_below="@+id/divider_line"
             android:layout_centerHorizontal="true"
             android:text="@string/theme"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView

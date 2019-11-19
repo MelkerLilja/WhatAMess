@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,13 +20,40 @@
             android:layout_below="@id/image_user_page"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/profile_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_username_userpage"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/message_black"
+                    android:tint="@color/daynight"
+                    android:background="@drawable/circle_image_user_page_activity"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/addpersonicon"
+                    android:tint="@color/daynight"
+                    android:background="@drawable/circle_image_user_page_activity"
+                    android:layout_weight="1"
+                    android:onClick="btnAddFriend"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/bio_profile_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_username_userpage"
+            android:layout_below="@id/profile_buttons"
             android:layout_marginLeft="50dp"
             android:text="Bio" />
 
@@ -39,13 +65,6 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"/>
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/addpersonicon"
-            android:layout_below="@id/image_user_page"
-            android:layout_centerHorizontal="true"
-            android:onClick="btnAddFriend"/>
 
 
 

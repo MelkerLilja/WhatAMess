@@ -13,6 +13,14 @@
             android:id="@+id/include_toolbar_xml"
             layout="@layout/mtoolbar"></include>
 
+        <TextView
+            android:id="@+id/profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/profile_txt"
+            android:layout_marginTop="5dp"
+            android:textSize="30sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -21,6 +29,8 @@
             android:layout_below="@+id/include_toolbar_xml"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
+            app:civ_border_color="@color/black"
+            app:civ_border_width="2dp"
             android:src="@drawable/placeholder"
             android:tooltipText="press to change picture" />
 
@@ -31,20 +41,21 @@
             android:layout_below="@id/profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/bio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_name_profile_text"
             android:layout_marginLeft="50dp"
-            android:text="Bio" />
+            android:text="@string/user_bio_txt" />
 
         <TextView
             android:id="@+id/bio_profile_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bio_profile_text"
+            android:layout_below="@id/bio_title"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp" />
 
