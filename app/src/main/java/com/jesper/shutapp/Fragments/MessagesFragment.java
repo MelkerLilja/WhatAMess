@@ -29,25 +29,24 @@ import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MessagesFragment extends Fragment {
 
-    private static boolean active = false;
     ListView usersListView;
     MessagesAdapter messagesAdapter;
     ImageView userPicture;
     FirebaseUser fuser;
+    DatabaseReference reference;
 
-    Toolbar mToolbar;
     TextView userName;
     ArrayList<User> usersList;
-    ArrayList<User> chatUsers;
+    private List<String> chatUsers;
 
     public MessagesFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -70,16 +69,75 @@ public class MessagesFragment extends Fragment {
         userPicture = view.findViewById(R.id.user_picture);
         setCurrentUser();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+
+
+
+
+
+
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                generateUsers();
+                chatUsers.clear();
 
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+
+                    if (chat.getSender().equals(fuser.getUid())){
+                        if (!chatUsers.contains(chat.getReceiver())) {
+                            chatUsers.add(chat.getReceiver());
+                        }
+                    }
+                    if (chat.getReceiver().equals(fuser.getUid())){
+                        if (!chatUsers.contains(chat.getSender())) {
+                            chatUsers.add(chat.getSender());
+                        }
+                    }
+                }
+                readChats();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}});
+    }
+
+    private void readChats () {
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                usersList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+
+                    for (String id : chatUsers) {
+                        if (user.getUid().equals(id)) {
+                            if (usersList.size() != 0) {
+                                for (User user1 : usersList) {
+                                    if (!user.getUid().equals(user1.getUid())){
+                                        usersList.add(user);
+                                        break;
+                                    }
+                                }
+                            }   else {
+                                usersList.add(user);
+                            }
+                        }
+                    }
+                }
+                messagesAdapter = new MessagesAdapter(getActivity(), usersList);
+                usersListView.setAdapter(messagesAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //Generate all user to the list
@@ -97,8 +155,9 @@ public class MessagesFragment extends Fragment {
 
                     usersList.add(user);
                 }
-                messagesAdapter = new MessagesAdapter(getActivity(), usersList);
-                usersListView.setAdapter(messagesAdapter);
+                    messagesAdapter = new MessagesAdapter(getActivity(), usersList);
+                    usersListView.setAdapter(messagesAdapter);
+
             }
 
             @Override
@@ -108,6 +167,8 @@ public class MessagesFragment extends Fragment {
         });
 
     }
+
+
 
     //Method for setting up the current user
     private void setCurrentUser() {
@@ -135,13 +196,11 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        active = true;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        active = false;
     }
 
 }

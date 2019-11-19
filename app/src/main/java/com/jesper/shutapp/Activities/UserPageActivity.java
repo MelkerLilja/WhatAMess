@@ -132,4 +132,12 @@ public class UserPageActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show();
     }
+
+    public void btnSendMessage(View view) {
+        Intent intent = new Intent(UserPageActivity.this, ChatActivity.class);
+        intent.putExtra("userid", uid);
+        intent.putExtra("username", name);
+        intent.putExtra("userpic", photo);
+        startActivity(intent);
+    }
 }

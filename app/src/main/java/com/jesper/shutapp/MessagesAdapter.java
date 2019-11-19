@@ -71,7 +71,10 @@ public class MessagesAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
+
         final User user = usersList.get(position);
+
 
         ViewHolder holder = null;
 
@@ -115,45 +118,44 @@ public class MessagesAdapter extends BaseAdapter {
 
         lastMessageMethod(user.getUid(), holder.lastMessage);
 
-        if (!haveLastMessage) {
-            usersList.remove(position);
-        }
-
-        //OnLongClick for being able to delete a chat message
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                //NEED TO ADD THOSE INTO STRINGS LATER ON !!!
-                builder.setTitle("Delete conversation history");
-                builder.setMessage("Are you sure you want to delete all conversation history");
-                builder.setCancelable(true);
-
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                deleteChat(usersList.get(position));
-                            }
-                        });
-
-                //Negative Button
-                builder.setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-                return true;
-            }
-        });
 
 
-        return convertView;
+
+
+
+            //OnLongClick for being able to delete a chat message
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                    //NEED TO ADD THOSE INTO STRINGS LATER ON !!!
+                    builder.setTitle("Delete conversation history");
+                    builder.setMessage("Are you sure you want to delete all conversation history");
+                    builder.setCancelable(true);
+
+                    builder.setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    deleteChat(usersList.get(position));
+                                }
+                            });
+
+                    //Negative Button
+                    builder.setNegativeButton("No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return true;
+                }
+            });
+            return convertView;
     }
+
+
 
     //Method that displays the last message sent by users in our Messages view.
     private void lastMessageMethod(final String userid, final TextView lastMessage) { //A method that loops the chat messages and checks what the last message sent
@@ -178,7 +180,7 @@ public class MessagesAdapter extends BaseAdapter {
 
                         break;
 
-                    default:    haveLastMessage = true;
+                    default: haveLastMessage = true;
                         lastMessage.setText(theLastMessage);
                         break;
                 }
@@ -195,6 +197,10 @@ public class MessagesAdapter extends BaseAdapter {
     }
 
 
+    private void deleteItemAtId(int id){
+        usersList.remove(id);
+        notifyDataSetChanged();
+    }
 
 
     //Method that checks all history between two users and deletes it from Firebase.

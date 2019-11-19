@@ -43,10 +43,9 @@
             android:layout_marginTop="7dp"
             android:textColor="@color/daynight"
             android:textSize="18dp" />
-            android:textSize="18sp" />
+
 
         <TextView
-            android:id="@+id/text_bio"
             android:id="@+id/bio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,13 +53,12 @@
             android:layout_marginLeft="50dp"
             android:text="Bio"
             android:textColor="@color/daynight" />
-            android:text="@string/user_bio_txt" />
+        android:text="@string/user_bio_txt" />
 
         <TextView
             android:id="@+id/bio_profile_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_bio"
             android:layout_below="@id/bio_title"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"

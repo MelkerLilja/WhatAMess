@@ -63,6 +63,8 @@ public class InChatAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView message;
+        ImageView image;
+
     }
 
     @Override
