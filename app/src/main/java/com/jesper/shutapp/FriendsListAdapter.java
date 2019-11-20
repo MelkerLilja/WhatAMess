@@ -118,6 +118,7 @@ public class FriendsListAdapter extends BaseAdapter {
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
+
                 return true;
             }
         });

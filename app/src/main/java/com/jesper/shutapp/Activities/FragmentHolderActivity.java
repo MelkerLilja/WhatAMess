@@ -95,5 +95,4 @@ public class FragmentHolderActivity extends AppCompatActivity {
         super.onPause();
         status("offline");
     }
-
 }

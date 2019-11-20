@@ -9,9 +9,6 @@
         android:layout_height="wrap_content"
         tools:context=".Activities.ProfileSetting">
 
-        <include
-            android:id="@+id/include_toolbar_xml"
-            layout="@layout/mtoolbar" />
 
         <TextView
             android:id="@+id/profile_text"
