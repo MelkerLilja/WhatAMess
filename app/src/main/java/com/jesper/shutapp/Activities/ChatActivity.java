@@ -162,8 +162,6 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-
-
     public void addPic(View view) {
         Log.d(TAG, "addPic: CLICK");
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 public class GroupChatAdapter extends BaseAdapter {
     Context context;
     private ArrayList<User> friendsList;
+    DatabaseReference reference;
+    FirebaseUser fuser;
 
 
     public GroupChatAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
@@ -56,7 +59,8 @@ public class GroupChatAdapter extends BaseAdapter {
         ImageView profilePicture;
         ImageView imgOn;
         ImageView imgOff;
-        CheckBox checkBox;
+        ImageButton btnAddGroup;
+        ImageButton btnRemoveGroup;
     }
 
     @Override
@@ -74,7 +78,8 @@ public class GroupChatAdapter extends BaseAdapter {
             holder.profilePicture = (ImageView) convertView.findViewById(R.id.friendlist_profile_image);
             holder.imgOn = (ImageView) convertView.findViewById(R.id.status_on);
             holder.imgOff = (ImageView) convertView.findViewById(R.id.status_off);
-            holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox_group);
+            holder.btnAddGroup = (ImageButton) convertView.findViewById(R.id.btn_add_group);
+            holder.btnRemoveGroup = (ImageButton) convertView.findViewById(R.id.btn_added_to_group);
 
             convertView.setTag(holder);
         } else {
@@ -89,13 +94,37 @@ public class GroupChatAdapter extends BaseAdapter {
             holder.imgOff.setVisibility(View.VISIBLE);
         }
 
-    /*    convertView.setOnClickListener(new View.OnClickListener() {
+        final ViewHolder finalHolder = holder;
+        final ViewHolder finalHolder1 = holder;
+        holder.btnAddGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                reference = FirebaseDatabase.getInstance().getReference();
+                fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-                v.setSelected(true);
+                reference.child("groups").child(fuser.getUid()).child(friendsList.get(position).getUid()).setValue(friendsList.get(position).getUid());
+                finalHolder.btnAddGroup.setVisibility(View.GONE);
+                finalHolder1.btnRemoveGroup.setVisibility(View.VISIBLE);
+
             }
-        });*/
+        });
+
+        final ViewHolder finalHolder2 = holder;
+        final ViewHolder finalHolder3 = holder;
+        holder.btnRemoveGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference = FirebaseDatabase.getInstance().getReference();
+                fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+                reference.child("groups").child(fuser.getUid()).child(friendsList.get(position).getUid()).removeValue();
+                //reference.child("groups").child(fuser.getUid()).getRoot().child(friendsList.get(position).getUid()).removeValue();
+                finalHolder2.btnRemoveGroup.setVisibility(View.GONE);
+                finalHolder3.btnAddGroup.setVisibility(View.VISIBLE);
+            }
+        });
+
+
 
 
         User user_pos = friendsList.get(position);

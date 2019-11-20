@@ -64,26 +64,12 @@ public class GroupChatFragment extends Fragment {
         listView = view.findViewById(R.id.listview_friends_groupchat);
         friendListGroup = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        mCheckbox = view.findViewById(R.id.checkbox_group);
         mToolbar = view.findViewById(R.id.include_toolbar_groupchat);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         btnChecked = view.findViewById(R.id.imagebutton_checkbox);
 
         generateFriendList();
 
-
-
-
-/*        mCheckbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mCheckbox.isChecked()){
-                    //show add button
-                }else {
-                    //hide add button
-                }
-            }
-        });*/
 
         return view;
     }

@@ -44,12 +44,25 @@
         app:civ_border_color="#bfbfbf"
         app:civ_border_width="10dp" />
 
-    <CheckBox
-        android:id="@+id/checkbox_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        />
+    <ImageButton
+        android:id="@+id/btn_add_group"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_group_add_black_24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"/>
+
+    <ImageButton
+        android:id="@+id/btn_added_to_group"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_check_circle_black_24dp"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"/>
+
 
 
 </RelativeLayout>
