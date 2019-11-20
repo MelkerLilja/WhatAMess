@@ -9,6 +9,11 @@
     <include
         android:id="@+id/include_toolbar_groupchat"
         layout="@layout/mtoolbar" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_test"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/text_groupchat"
@@ -30,6 +35,7 @@
 
     <EditText
         android:id="@+id/edittext_groupchat"
+        android:hint="Enter groupname here"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/text_groupchat"/>
