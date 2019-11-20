@@ -162,23 +162,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.chat_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            //  case R.id.add_personToChat_button: methodmethod();
-            //    break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void addPic(View view) {
         Log.d(TAG, "addPic: CLICK");

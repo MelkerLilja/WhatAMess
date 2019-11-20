@@ -1,8 +1,16 @@
 package com.jesper.shutapp.Fragments;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,6 +44,7 @@ public class MessagesFragment extends Fragment {
     TextView userName;
     ArrayList<User> usersList;
     private List<String> chatUsers;
+    Toolbar mToolbar;
 
     public MessagesFragment() {
     }
@@ -55,11 +64,14 @@ public class MessagesFragment extends Fragment {
 
     //Initiate all view and variables and set Current user.
     private void init (View view) {
+        setHasOptionsMenu(true);
         usersList = new ArrayList<>();
         chatUsers = new ArrayList<>();
+        mToolbar = view.findViewById(R.id.userlist_toolbar);
         usersListView = view.findViewById(R.id.users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
     }
 
     //Saves strings UID of all person current user have been chatting with
@@ -151,6 +163,32 @@ public class MessagesFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.friendlist_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add_personToChat_button:
+                GroupChatFragment groupChatFragment = new GroupChatFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
+                fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, groupChatFragment);
+                fragmentTransaction.commit();
+
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onStart() {
