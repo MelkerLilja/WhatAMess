@@ -8,10 +8,4 @@
         android:title="@string/settings_wheel_item"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/add_as_friend"
-        android:icon="@drawable/addpersonicon"
-        android:title="@string/add_friend_menu"
-        app:showAsAction="ifRoom" />
-
 </menu>

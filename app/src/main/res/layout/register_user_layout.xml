@@ -11,6 +11,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/daynight"
         android:layout_marginTop="200dp"
         android:hint="@string/email_hint"
         android:inputType="textEmailAddress" />
@@ -19,6 +20,7 @@
         android:id="@+id/password_register_edittxt"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/daynight"
         android:layout_below="@+id/email_register_edittxt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -29,6 +31,7 @@
         android:id="@+id/confirm_password_register_edittxt"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/daynight"
         android:layout_below="@id/password_register_edittxt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -39,6 +42,7 @@
         android:id="@+id/register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/daynight"
         android:layout_below="@+id/confirm_password_register_edittxt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -64,6 +68,7 @@
         android:layout_marginTop="7dp"
         android:layout_toEndOf="@id/register_btn"
         android:onClick="confirmTos"
+        android:textColor="@color/daynight"
         android:text="@string/terms_of_service_box"
         android:id="@+id/tos_checkbox"/>
 

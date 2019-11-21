@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="lightGrey">#FFDBDBDB</color>
     <color name="black">#000000</color>
+    <color name="orange">#ff8000</color>
 
     <color name="linkBlue">#4d94ff</color>
     <color name="background_tos_fragment">#AA5E5E5E</color>

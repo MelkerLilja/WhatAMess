@@ -1,23 +1,13 @@
 package com.jesper.shutapp.Fragments;
-
-
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,79 +16,110 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.Activities.MainActivity;
-import com.jesper.shutapp.Activities.MainSettings;
-import com.jesper.shutapp.FriendsListAdapter;
+import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
+import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MessagesFragment extends Fragment {
 
-    private static boolean active = false;
     ListView usersListView;
-    FriendsListAdapter friendsListAdapter;
+    MessagesAdapter messagesAdapter;
     ImageView userPicture;
-
-    Toolbar mToolbar;
+    FirebaseUser fuser;
+    DatabaseReference reference;
     TextView userName;
     ArrayList<User> usersList;
+    private List<String> chatUsers;
 
     public MessagesFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
 
         init(view);
+        setCurrentUser();
+        getChatHistory();
+        readChats();
 
         return view;
     }
+
     //Initiate all view and variables and set Current user.
     private void init (View view) {
-
         usersList = new ArrayList<>();
+        chatUsers = new ArrayList<>();
         usersListView = view.findViewById(R.id.users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
+    }
 
-        setCurrentUser();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+    //Saves strings UID of all person current user have been chatting with
+    private void getChatHistory (){
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                generateUsers();
+                chatUsers.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Chat chat = snapshot.getValue(Chat.class);
+
+                    if (chat.getSender().equals(fuser.getUid())) {
+                        if (!chatUsers.contains(chat.getReceiver())) {
+                            chatUsers.add(chat.getReceiver());
+                        }
+                    }
+                    if (chat.getReceiver().equals(fuser.getUid())) {
+                        if (!chatUsers.contains(chat.getSender())) {
+                            chatUsers.add(chat.getSender());
+                        }
+                    }
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}});
     }
 
-    //Generate all user to the list
-    private void generateUsers() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+    //Locates the user class which we've chat with and adds to adapter.
+    private void readChats () {
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(usersList.size() >= 1)
-                {
-                    usersList.clear();
-                }
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                usersList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    usersList.add(user);
+
+                    for (String id : chatUsers) {
+                        if (user.getUid().equals(id)) {
+                            if (usersList.size() != 0) {
+                                for (User user1 : usersList) {
+                                    if (!user.getUid().equals(user1.getUid())){
+                                        usersList.add(user);
+                                        break;
+                                    }
+                                }
+                            }   else {
+                                usersList.add(user);
+                            }
+                        }
+                    }
                 }
-                friendsListAdapter = new FriendsListAdapter(getActivity(), usersList);
-                usersListView.setAdapter(friendsListAdapter);
+                messagesAdapter = new MessagesAdapter(getActivity(), usersList);
+                usersListView.setAdapter(messagesAdapter);
             }
 
             @Override
@@ -106,12 +127,11 @@ public class MessagesFragment extends Fragment {
 
             }
         });
-
     }
 
     //Method for setting up the current user
     private void setCurrentUser() {
-        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -135,12 +155,11 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        active = true;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        active = false;
     }
+
 }

@@ -21,7 +21,7 @@ public class UserListAdapter extends BaseAdapter {
     Context context;
     private ArrayList<User> usersList;
 
-    public UserListAdapter(Context context, ArrayList<User> usersList) { //Constructor for MessageListAdapter with the Context and our chatList.
+    public UserListAdapter(Context context, ArrayList<User> usersList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
         this.usersList = usersList;
     }

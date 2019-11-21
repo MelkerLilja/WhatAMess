@@ -35,7 +35,6 @@ public class ProfileSetting extends AppCompatActivity {
         profileImg = findViewById(R.id.profile_image);
         usernameText = findViewById(R.id.user_name_profile_text);
         bioText = findViewById(R.id.bio_profile_text);
-
     }
 
     @Override
@@ -46,7 +45,7 @@ public class ProfileSetting extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+  /*  @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId())
         {
@@ -61,6 +60,5 @@ public class ProfileSetting extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
+    }*/
 }

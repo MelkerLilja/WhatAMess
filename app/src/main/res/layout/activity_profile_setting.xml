@@ -31,6 +31,7 @@
             android:layout_below="@id/profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
+            android:textColor="@color/daynight"
             android:text="Amanda Yammine"
             android:textSize="18dp" />
 
@@ -39,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_name_profile_text"
+            android:textColor="@color/daynight"
             android:layout_marginLeft="50dp"
             android:text="Bio" />
 
@@ -48,6 +50,7 @@
             android:layout_below="@id/bio_profile_text"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
+            android:textColor="@color/daynight"
             android:text="biografi_text sd fs s sd f sd \n sd f sfg fdgh d fg dsf g sd fs df " />
 
 

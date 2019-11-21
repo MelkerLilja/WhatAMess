@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -96,4 +95,5 @@ public class FragmentHolderActivity extends AppCompatActivity {
         super.onPause();
         status("offline");
     }
+
 }
