@@ -33,6 +33,7 @@
     <string name="field_email">email</string>
     <string name="field_picture">profile_picture</string>
     <string name="user_data_txt">User data</string>
+
     <string name="theme">Theme</string>
     <string name="log_out_txt">Log out</string>
     <string name="delete_account_txt">Delete account</string>

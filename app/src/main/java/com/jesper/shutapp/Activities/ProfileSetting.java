@@ -62,4 +62,5 @@ public class ProfileSetting extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
