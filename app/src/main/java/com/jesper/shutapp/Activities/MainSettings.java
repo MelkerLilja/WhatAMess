@@ -97,7 +97,6 @@ public class MainSettings extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
@@ -134,12 +133,12 @@ public class MainSettings extends AppCompatActivity {
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            Toast.makeText(this, "Day theme activated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.day_theme_toast), Toast.LENGTH_SHORT).show();
             editor.putString("theme_key", "day");
 
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            Toast.makeText(this, "Night theme activated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.night_theme_toast), Toast.LENGTH_SHORT).show();
             editor.putString("theme_key", "night");
         }
         editor.apply();
@@ -235,32 +234,32 @@ public class MainSettings extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: couldn't change email" + e.toString());
                             }
                         });
-                        Toast.makeText(MainSettings.this, "Email updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainSettings.this, getString(R.string.email_updated), Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainSettings.this, "Email couldn't be updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainSettings.this, getString(R.string.email_not_updated), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onFailure: Email couldn't be updated" + e.toString());
                     }
                 });
             } else {
-                Toast.makeText(MainSettings.this, "Not a valid email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainSettings.this, getString(R.string.invalid_email_txt), Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(MainSettings.this, "Enter a new email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainSettings.this, getString(R.string.enter_email_txt), Toast.LENGTH_SHORT).show();
         }
         if (!newPasswordEdit.getText().toString().equals("")) {
             user.updatePassword(newPasswordEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
 
-                    Toast.makeText(MainSettings.this, "Password updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainSettings.this, getString(R.string.password_updated_toast), Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(MainSettings.this, "Password couldn't be updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainSettings.this, getString(R.string.password_not_match_toast), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -298,8 +297,6 @@ public class MainSettings extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 
     private Boolean isValidEmail(String email) {
@@ -440,7 +437,7 @@ public class MainSettings extends AppCompatActivity {
 
         userRef.removeValue();
 
-        //Remove user from Authentication
+        /*-----Remove user from Authentication-----*/
 
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

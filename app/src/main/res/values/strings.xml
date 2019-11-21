@@ -46,4 +46,33 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_wheel_item">settings_item</string>
+    <string name="type_a_message_txt">Type a message...</string>
+    <string name="bio_txt">Bio</string>
+    <string name="delete_history_txt">Delete conversation history</string>
+    <string name="confirm_delete_conversation_txt">Are you sure you want to delete all conversation history</string>
+    <string name="no_message_txt">No Message</string>
+    <string name="history_deleted_toast">Conversation history deleted.</string>
+    <string name="yes_txt">Yes</string>
+    <string name="no_txt">No</string>
+    <string name="long_click_toast">Long Clicked</string>
+    <string name="delete_friend_txt">Delete friend</string>
+    <string name="confirm_delete_friend_part1_txt">Are you sure you want to delete </string>
+    <string name="confirm_delete_friend_part2_txt"> as friend?</string>
+    <string name="friend_removed_toast">Friend removed</string>
+    <string name="empty_message_toast">"You can't send empty message"</string>
+    <string name="login_txt">Login in</string>
+    <string name="authentication_failed_txt">Authentication failed</string>
+    <string name="invalid_email_txt">invalid email input</string>
+    <string name="onauthentication_toast">"Authenticated with: </string>
+    <string name="password_not_match_toast">Password doesn\'t match</string>
+    <string name="too_short_password_toast">password too short, need to be atleast 6 characters</string>
+    <string name="all_field_toast">You have to fill all the fields"</string>
+    <string name="unable_register_toast">Unable to register</string>
+    <string name="day_theme_toast">Day theme activated</string>
+    <string name="night_theme_toast">Night theme activated</string>
+    <string name="email_updated">Email updated</string>
+    <string name="email_not_updated">Email not updated</string>
+    <string name="enter_email_txt">Enter a new email</string>
+    <string name="password_updated_toast">Password updated</string>
+    <string name="password_not_updated_toast">Password not updated</string>
 </resources>

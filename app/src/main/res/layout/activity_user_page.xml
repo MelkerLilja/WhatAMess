@@ -21,7 +21,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
             android:textColor="@color/daynight"
-            android:textSize="18dp" />
             android:textSize="18sp" />
 
         <LinearLayout
@@ -70,8 +69,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/daynight"
             android:layout_below="@id/profile_buttons"
-            android:layout_marginLeft="50dp"
-            android:text="Bio" />
+            android:layout_marginStart="50dp"
+            android:text="@string/bio_txt" />
 
         <TextView
             android:id="@+id/text_userpage_bio"

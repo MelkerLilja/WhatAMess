@@ -30,6 +30,7 @@
         android:adjustViewBounds="true"
         android:background="@drawable/background_left"
         android:maxWidth="100dp"
-        android:maxHeight="100dp" />
+        android:maxHeight="100dp"
+        android:onClick="zoomPic"/>
 
 </RelativeLayout>
