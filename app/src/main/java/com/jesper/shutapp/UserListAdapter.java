@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class UserListAdapter extends BaseAdapter {
 
-    Context context;
+    private Context context;
     private ArrayList<User> usersList;
 
     public UserListAdapter(Context context, ArrayList<User> usersList) { //Constructor for InChatAdapter with the Context and our chatList.

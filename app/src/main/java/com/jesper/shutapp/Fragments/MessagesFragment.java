@@ -28,13 +28,13 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-    ListView usersListView;
-    MessagesAdapter messagesAdapter;
-    ImageView userPicture;
-    FirebaseUser fuser;
-    DatabaseReference reference;
-    TextView userName;
-    ArrayList<User> usersList;
+    private ListView usersListView;
+    private MessagesAdapter messagesAdapter;
+    private ImageView userPicture;
+    private FirebaseUser fuser;
+    private DatabaseReference reference;
+    private TextView userName;
+    private ArrayList<User> usersList;
     private List<String> chatUsers;
 
     public MessagesFragment() {

@@ -35,7 +35,7 @@ public class InChatAdapter extends BaseAdapter {
     public static final int MSG_TYPE_LEFT = 0; // Need to use later on with our user to check which chat layout we want
     public static final int MSG_TYPE_RIGHT = 1;
 
-    Context context;
+    private Context context;
     private ArrayList<Chat> chatList;
 
     FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();

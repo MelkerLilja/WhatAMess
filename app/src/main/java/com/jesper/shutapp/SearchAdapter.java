@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    Context context;
-    ArrayList<String> nameList;
-    ArrayList<String> profilePicList;
-    ArrayList<String> userBio;
-    ArrayList<String> userUid;
+    private Context context;
+    private ArrayList<String> nameList;
+    private ArrayList<String> profilePicList;
+    private ArrayList<String> userBio;
+    private ArrayList<String> userUid;
     final String TAG = "LALA";
 
     public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -31,7 +31,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         ImageView profilePic;
         TextView nameOfUser;
 
-        public SearchViewHolder(@NonNull View itemView) {
+        private SearchViewHolder(@NonNull View itemView) {
             super(itemView);
 
             profilePic = itemView.findViewById(R.id.profile_pic);

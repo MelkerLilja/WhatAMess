@@ -36,23 +36,23 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
-    UserListAdapter adapter;
-    ArrayList<User>userSearchList;
-    ListView listView;
-    Context context;
+    private  UserListAdapter adapter;
+    private ArrayList<User>userSearchList;
+    private ListView listView;
+    private Context context;
 
 
     /* Min från förut */
 
-    EditText searchUser;
-    RecyclerView recyclerView;
-    DatabaseReference databaseReference;
-    FirebaseUser firebaseUser;
-    ArrayList<String> nameList;
-    ArrayList<String> profilePicList;
-    ArrayList<String> userBio;
-    ArrayList<String> userUid;
-    SearchAdapter searchAdapter;
+    private EditText searchUser;
+    private RecyclerView recyclerView;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
+    private ArrayList<String> nameList;
+    private ArrayList<String> profilePicList;
+    private ArrayList<String> userBio;
+    private ArrayList<String> userUid;
+    private SearchAdapter searchAdapter;
 
 
     public SearchFragment() {

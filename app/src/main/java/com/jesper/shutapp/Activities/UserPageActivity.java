@@ -29,15 +29,15 @@ public class UserPageActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser fuser;
 
-    ImageView imageView;
-    ImageButton btnAddFriend, btnFriendAdded;
-    TextView userName;
-    TextView userBio;
-    Intent intent;
-    String name;
-    String bio;
-    String photo;
-    String uid;
+    private ImageView imageView;
+    private ImageButton btnAddFriend, btnFriendAdded;
+    private TextView userName;
+    private TextView userBio;
+    private Intent intent;
+    private String name;
+    private String bio;
+    private String photo;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

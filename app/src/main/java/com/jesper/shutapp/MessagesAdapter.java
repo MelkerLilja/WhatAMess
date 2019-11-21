@@ -33,12 +33,12 @@ import java.util.ArrayList;
 
 public class MessagesAdapter extends BaseAdapter {
 
-    boolean haveLastMessage;
-    Context context;
+    private boolean haveLastMessage;
+    private Context context;
     private ArrayList<User> usersList;
-    String theLastMessage;
-    FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    private String theLastMessage;
+    private FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
 
     public MessagesAdapter(Context context, ArrayList<User> usersList) { //Constructor for InChatAdapter with the Context and our chatList.
