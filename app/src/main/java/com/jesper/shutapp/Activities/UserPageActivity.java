@@ -24,6 +24,7 @@ import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserPageActivity extends AppCompatActivity {
     DatabaseReference reference;
@@ -38,6 +39,7 @@ public class UserPageActivity extends AppCompatActivity {
     String bio;
     String photo;
     String uid;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +95,10 @@ public class UserPageActivity extends AppCompatActivity {
 
     //Call the add friend method.
     public void btnAddFriend(View view) {
-        Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Friend request sent", Toast.LENGTH_SHORT).show();
+        sendFriendRequest();
 
-            reference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+           /* reference.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
@@ -119,7 +122,7 @@ public class UserPageActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            });
+            });*/
 
     }
 
@@ -140,5 +143,35 @@ public class UserPageActivity extends AppCompatActivity {
         intent.putExtra("userpic", photo);
         intent.putExtra("bio", bio);
         startActivity(intent);
+    }
+
+    //Method to send a friendrequest to a User
+    public void sendFriendRequest () {
+
+        reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        reference = FirebaseDatabase.getInstance().getReference("users").child(uid).child("friendrequests").child(fuser.getUid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                reference.setValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

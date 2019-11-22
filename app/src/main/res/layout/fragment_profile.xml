@@ -60,6 +60,5 @@
             android:layout_marginRight="50dp"
             android:textColor="@color/daynight" />
 
-
     </RelativeLayout>
 </ScrollView>

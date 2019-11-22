@@ -8,19 +8,16 @@
     <include layout="@layout/mtoolbar"
         android:id="@+id/userlist_toolbar" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:textColor="@color/daynight"
-        android:layout_marginTop="5dp"
-        android:id="@+id/users_text"/>
+    <ListView
+        android:id="@+id/listview_friend_requests"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
 
     <SearchView
         android:id="@+id/search_users"
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp"
+        android:layout_below="@id/listview_friend_requests"/>
 
     <ListView
         android:id="@+id/listview_friends_list"

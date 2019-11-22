@@ -86,6 +86,7 @@ public class GroupChatFragment extends Fragment {
         generateFriendList();
 
 
+
         return view;
     }
 
