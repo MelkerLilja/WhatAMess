@@ -101,7 +101,7 @@ public class ContactsFragment extends Fragment {
                     requestList.add(user);
                 }
                 friendRequestAdapter = new FriendRequestAdapter(getActivity(), requestList);
-                listView.setAdapter(friendRequestAdapter);
+                listViewRequest.setAdapter(friendRequestAdapter);
 
             }
 

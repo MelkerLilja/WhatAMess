@@ -8,24 +8,38 @@
     <include layout="@layout/mtoolbar"
         android:id="@+id/userlist_toolbar" />
 
-    <ListView
-        android:id="@+id/listview_friend_requests"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
-
     <SearchView
         android:id="@+id/search_users"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/listview_friend_requests"/>
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/id_requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_users"
+        android:text="Friend requests"/>
+
+    <ListView
+        android:id="@+id/listview_friend_requests"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_requests"/>
+
+    <TextView
+        android:id="@+id/id_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listview_friend_requests"
+        android:text="Friends"/>
 
     <ListView
         android:id="@+id/listview_friends_list"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:layout_below="@+id/search_users"/>
+        android:layout_below="@+id/id_friends"/>
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
