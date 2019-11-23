@@ -100,31 +100,6 @@ public class MainSettings extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout_settings) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(MainSettings.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        // fixed so the homebutton brings the user back to UserListAcitivity
-        if (item.getItemId() == android.R.id.home) {
-            Intent intent = new Intent(MainSettings.this, FragmentHolderActivity.class);
-            startActivity(intent);
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     // Change from dark to day theme
     public void theme(View view) {
