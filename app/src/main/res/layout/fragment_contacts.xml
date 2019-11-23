@@ -15,17 +15,26 @@
 
     <TextView
         android:id="@+id/id_requests"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_users"
         android:text="Friend requests"/>
+
+    <View
+        android:id="@+id/divider_line_requests"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/id_requests"
+        android:background="@color/lightGrey" />
 
     <ListView
         android:id="@+id/listview_friend_requests"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/id_requests"/>
+        android:layout_below="@id/divider_line_requests"/>
 
     <TextView
         android:id="@+id/id_friends"
@@ -34,12 +43,19 @@
         android:layout_below="@id/listview_friend_requests"
         android:text="Friends"/>
 
+    <View
+        android:id="@+id/divider_line_friends"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/id_friends"
+        android:background="@color/lightGrey" />
+
     <ListView
         android:id="@+id/listview_friends_list"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/id_friends"/>
+        android:layout_below="@+id/divider_line_friends"/>
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"

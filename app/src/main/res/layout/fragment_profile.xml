@@ -9,15 +9,8 @@
         android:layout_height="wrap_content"
         tools:context=".Activities.ProfileSetting">
 
-
-        <TextView
-            android:id="@+id/profile_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/profile_txt"
-            android:layout_marginTop="5dp"
-            android:textSize="30sp" />
+        <include layout="@layout/mtoolbar"
+            android:id="@+id/include_toolbar_xml" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"

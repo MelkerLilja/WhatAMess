@@ -29,6 +29,8 @@ public class FriendRequestAdapter extends BaseAdapter {
     Context context;
     private ArrayList<User> friendsRequests;
     User currentUser;
+    private DatabaseReference reference;
+    FirebaseUser fuser;
 
     public FriendRequestAdapter(Context context, ArrayList<User> friendsRequests) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -105,19 +107,18 @@ public class FriendRequestAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void friendConfirmed (User user) {
-        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+    //Method that handles the friendrequest confirmed functions
+    public void friendConfirmed (final User user) {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
         currentUser = new User();
 
         //Adds the other to our Friends tree
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
+        reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
         reference.child(user.getUid()).setValue(user);
 
         //Removes the user from our Friendrequests tree
         reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friendrequests").child(user.getUid());
         reference.removeValue();
-
-
 
         // Get our User profile
         reference = FirebaseDatabase.getInstance().getReference();
@@ -125,7 +126,9 @@ public class FriendRequestAdapter extends BaseAdapter {
         reference.child("users").child(fuser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
+                User user2 = dataSnapshot.getValue(User.class);
+                reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).child("friends");
+                reference.child(fuser.getUid()).setValue(user2);
             }
 
             @Override
@@ -136,34 +139,9 @@ public class FriendRequestAdapter extends BaseAdapter {
         // Add our User profile to other users Friends tree
         reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).child("friends");
         reference.child(fuser.getUid()).setValue(currentUser);
-
-
-
-
-
-
-
-
-
-        //Get our User profile
-       /* reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        reference.child(user.getUid()).child("friends").child(user.getUid()).setValue(currentUser);*/
-
-
     }
 
+    //Method to handle the friendrequest declined functions
     private void friendDeclined(User user) {
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friendrequests").child(user.getUid());

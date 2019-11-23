@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,6 +40,8 @@ public class ContactsFragment extends Fragment {
     DatabaseReference reference;
     FriendRequestAdapter friendRequestAdapter;
     ListView listViewRequest;
+    View dividerRequests;
+    TextView idRequest;
 
 
 
@@ -51,18 +54,24 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+
+        init(view);
+        generateFriendList();
+        checkForFriendRequests();
+
+        return view;
+
+    }
+    //Initiate all views and variables
+    private void init(View view) {
         friendList = new ArrayList<>();
         requestList = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         listView = view.findViewById(R.id.listview_friends_list);
         listViewRequest = view.findViewById(R.id.listview_friend_requests);
-
-        generateFriendList();
-        checkForFriendRequests();
-
-        return view;
-
+        dividerRequests = view.findViewById(R.id.divider_line_requests);
+        idRequest = view.findViewById(R.id.id_requests);
     }
 
     //Generate all user to the list
@@ -91,18 +100,22 @@ public class ContactsFragment extends Fragment {
 
     }
 
+    //Checking for friend-requests method
     private void checkForFriendRequests() {
         reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friendrequests");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    dividerRequests.setVisibility(View.VISIBLE);
+                    idRequest.setVisibility(View.VISIBLE);
+                }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     requestList.add(user);
                 }
                 friendRequestAdapter = new FriendRequestAdapter(getActivity(), requestList);
                 listViewRequest.setAdapter(friendRequestAdapter);
-
             }
 
             @Override
@@ -110,10 +123,5 @@ public class ContactsFragment extends Fragment {
 
             }
         });
-
-
-
     }
-
-
 }

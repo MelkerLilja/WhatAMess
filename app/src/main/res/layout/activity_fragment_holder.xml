@@ -13,6 +13,16 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_nav_menu" />
 
+    <ImageView
+        android:id="@+id/notification_requests"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:visibility="gone"
+        android:background="@drawable/ic_lens_black_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp"
+        android:layout_marginStart="170dp"/>
+
     <include
         android:id="@+id/bottom_nav_menu"
         layout="@layout/bottom_toolbar" />
