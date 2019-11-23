@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".Activities.FragmentHolderActivity">
 
+    <FrameLayout
+        android:id="@+id/test_test"
+        android:layout_width="match_parent"
+        android:layout_height="610dp"
+        android:layout_alignParentBottom="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,10 +71,11 @@
         android:layout_marginTop="2dp"
         android:layout_below="@id/search_bar_layout"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_below="@+id/user_name_homescreen"
@@ -78,5 +85,7 @@
         android:id="@+id/fragment_activity_user_list_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 
 </RelativeLayout>

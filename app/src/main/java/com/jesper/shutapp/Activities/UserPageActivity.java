@@ -23,7 +23,7 @@ public class UserPageActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser fuser;
     ImageView imageView;
-    ImageButton btnAddFriend, btnFriendAdded;
+    ImageButton btnAddFriend, btnFriendAdded, btnFriendChat;
     TextView userName;
     TextView userBio;
     Intent intent;
@@ -58,13 +58,14 @@ public class UserPageActivity extends AppCompatActivity {
         userName = findViewById(R.id.text_username_userpage);
         btnAddFriend = findViewById(R.id.btn_add_friend);
         btnFriendAdded = findViewById(R.id.btn_friend_added);
+        btnFriendChat = findViewById(R.id.button_chat_userpage);
 
         Glide.with(this).load(photo).into(imageView);
         userName.setText(name);
         userBio.setText(bio);
     }
 
-    //Method that checks that users i friends and changes views.
+    //Method that checks if users is friends and changes views.
     private void checkIfFriends() {
 
         reference.child("users").child(fuser.getUid()).child("friends").child(uid).addValueEventListener(new ValueEventListener() {
@@ -73,9 +74,11 @@ public class UserPageActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     btnAddFriend.setVisibility(View.GONE);
                     btnFriendAdded.setVisibility(View.VISIBLE);
+                    btnFriendChat.setVisibility(View.VISIBLE);
                 } else {
                     btnAddFriend.setVisibility(View.VISIBLE);
                     btnFriendAdded.setVisibility(View.GONE);
+                    btnFriendChat.setVisibility(View.GONE);
                 }
             }
 

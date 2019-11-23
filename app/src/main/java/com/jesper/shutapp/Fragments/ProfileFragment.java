@@ -59,7 +59,7 @@ public class ProfileFragment extends Fragment {
         usernameText = view.findViewById(R.id.user_name_profile_text);
         bioText = view.findViewById(R.id.bio_profile_text);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-//        mToolbar.setTitle("");
+        mToolbar.setTitle("");
     }
 
     //Inflate our toolbar.

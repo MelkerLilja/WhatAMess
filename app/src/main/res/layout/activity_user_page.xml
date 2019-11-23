@@ -33,11 +33,13 @@
             android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/button_chat_userpage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/message_black"
                     android:tint="@color/daynight"
                     android:onClick="btnSendMessage"
+                    android:visibility="gone"
                     android:background="@drawable/circle_image_user_page_activity"
                     android:layout_marginEnd="20dp"
                     android:layout_weight="1" />
@@ -81,9 +83,5 @@
             android:layout_marginLeft="50dp"
             android:textColor="@color/daynight"
             android:layout_marginRight="50dp"/>
-
-
-
-
 
 </RelativeLayout>

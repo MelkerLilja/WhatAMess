@@ -1,10 +1,13 @@
 package com.jesper.shutapp.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,8 +18,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,6 +61,7 @@ public class SearchFragment extends Fragment {
     ArrayList<String> userBio;
     ArrayList<String> userUid;
     SearchAdapter searchAdapter;
+    FrameLayout test;
 
 
     public SearchFragment() {
@@ -65,6 +74,14 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_users, container, false);
         userSearchList = new ArrayList<>();
 
+        test = view.findViewById(R.id.test_test);
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
+            }
+        });
 
         searchUser = view.findViewById(R.id.search_users);
         recyclerView = view.findViewById(R.id.users_list);
@@ -106,7 +123,9 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
         return view;
+
     }
 
 
@@ -151,5 +170,10 @@ public class SearchFragment extends Fragment {
 
             }
         });
+    }
+
+    private void hideKeyboard (){
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }
