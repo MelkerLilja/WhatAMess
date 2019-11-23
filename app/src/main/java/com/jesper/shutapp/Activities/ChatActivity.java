@@ -8,9 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -67,9 +64,7 @@ public class ChatActivity extends AppCompatActivity {
 
         init();
 
-
-
-
+        //On click listener for send button.
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +92,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    //Initiate all variables and views.
     private void init () {
         btnSend = findViewById(R.id.btn_send);
         txtSend = findViewById(R.id.text_send);
@@ -162,6 +158,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    //Add picture method from gallery.
     public void addPic(View view) {
         Log.d(TAG, "addPic: CLICK");
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -207,6 +204,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    //Button to get to user-page Activity.
     public void btnUserProfile(View view) {
         Intent intent = new Intent(ChatActivity.this, UserPageActivity.class);
         intent.putExtra("name", username);

@@ -1,10 +1,6 @@
 package com.jesper.shutapp;
-
 import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
-import android.util.Log;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,32 +8,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.jesper.shutapp.Activities.ChatActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.Chat;
-
 import java.util.ArrayList;
 
 public class InChatAdapter extends BaseAdapter {
 
-    public static final int MSG_TYPE_LEFT = 0; // Need to use later on with our user to check which chat layout we want
+    public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
-
     Context context;
     private ArrayList<Chat> chatList;
-
     FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -103,6 +87,7 @@ public class InChatAdapter extends BaseAdapter {
         return convertView;
     }
 
+    //Method to check which sides of chat to put message.
     @Override
     public int getItemViewType(int position) {
         fuser = FirebaseAuth.getInstance().getCurrentUser();

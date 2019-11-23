@@ -8,10 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.User;
-
 import java.util.ArrayList;
 
 public class FriendRequestAdapter extends BaseAdapter {
@@ -65,7 +61,6 @@ public class FriendRequestAdapter extends BaseAdapter {
 
         FriendRequestAdapter.ViewHolder holder = null;
 
-
         final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         holder = new FriendRequestAdapter.ViewHolder();
 
@@ -98,11 +93,6 @@ public class FriendRequestAdapter extends BaseAdapter {
                 friendDeclined(user_pos);
             }
         });
-
-
-
-
-
 
         return convertView;
     }

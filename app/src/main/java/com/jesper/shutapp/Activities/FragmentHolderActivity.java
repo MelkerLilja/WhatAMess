@@ -1,15 +1,12 @@
 package com.jesper.shutapp.Activities;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,10 +18,7 @@ import com.jesper.shutapp.Fragments.ContactsFragment;
 import com.jesper.shutapp.Fragments.MessagesFragment;
 import com.jesper.shutapp.Fragments.ProfileFragment;
 import com.jesper.shutapp.Fragments.SearchFragment;
-import com.jesper.shutapp.FriendRequestAdapter;
 import com.jesper.shutapp.R;
-import com.jesper.shutapp.model.User;
-
 import java.util.HashMap;
 
 public class FragmentHolderActivity extends AppCompatActivity {
@@ -33,19 +27,21 @@ public class FragmentHolderActivity extends AppCompatActivity {
     FirebaseUser fuser;
     ImageView notificationRequests;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_holder);
-        notificationRequests = findViewById(R.id.notification_requests);
 
+        init();
+        checkForRequests();
+    }
+
+    //Initiate views and variables
+    private void init () {
         MessagesFragment messagesFragment = new MessagesFragment();
         changeFragment(messagesFragment);
+        notificationRequests = findViewById(R.id.notification_requests);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        checkForRequests();
-
     }
 
     //Method that change our View with the Fragment we pass in
@@ -58,7 +54,6 @@ public class FragmentHolderActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, frag);
         fragmentTransaction.commit();
     }
-
 
     //Button for calling ProfileFragment
     public void btnProfileFragment(View view) {
@@ -94,6 +89,7 @@ public class FragmentHolderActivity extends AppCompatActivity {
         reference.updateChildren(hashMap);
     }
 
+    //Checking for friend-requests and set notification visibility if so
     private void checkForRequests () {
         reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friendrequests");
         reference.addValueEventListener(new ValueEventListener() {

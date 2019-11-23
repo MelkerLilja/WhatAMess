@@ -1,11 +1,8 @@
 package com.jesper.shutapp;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
-
 import java.util.ArrayList;
 
 public class MessagesAdapter extends BaseAdapter {
@@ -41,7 +33,6 @@ public class MessagesAdapter extends BaseAdapter {
     String theLastMessage;
     FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
 
     public MessagesAdapter(Context context, ArrayList<User> usersList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -73,11 +64,7 @@ public class MessagesAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-
         final User user = usersList.get(position);
-
-
         ViewHolder holder = null;
 
         final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -120,11 +107,6 @@ public class MessagesAdapter extends BaseAdapter {
 
         lastMessageMethod(user.getUid(), holder.lastMessage);
 
-
-
-
-
-
             //OnLongClick for being able to delete a chat message
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -157,19 +139,12 @@ public class MessagesAdapter extends BaseAdapter {
             return convertView;
     }
 
-
-
     //Method that displays the last message sent by users in our Messages view.
     private void lastMessageMethod(final String userid, final TextView lastMessage) { //A method that loops the chat messages and checks what the last message sent
         theLastMessage = "default";
         //between the user and receiver then adds it to the user item.
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
-
-
-
-
-
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -192,7 +167,6 @@ public class MessagesAdapter extends BaseAdapter {
                         break;
                 }
                 theLastMessage = "default";
-
             }
 
             @Override
@@ -200,15 +174,7 @@ public class MessagesAdapter extends BaseAdapter {
 
             }
         });
-
     }
-
-
-    private void deleteItemAtId(int id){
-        usersList.remove(id);
-        notifyDataSetChanged();
-    }
-
 
     //Method that checks all history between two users and deletes it from Firebase.
     private void deleteChat(final User user) {

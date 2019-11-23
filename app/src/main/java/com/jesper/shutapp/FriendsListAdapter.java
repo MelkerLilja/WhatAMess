@@ -143,7 +143,8 @@ public class FriendsListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void deleteFriend(User user){ //NEED TO ADD SO THAT USER REMOVES FROM LIST DIRECLY
+    //NEED TO ADD SO THAT USER REMOVES FROM LIST DIRECLY
+    private void deleteFriend(User user){
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.child("users").child(fuser.getUid()).child("friends").child(user.getUid()).removeValue();

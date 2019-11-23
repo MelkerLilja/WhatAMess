@@ -1,17 +1,12 @@
 package com.jesper.shutapp.Fragments;
-
-
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,10 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.FriendRequestAdapter;
 import com.jesper.shutapp.FriendsListAdapter;
-import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
-
 import java.util.ArrayList;
 
 /**
@@ -43,16 +36,12 @@ public class ContactsFragment extends Fragment {
     View dividerRequests;
     TextView idRequest;
 
-
-
     public ContactsFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         init(view);
@@ -60,8 +49,8 @@ public class ContactsFragment extends Fragment {
         checkForFriendRequests();
 
         return view;
-
     }
+
     //Initiate all views and variables
     private void init(View view) {
         friendList = new ArrayList<>();

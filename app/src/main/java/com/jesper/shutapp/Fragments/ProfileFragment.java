@@ -1,24 +1,18 @@
 package com.jesper.shutapp.Fragments;
-
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,12 +35,9 @@ public class ProfileFragment extends Fragment {
     private TextView usernameText;
     private TextView bioText;
 
-
-
     public ProfileFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,11 +48,10 @@ public class ProfileFragment extends Fragment {
         init(view);
         setCurrentUser();
 
-
-
         return view;
     }
 
+    //Initiate all variables and views.
     private void init (View view){
         setHasOptionsMenu(true);
         mToolbar = view.findViewById(R.id.include_toolbar_xml);
@@ -72,13 +62,14 @@ public class ProfileFragment extends Fragment {
 //        mToolbar.setTitle("");
     }
 
-
+    //Inflate our toolbar.
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.profile_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    //Switch case for toolbar.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent = new Intent(getActivity(), MainSettings.class);
@@ -89,7 +80,6 @@ public class ProfileFragment extends Fragment {
                 getActivity().startActivity(intent);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

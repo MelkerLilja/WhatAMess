@@ -22,7 +22,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.UserPageActivity"></activity>
         <activity android:name=".Activities.FragmentHolderActivity" />
-        <activity android:name=".Activities.ProfileSetting" />
         <activity android:name=".Activities.ChatActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

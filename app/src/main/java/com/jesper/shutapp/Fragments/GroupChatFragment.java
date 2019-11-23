@@ -1,6 +1,4 @@
 package com.jesper.shutapp.Fragments;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -59,7 +57,6 @@ public class GroupChatFragment extends Fragment {
     FirebaseUser fuser;
     GroupChatAdapter groupChatAdapter;
     Toolbar mToolbar;
-    CheckBox mCheckbox;
     ImageView btnChecked;
     DatabaseReference reference;
     ArrayList<String> groupUsers;
@@ -68,16 +65,13 @@ public class GroupChatFragment extends Fragment {
     String user;
     String stringGroupName;
 
-
     public GroupChatFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_group_chat, container, false);
 
         setHasOptionsMenu(true);
@@ -85,11 +79,10 @@ public class GroupChatFragment extends Fragment {
         getUsersFromFB();
         generateFriendList();
 
-
-
         return view;
     }
 
+    //Initiate all variables and views.
     private void init (View view) {
         groupUsers = new ArrayList<>();
         textView = view.findViewById(R.id.test_test);
@@ -103,12 +96,14 @@ public class GroupChatFragment extends Fragment {
         mToolbar.setTitle("");
     }
 
+    //Inflate our toolbar.
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.groupchat_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    //Switch case for toolbar.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -124,6 +119,7 @@ public class GroupChatFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    //Adds the group to database.
     private void addGroupToDatabase(String string, List<String> users) {
         HashMap<String, Object> hashMap = new HashMap<>();
         reference = FirebaseDatabase.getInstance().getReference("groups");
@@ -131,10 +127,10 @@ public class GroupChatFragment extends Fragment {
         for (int i = 0; i < users.size(); i++) {
             hashMap.put(users.get(i) , users.get(i));
         }
-
         reference.child(string).setValue(hashMap);
     }
 
+    //Gets the group-users from FireBase.
     private void getUsersFromFB() {
 
         stringGroupName = groupName.getText().toString();
@@ -157,12 +153,13 @@ public class GroupChatFragment extends Fragment {
         });
     }
 
+    //Removes the old group from FireBase.
     private void removeOldGroup() {
         reference = FirebaseDatabase.getInstance().getReference("groups").child(fuser.getUid());
         reference.removeValue();
     }
 
-    //Generate all user to the list
+    //Generate all user to the list.
     private void generateFriendList() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
         reference.addValueEventListener(new ValueEventListener() {
