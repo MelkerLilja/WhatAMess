@@ -60,6 +60,7 @@ import java.util.Date;
 public class MainSettings extends AppCompatActivity {
 
     FirebaseUser user;
+    DatabaseReference reference;
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
@@ -91,6 +92,7 @@ public class MainSettings extends AppCompatActivity {
 
         tos = new TermsOfService();
         mFragmentManager = getSupportFragmentManager();
+        reference = FirebaseDatabase.getInstance().getReference();
 
         FrameLayout mFragmentHolder = findViewById(R.id.fragment_holder_main_settings);
         mFragmentHolder.setOnTouchListener(new View.OnTouchListener() {
@@ -107,6 +109,7 @@ public class MainSettings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        // Listen to when the user press on Man btn, gives a value of "Man" to the database
         manBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -114,11 +117,15 @@ public class MainSettings extends AppCompatActivity {
                 v.setPressed(true);
                 womanBtn.setPressed(false);
                 genderChoice = getResources().getString(R.string.man_btn);
-                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
                 return true;
             }
         });
 
+        // Listen to when the user press on Woman btn, gives a value of "Woman" to the database
         womanBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -126,11 +133,13 @@ public class MainSettings extends AppCompatActivity {
                 v.setPressed(true);
                 manBtn.setPressed(false);
                 genderChoice = getResources().getString(R.string.woman_btn);
-                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
                 return true;
             }
         });
-
     }
 
     @Override
@@ -541,38 +550,5 @@ public class MainSettings extends AppCompatActivity {
         super.onStop();
         active = false;
     }
-/*
-    public void manBtnClick(View view) {
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.performClick();
-                v.setPressed(true);
-                womanBtn.setPressed(false);
-                genderChoice = getResources().getString(R.string.man_btn);
-                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-    }
-*/
-
-/*
-    public void womanBtnClick(View view) {
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.performClick();
-                v.setPressed(true);
-                manBtn.setPressed(false);
-                genderChoice = getResources().getString(R.string.woman_btn);
-                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-    }
-
-
- */
 }
 
