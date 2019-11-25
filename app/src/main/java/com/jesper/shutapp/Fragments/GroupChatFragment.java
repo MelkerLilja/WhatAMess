@@ -37,18 +37,16 @@ import java.util.List;
  */
 public class GroupChatFragment extends Fragment {
 
-    ListView listView;
-    ArrayList<User> friendListGroup;
-    FirebaseUser fuser;
-    GroupChatAdapter groupChatAdapter;
-    Toolbar mToolbar;
-    ImageView btnChecked;
-    DatabaseReference reference;
-    ArrayList<String> groupUsers;
-    TextView textView;
-    EditText groupName;
-    String user;
-    String stringGroupName;
+    private ListView listView;
+    private ArrayList<User> friendListGroup;
+    private FirebaseUser fuser;
+    private GroupChatAdapter groupChatAdapter;
+    private Toolbar mToolbar;
+    private DatabaseReference reference;
+    private ArrayList<String> groupUsers;
+    private EditText groupName;
+    private String user;
+    private String stringGroupName;
 
     public GroupChatFragment() {
         // Required empty public constructor
@@ -70,14 +68,13 @@ public class GroupChatFragment extends Fragment {
     //Initiate all variables and views.
     private void init (View view) {
         groupUsers = new ArrayList<>();
-        textView = view.findViewById(R.id.test_test);
+        friendListGroup = new ArrayList<>();
         groupName = view.findViewById(R.id.edittext_groupchat);
         listView = view.findViewById(R.id.listview_friends_groupchat);
-        friendListGroup = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         mToolbar = view.findViewById(R.id.include_toolbar_groupchat);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        btnChecked = view.findViewById(R.id.imagebutton_checkbox);
+        groupUsers.add(fuser.getUid());
         mToolbar.setTitle("");
     }
 
@@ -95,7 +92,7 @@ public class GroupChatFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.groupchat_check:
                 stringGroupName = groupName.getText().toString();
-                addGroupToDatabase(stringGroupName, groupUsers);
+                addGroupToDatabase();
                 removeOldGroup();
 
                 return true;
@@ -105,7 +102,7 @@ public class GroupChatFragment extends Fragment {
     }
 
     //Adds the group to database.
-    private void addGroupToDatabase(String string, List<String> users) {
+    private void addGroupToDatabase() {
 
         reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -115,8 +112,10 @@ public class GroupChatFragment extends Fragment {
                     for (int i = 0; i < groupUsers.size() ; i++) {
 
 
-                        if (snapshot.getValue().equals(groupUsers.get(i))) {
-
+                        if (snapshot.getKey().equals(groupUsers.get(i))) {
+                            User user = snapshot.getValue(User.class);
+                            DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
+                            groupRef.child(stringGroupName).child("members").child(user.getUid()).setValue(user);
                         }
                     }
                 }
@@ -129,20 +128,7 @@ public class GroupChatFragment extends Fragment {
         });
 
 
-
-
-
-
-
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        reference = FirebaseDatabase.getInstance().getReference("groups");
-
-        for (int i = 0; i < users.size(); i++) {
-            hashMap.put(users.get(i) , users.get(i));
         }
-        reference.child(string).setValue(hashMap);
-    }
 
     //Gets the group-users from FireBase.
     private void getUsersFromFB() {
