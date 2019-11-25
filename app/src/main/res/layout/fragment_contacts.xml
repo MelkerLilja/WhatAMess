@@ -8,17 +8,25 @@
     <include layout="@layout/mtoolbar"
         android:id="@+id/userlist_toolbar" />
 
-    <SearchView
-        android:id="@+id/search_users"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/text_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Friends"
+        android:textSize="28sp"
+        android:layout_marginTop="20dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"/>
 
     <TextView
         android:id="@+id/id_requests"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_users"
+        android:layout_below="@id/text_friends"
         android:text="Friend requests"/>
 
     <View
@@ -36,18 +44,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/divider_line_requests"/>
 
-    <TextView
-        android:id="@+id/id_friends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/listview_friend_requests"
-        android:text="Friends"/>
-
     <View
         android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/id_friends"
+        android:layout_below="@+id/text_friends"
+        android:elevation="2dp"
+        android:layout_marginTop="20dp"
         android:background="@color/lightGrey" />
 
     <ListView

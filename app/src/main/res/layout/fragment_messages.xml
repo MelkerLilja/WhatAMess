@@ -17,12 +17,14 @@
         android:layout_marginTop="5dp"
         android:id="@+id/users_text"/>
 
-    <SearchView
-        android:id="@+id/search_users"
+    <View
+        android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textColor="@color/daynight"
-        android:layout_below="@id/user_name_homescreen"/>
+        android:layout_height="1dp"
+        android:layout_below="@+id/user_name_homescreen"
+        android:elevation="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGrey" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="10dp"
@@ -47,7 +49,7 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_below="@+id/search_users"/>
+        android:layout_below="@+id/divider_line_friends"/>
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"

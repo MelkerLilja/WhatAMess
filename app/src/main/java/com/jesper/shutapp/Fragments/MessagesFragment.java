@@ -71,6 +71,7 @@ public class MessagesFragment extends Fragment {
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setTitle("");
     }
 
     //Saves strings UID of all person current user have been chatting with

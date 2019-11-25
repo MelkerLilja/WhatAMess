@@ -5,13 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".Activities.UserPageActivity">
 
+        <include layout="@layout/mtoolbar"
+            android:id="@+id/include_toolbar_userpage" />
+
+        <ImageView
+            android:id="@+id/userpage_background"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginBottom="100dp"
+            android:foregroundGravity="top"
+            android:scaleType="fitXY"/>
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_page"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_below="@id/include_toolbar_userpage"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/placeholder" />
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/text_username_userpage"
@@ -20,15 +31,20 @@
             android:layout_below="@id/image_user_page"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
-            android:textColor="@color/daynight"
-            android:textSize="18dp" />
-            android:textSize="18sp" />
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"/>
+
 
         <LinearLayout
             android:id="@+id/profile_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_username_userpage"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
@@ -67,21 +83,41 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/bio_profile_text"
+            android:id="@+id/userpage_friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/daynight"
-            android:layout_below="@id/profile_buttons"
-            android:layout_marginLeft="50dp"
-            android:text="Bio" />
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:layout_marginTop="300dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friends"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:layout_marginTop="320dp"
+            android:layout_centerHorizontal="true"/>
+
 
         <TextView
             android:id="@+id/text_userpage_bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bio_profile_text"
+            android:layout_below="@id/userpage_background"
             android:layout_marginLeft="50dp"
-            android:textColor="@color/daynight"
-            android:layout_marginRight="50dp"/>
+            android:layout_marginRight="50dp"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"/>
 
 </RelativeLayout>

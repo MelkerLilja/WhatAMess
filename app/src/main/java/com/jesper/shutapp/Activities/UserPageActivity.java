@@ -2,6 +2,8 @@ package com.jesper.shutapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -19,19 +21,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.User;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 public class UserPageActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser fuser;
-    ImageView imageView;
+    ImageView imageView, background;
     ImageButton btnAddFriend, btnFriendAdded, btnFriendChat;
-    TextView userName;
-    TextView userBio;
+    TextView userName, userBio, friends;
     Intent intent;
     String name;
     String bio;
     String photo;
     String uid;
     User user;
+    int friendCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class UserPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_page);
 
         init();
+        setFriendCount();
         checkIfFriends();
     }
 
@@ -59,8 +64,11 @@ public class UserPageActivity extends AppCompatActivity {
         btnAddFriend = findViewById(R.id.btn_add_friend);
         btnFriendAdded = findViewById(R.id.btn_friend_added);
         btnFriendChat = findViewById(R.id.button_chat_userpage);
+        background = findViewById(R.id.userpage_background);
+        friends = findViewById(R.id.userpage_friends);
 
         Glide.with(this).load(photo).into(imageView);
+        setBlurryPhoto(photo);
         userName.setText(name);
         userBio.setText(bio);
     }
@@ -137,6 +145,33 @@ public class UserPageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 reference.setValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setBlurryPhoto(String photo){
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        background.setColorFilter(filter);
+
+        Glide.with(this).load(photo).transform(new BlurTransformation(7,10)).into(background);
+    }
+
+    private void setFriendCount() {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        reference.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                friendCount = (int) dataSnapshot.getChildrenCount();
+                String s = Integer.toString(friendCount);
+                friends.setText(s);
             }
 
             @Override

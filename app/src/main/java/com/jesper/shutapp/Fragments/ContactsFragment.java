@@ -36,6 +36,7 @@ public class ContactsFragment extends Fragment {
     View dividerRequests;
     TextView idRequest;
 
+
     public ContactsFragment() {
     }
 

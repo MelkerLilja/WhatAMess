@@ -1,4 +1,5 @@
 package com.jesper.shutapp.Fragments;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.Activities.GroupInChatActivity;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.GroupChatAdapter;
 import com.jesper.shutapp.model.User;
@@ -42,7 +44,7 @@ public class GroupChatFragment extends Fragment {
     private FirebaseUser fuser;
     private GroupChatAdapter groupChatAdapter;
     private Toolbar mToolbar;
-    private DatabaseReference reference;
+    private DatabaseReference reference, userRef;
     private ArrayList<String> groupUsers;
     private EditText groupName;
     private String user;
@@ -94,6 +96,8 @@ public class GroupChatFragment extends Fragment {
                 stringGroupName = groupName.getText().toString();
                 addGroupToDatabase();
                 removeOldGroup();
+                addGroupNameToUsers();
+                startGroupChatActivity();
 
                 return true;
         }
@@ -184,4 +188,33 @@ public class GroupChatFragment extends Fragment {
 
     }
 
+    //Adds group-names into Users profiles.
+    private void addGroupNameToUsers(){
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (int i = 0; i < groupUsers.size(); i++) {
+                        if (snapshot.getKey().equals(groupUsers.get(i))){
+                            reference.child(snapshot.getKey()).child("groups").child(stringGroupName).setValue(stringGroupName);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Calls the GroupChatActivity
+    private void startGroupChatActivity (){
+        Intent intent = new Intent (getActivity(), GroupInChatActivity.class);
+        intent.putExtra("groupname", stringGroupName);
+        startActivity(intent);
+    }
 }
