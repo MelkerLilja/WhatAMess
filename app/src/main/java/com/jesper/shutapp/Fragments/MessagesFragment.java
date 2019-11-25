@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.GroupAdapter;
 import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
@@ -36,8 +37,9 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-    ListView usersListView;
+    ListView usersListView, groupList;
     MessagesAdapter messagesAdapter;
+    GroupAdapter groupAdapter;
     ImageView userPicture;
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -59,6 +61,10 @@ public class MessagesFragment extends Fragment {
         getChatHistory();
         readChats();
 
+
+
+
+
         return view;
     }
 
@@ -69,6 +75,7 @@ public class MessagesFragment extends Fragment {
         chatUsers = new ArrayList<>();
         mToolbar = view.findViewById(R.id.userlist_toolbar);
         usersListView = view.findViewById(R.id.users_list);
+        groupList = view.findViewById(R.id.group_users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
@@ -130,8 +137,8 @@ public class MessagesFragment extends Fragment {
                         }
                     }
                 }
-                messagesAdapter = new MessagesAdapter(getActivity(), usersList);
-                usersListView.setAdapter(messagesAdapter);
+       /*         messagesAdapter = new MessagesAdapter(getActivity(), usersList);
+                usersListView.setAdapter(messagesAdapter);*/
             }
 
             @Override
@@ -187,6 +194,26 @@ public class MessagesFragment extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void generateGroups() {
+        reference = FirebaseDatabase.getInstance().getReference("groups");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
 

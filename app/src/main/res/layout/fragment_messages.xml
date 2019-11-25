@@ -49,6 +49,14 @@
         android:dividerHeight="0dp"
         android:layout_below="@+id/search_users"/>
 
+    <ListView
+        android:id="@+id/group_users_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_below="@+id/search_users"/>
+
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
         android:layout_width="match_parent"

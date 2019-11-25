@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.ChatActivity">
+
+    <include layout="@layout/mtoolbar"
+        android:id="@+id/activity_chat_toolbar" />
+
+    <TextView
+        android:id="@+id/group_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/daynight"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image_user_chat"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_user"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+
+
+    <ListView
+        android:id="@+id/group_listview_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/group_text_name"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_above="@id/group_layout_sendMessage"/>
+
+    <RelativeLayout
+        android:id="@+id/group_layout_sendMessage"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/group_text_send"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/add_image_image"
+            android:hint="Type a message..."
+            android:textColor="@color/daynight"
+            android:layout_toStartOf="@id/group_btn_send"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/addimage"
+            android:tint="@color/daynight"
+            android:id="@+id/group_add_image_image"
+            android:layout_marginTop="10dp"
+            android:onClick="AddPic"
+            />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="btnGroupSend"
+            android:background="@drawable/ic_button_send"
+            android:id="@+id/group_btn_send"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,40 +1,32 @@
-package com.jesper.shutapp.model;
+package com.jesper.shutapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.jesper.shutapp.Activities.UserPageActivity;
-import com.jesper.shutapp.FriendsListAdapter;
-import com.jesper.shutapp.R;
+import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
 
-public class GroupChatAdapter extends BaseAdapter {
+public class GroupInviteAdapter extends BaseAdapter {
     Context context;
     private ArrayList<User> friendsList;
     DatabaseReference reference;
     FirebaseUser fuser;
 
 
-    public GroupChatAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
+    public GroupInviteAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
         this.friendsList = friendsList;
     }
@@ -67,10 +59,10 @@ public class GroupChatAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final User user = friendsList.get(position);
 
-        GroupChatAdapter.ViewHolder holder = null;
+        GroupInviteAdapter.ViewHolder holder = null;
 
         final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        holder = new GroupChatAdapter.ViewHolder();
+        holder = new GroupInviteAdapter.ViewHolder();
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.grouplist_item_list, parent, false);
@@ -83,7 +75,7 @@ public class GroupChatAdapter extends BaseAdapter {
 
             convertView.setTag(holder);
         } else {
-            holder = (GroupChatAdapter.ViewHolder) convertView.getTag();
+            holder = (GroupInviteAdapter.ViewHolder) convertView.getTag();
         }
 
         if (user.getStatus().equals("online")) {

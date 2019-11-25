@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -17,15 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,20 +29,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.Activities.ChatActivity;
-import com.jesper.shutapp.Activities.MainSettings;
-import com.jesper.shutapp.FriendsListAdapter;
+import com.jesper.shutapp.Activities.GroupInChatActivity;
 import com.jesper.shutapp.R;
-import com.jesper.shutapp.model.GroupChatAdapter;
+import com.jesper.shutapp.GroupInviteAdapter;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,7 +46,7 @@ public class GroupChatFragment extends Fragment {
     ListView listView;
     ArrayList<User> friendListGroup;
     FirebaseUser fuser;
-    GroupChatAdapter groupChatAdapter;
+    GroupInviteAdapter groupInviteAdapter;
     Toolbar mToolbar;
     CheckBox mCheckbox;
     ImageView btnChecked;
@@ -84,6 +73,7 @@ public class GroupChatFragment extends Fragment {
         init(view);
         getUsersFromFB();
         generateFriendList();
+
 
 
 
@@ -117,6 +107,10 @@ public class GroupChatFragment extends Fragment {
                 stringGroupName = groupName.getText().toString();
                 addGroupToDatabase(stringGroupName, groupUsers);
                 removeOldGroup();
+                Intent intent = new Intent(getActivity(), GroupInChatActivity.class);
+                intent.putStringArrayListExtra("groupChat", groupUsers);
+                intent.putExtra("groupName", stringGroupName);
+                startActivity(intent);
 
                 return true;
         }
@@ -131,8 +125,14 @@ public class GroupChatFragment extends Fragment {
         for (int i = 0; i < users.size(); i++) {
             hashMap.put(users.get(i) , users.get(i));
         }
-
+        hashMap.put(fuser.getUid(), fuser.getUid());
         reference.child(string).setValue(hashMap);
+
+        addGroupsToUsers();
+
+
+
+
     }
 
     private void getUsersFromFB() {
@@ -173,8 +173,8 @@ public class GroupChatFragment extends Fragment {
                     User user = snapshot.getValue(User.class);
                     friendListGroup.add(user);
                 }
-                groupChatAdapter = new GroupChatAdapter(getActivity(), friendListGroup);
-                listView.setAdapter(groupChatAdapter);
+                groupInviteAdapter = new GroupInviteAdapter(getActivity(), friendListGroup);
+                listView.setAdapter(groupInviteAdapter);
 
 
             }
@@ -185,6 +185,17 @@ public class GroupChatFragment extends Fragment {
             }
         });
 
+    }
+
+    private void addGroupsToUsers() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+
+        for (int i = 0; i < groupUsers.size() ; i++) {
+            reference.child(groupUsers.get(i)).child("groups").child(stringGroupName).setValue(stringGroupName);
+            Log.d("ANTON", groupUsers.get(i));
+
+        }
+        reference.child(fuser.getUid()).child("groups").child(stringGroupName).setValue(stringGroupName);
     }
 
 }

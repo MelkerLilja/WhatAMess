@@ -1,5 +1,7 @@
 package com.jesper.shutapp.model;
 
+import java.util.ArrayList;
+
 public class User {
     private String name;
     private String email;
@@ -15,7 +17,10 @@ public class User {
         this.uid = uid;
         this.bio = bio;
         this.status = status;
+
     }
+
+
 
     public User() {}
 

@@ -1,8 +1,10 @@
 package com.jesper.shutapp.Activities;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.InChatAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,8 +72,6 @@ public class ChatActivity extends AppCompatActivity {
         init();
 
 
-
-
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void init () {
+    private void init() {
         btnSend = findViewById(R.id.btn_send);
         txtSend = findViewById(R.id.text_send);
         messagesList = findViewById(R.id.listview_message);
@@ -211,7 +213,7 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = new Intent(ChatActivity.this, UserPageActivity.class);
         intent.putExtra("name", username);
         intent.putExtra("bio", userbio);
-        intent.putExtra("photo",userpic);
+        intent.putExtra("photo", userpic);
         intent.putExtra("uid", userid);
         startActivity(intent);
     }
