@@ -26,6 +26,9 @@
     <string name="update_profile_txt">Update profile</string>
     <string name="user_bio_txt">Bio</string>
     <string name="user_bio_hint">Write your bio here</string>
+    <string name="gender_title_txt">Gender</string>
+    <string name="man_btn">Man</string>
+    <string name="woman_btn">Woman</string>
 
     //---firebase adding user---//
     <string name="db_users">users</string>

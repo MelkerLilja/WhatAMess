@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,9 +24,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +67,9 @@ public class MainSettings extends AppCompatActivity {
     private EditText usernameTxt;
     private EditText emailTxt;
     private EditText bioTxt;
+    private Button manBtn;
+    private Button womanBtn;
+    private static String genderChoice;
     private final String TAG = "Settings";
 
     String currentImagePath = null;
@@ -97,6 +105,31 @@ public class MainSettings extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        manBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.performClick();
+                v.setPressed(true);
+                womanBtn.setPressed(false);
+                genderChoice = getResources().getString(R.string.man_btn);
+                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+        womanBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.performClick();
+                v.setPressed(true);
+                manBtn.setPressed(false);
+                genderChoice = getResources().getString(R.string.woman_btn);
+                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
 
     }
 
@@ -155,6 +188,8 @@ public class MainSettings extends AppCompatActivity {
 
 
     private void init() {
+        manBtn = findViewById(R.id.man_btn);
+        womanBtn = findViewById(R.id.woman_btn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         userPic = findViewById(R.id.user_mainpic_view);
         usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
@@ -298,7 +333,6 @@ public class MainSettings extends AppCompatActivity {
                 }
             });
         }
-
 
     }
 
@@ -507,6 +541,38 @@ public class MainSettings extends AppCompatActivity {
         super.onStop();
         active = false;
     }
+/*
+    public void manBtnClick(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.performClick();
+                v.setPressed(true);
+                womanBtn.setPressed(false);
+                genderChoice = getResources().getString(R.string.man_btn);
+                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+    }
+*/
 
+/*
+    public void womanBtnClick(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.performClick();
+                v.setPressed(true);
+                manBtn.setPressed(false);
+                genderChoice = getResources().getString(R.string.woman_btn);
+                Toast.makeText(MainSettings.this, genderChoice, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+    }
+
+
+ */
 }
 

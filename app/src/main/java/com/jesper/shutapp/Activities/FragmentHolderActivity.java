@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,8 +25,10 @@ public class FragmentHolderActivity extends AppCompatActivity {
 
     DatabaseReference reference;
     FirebaseUser fuser;
-
-
+    ImageButton contactBtn;
+    ImageButton chatBtn;
+    ImageButton profileBtn;
+    ImageButton searchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +38,14 @@ public class FragmentHolderActivity extends AppCompatActivity {
         MessagesFragment messagesFragment = new MessagesFragment();
         changeFragment(messagesFragment);
 
+        searchBtn = findViewById(R.id.search_icon);
+        contactBtn = findViewById(R.id.contacts_icon);
+        chatBtn = findViewById(R.id.message_icon);
+        profileBtn = findViewById(R.id.profile_icon);
     }
 
     //Method that change our View with the Fragment we pass in
-    public void changeFragment(Fragment frag){
+    public void changeFragment(Fragment frag) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -53,27 +60,47 @@ public class FragmentHolderActivity extends AppCompatActivity {
     public void btnProfileFragment(View view) {
         ProfileFragment profileFragment = new ProfileFragment();
         changeFragment(profileFragment);
+
+        profileBtn.setImageResource(R.drawable.profile_icon_filled);
+        chatBtn.setImageResource(R.drawable.chat_icon);
+        contactBtn.setImageResource(R.drawable.contacts_icon);
+        searchBtn.setImageResource(R.drawable.search_icon);
     }
 
     //Button for calling Message Fragment
     public void btnMessageFragment(View view) {
         MessagesFragment messagesFragment = new MessagesFragment();
         changeFragment(messagesFragment);
+
+        chatBtn.setImageResource(R.drawable.chat_icon_filled);
+        profileBtn.setImageResource(R.drawable.profile_icon);
+        contactBtn.setImageResource(R.drawable.contacts_icon);
+        searchBtn.setImageResource(R.drawable.search_icon);
     }
 
     //Button for calling ContactsFragment
     public void btnContactsFragment(View view) {
         ContactsFragment contactsFragment = new ContactsFragment();
         changeFragment(contactsFragment);
+
+        contactBtn.setImageResource(R.drawable.contacts_icon_filled);
+        profileBtn.setImageResource(R.drawable.profile_icon);
+        chatBtn.setImageResource(R.drawable.chat_icon);
+        searchBtn.setImageResource(R.drawable.search_icon);
     }
 
     //Button for calling SearchFragment
     public void btnSearchFragment(View view) {
         SearchFragment searchFragment = new SearchFragment();
         changeFragment(searchFragment);
+
+        searchBtn.setImageResource(R.drawable.search_icon_filled);
+        profileBtn.setImageResource(R.drawable.profile_icon);
+        chatBtn.setImageResource(R.drawable.chat_icon);
+        contactBtn.setImageResource(R.drawable.contacts_icon);
     }
 
-    private void status (String status) {
+    private void status(String status) {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
 
@@ -95,5 +122,4 @@ public class FragmentHolderActivity extends AppCompatActivity {
         super.onPause();
         status("offline");
     }
-
 }

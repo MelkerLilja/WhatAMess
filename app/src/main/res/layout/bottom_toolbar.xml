@@ -31,7 +31,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:onClick="btnSearchFragment"
-                    android:src="@drawable/search_btn_src"
+                    android:src="@drawable/search_icon"
                     android:tint="@color/daynight" />
 
                 <ImageButton
@@ -41,7 +41,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:onClick="btnContactsFragment"
-                    android:src="@drawable/contact_btn_src"
+                    android:src="@drawable/contacts_icon"
                     android:tint="@color/daynight" />
 
                 <ImageButton
@@ -51,7 +51,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:onClick="btnMessageFragment"
-                    android:src="@drawable/chat_btn_src"
+                    android:src="@drawable/chat_icon"
                     android:tint="@color/daynight" />
 
                 <ImageButton
@@ -61,7 +61,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:onClick="btnProfileFragment"
-                    android:src="@drawable/profile_btn_src"
+                    android:src="@drawable/profile_icon"
                     android:tint="@color/daynight" />
 
             </LinearLayout>
