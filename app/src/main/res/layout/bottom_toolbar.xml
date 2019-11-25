@@ -24,40 +24,44 @@
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/search_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:onClick="btnSearchFragment"
-                    android:src="@drawable/search_black"
+                    android:src="@drawable/search_btn_src"
                     android:tint="@color/daynight" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/contacts_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:onClick="btnContactsFragment"
-                    android:src="@drawable/contacts_black"
+                    android:src="@drawable/contact_btn_src"
                     android:tint="@color/daynight" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/message_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:onClick="btnMessageFragment"
-                    android:src="@drawable/message_black"
+                    android:src="@drawable/chat_btn_src"
                     android:tint="@color/daynight" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/profile_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:onClick="btnProfileFragment"
-                    android:src="@drawable/profile_black"
+                    android:src="@drawable/profile_btn_src"
                     android:tint="@color/daynight" />
 
             </LinearLayout>
