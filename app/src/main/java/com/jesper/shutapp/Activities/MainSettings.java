@@ -100,7 +100,6 @@ public class MainSettings extends AppCompatActivity {
 
     }
 
-
     // Change from dark to day theme
     public void theme(View view) {
 
@@ -127,7 +126,6 @@ public class MainSettings extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
     private void init() {
         user = FirebaseAuth.getInstance().getCurrentUser();

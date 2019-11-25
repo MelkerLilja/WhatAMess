@@ -106,6 +106,35 @@ public class GroupChatFragment extends Fragment {
 
     //Adds the group to database.
     private void addGroupToDatabase(String string, List<String> users) {
+
+        reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    for (int i = 0; i < groupUsers.size() ; i++) {
+
+
+                        if (snapshot.getValue().equals(groupUsers.get(i))) {
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+
         HashMap<String, Object> hashMap = new HashMap<>();
         reference = FirebaseDatabase.getInstance().getReference("groups");
 
