@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,10 +28,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,6 +58,7 @@ import com.jesper.shutapp.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainSettings extends AppCompatActivity {
@@ -70,7 +74,9 @@ public class MainSettings extends AppCompatActivity {
     private EditText bioTxt;
     private Button manBtn;
     private Button womanBtn;
+    private Button calenderBtn;
     private static String genderChoice;
+    private TextView ageTxt;
     private final String TAG = "Settings";
 
     String currentImagePath = null;
@@ -92,7 +98,6 @@ public class MainSettings extends AppCompatActivity {
 
         tos = new TermsOfService();
         mFragmentManager = getSupportFragmentManager();
-        reference = FirebaseDatabase.getInstance().getReference();
 
         FrameLayout mFragmentHolder = findViewById(R.id.fragment_holder_main_settings);
         mFragmentHolder.setOnTouchListener(new View.OnTouchListener() {
@@ -140,6 +145,49 @@ public class MainSettings extends AppCompatActivity {
                 return true;
             }
         });
+
+        calenderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dateDialog = new DatePickerDialog(v.getContext(), datePickerListener, mYear, mMonth, mDay);
+                dateDialog.getDatePicker().setMaxDate(new Date().getTime());
+                dateDialog.show();
+            }
+        });
+
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, day);
+            String age = Integer.toString(calculateAge(c.getTimeInMillis()));
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_age)).
+                    setValue(age);
+            ageTxt.setText(age);
+        }
+    };
+
+    int calculateAge(long date) {
+        Calendar dob = Calendar.getInstance();
+        dob.setTimeInMillis(date);
+
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if(today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
+            age--;
+        }
+        return age;
     }
 
     @Override
@@ -197,6 +245,8 @@ public class MainSettings extends AppCompatActivity {
 
 
     private void init() {
+        ageTxt = findViewById(R.id.age_txt);
+        calenderBtn = findViewById(R.id.calender_btn);
         manBtn = findViewById(R.id.man_btn);
         womanBtn = findViewById(R.id.woman_btn);
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -205,6 +255,7 @@ public class MainSettings extends AppCompatActivity {
         emailTxt = findViewById(R.id.email_mainsettings_edittext);
         bioTxt = findViewById(R.id.user_bio_edittxt);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference();
         getUserAccountData();
     }
 
@@ -223,6 +274,7 @@ public class MainSettings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
                     bioTxt.setText(user.getBio());
+                    ageTxt.setText(user.getAge());
 
                     if (!user.getEmail().equals("nothing")) {
 
