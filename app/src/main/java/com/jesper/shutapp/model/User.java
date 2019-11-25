@@ -6,14 +6,16 @@ public class User {
     private String profile_picture;
     private String uid;
     private String bio;
+    private String gender;
     private String status = "offline";
 
-    public User(String name, String email, String profile_picture,String uid,String Bio, String status) {
+    public User(String name, String email, String profile_picture,String uid,String bio, String status, String gender) {
         this.name = name;
         this.email = email;
         this.profile_picture = profile_picture;
         this.uid = uid;
         this.bio = bio;
+        this.gender = gender;
         this.status = status;
     }
 
@@ -76,5 +78,13 @@ public class User {
                 ", uid='" + uid + '\'' +
                 ", bio='" + bio + '\'' +
                 '}';
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

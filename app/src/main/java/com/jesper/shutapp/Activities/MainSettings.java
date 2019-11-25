@@ -224,7 +224,6 @@ public class MainSettings extends AppCompatActivity {
                     usernameTxt.setText(user.getName());
                     bioTxt.setText(user.getBio());
 
-
                     if (!user.getEmail().equals("nothing")) {
 
                         //Test if the user have uploaded a profile pic or not
@@ -236,6 +235,14 @@ public class MainSettings extends AppCompatActivity {
                             } else {
                                 Glide.with(MainSettings.this).load(user.getProfile_picture()).into(userPic);
                             }
+                        }
+                    }
+
+                    if (!user.getGender().equals("nothing")) {
+                        if (user.getGender().equals("Man")){
+                            manBtn.setPressed(true);
+                        } else {
+                            womanBtn.setPressed(true);
                         }
                     }
                 }
