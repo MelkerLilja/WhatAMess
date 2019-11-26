@@ -8,12 +8,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.Chat;
+import com.jesper.shutapp.model.User;
+
 import java.util.ArrayList;
 
 public class InChatAdapter extends BaseAdapter {
@@ -22,8 +30,9 @@ public class InChatAdapter extends BaseAdapter {
     public static final int MSG_TYPE_RIGHT = 1;
     Context context;
     private ArrayList<Chat> chatList;
-    FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    User user;
+    FirebaseUser fuser;
+
 
     public InChatAdapter(Context context, ArrayList<Chat> chatList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -48,7 +57,6 @@ public class InChatAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView message;
         ImageView image;
-
     }
 
     @Override
@@ -77,6 +85,9 @@ public class InChatAdapter extends BaseAdapter {
         }
 
         final Chat chat_pos = chatList.get(position);
+        getOtherUser(chat_pos);
+
+
         if (chat_pos.getMessage().contains(".jpg") || chat_pos.getMessage().contains(".png")) {
             Glide.with(context).load(chat_pos.getMessage()).into(holder.image);
             Log.d("JesperChat", "getView: ");
@@ -97,5 +108,28 @@ public class InChatAdapter extends BaseAdapter {
         } else {
             return MSG_TYPE_LEFT;
         }
+    }
+
+    private void getOtherUser(final Chat chat) {
+        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (chat.getReceiver().equals(snapshot.getKey())){
+                        user = snapshot.getValue(User.class);
+                    }
+                }
+           //     Glide.with(convertView).load(user.getProfile_picture()).into(holder.image);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }

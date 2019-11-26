@@ -52,6 +52,7 @@ public class MessagesFragment extends Fragment {
     private List<String> chatUsers;
     Toolbar mToolbar;
     ArrayList<GroupChat> groupChatArrayList;
+    ArrayList<String> groupUsers;
 
     public MessagesFragment() {
     }
@@ -66,7 +67,7 @@ public class MessagesFragment extends Fragment {
         getChatHistory();
         readChats();
         generateUserGroups();
-       // generateGroups();
+
 
         return view;
     }
@@ -210,6 +211,7 @@ public class MessagesFragment extends Fragment {
         groupListAdapter = new GroupListAdapter(getActivity(), groupChatArrayList);
         groupsListView.setAdapter(groupListAdapter);
     }
+
 
     //Inflate our toolbar.
     @Override

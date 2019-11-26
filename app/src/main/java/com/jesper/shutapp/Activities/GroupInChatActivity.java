@@ -56,6 +56,7 @@ public class GroupInChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_in_chat);
 
         init();
+        readMessage2();
     }
 
     //Initiate all variables and views.
@@ -67,8 +68,6 @@ public class GroupInChatActivity extends AppCompatActivity {
         txtUserGroup = findViewById(R.id.group_text_name);
         listView = findViewById(R.id.group_listview_message);
 
-        // groupClassUsers = new ArrayList<>();
-        //  groupUsers = new ArrayList<>();
         intent = getIntent();
         groupName = intent.getStringExtra("groupname");
         groupUsers = intent.getStringArrayListExtra("grouplist");
@@ -88,17 +87,42 @@ public class GroupInChatActivity extends AppCompatActivity {
         hashMap.put("groupname", groupName);
 
         reference.child("groups").child(groupName).child("chats").push().setValue(hashMap);
-        readMessage(fuser.getUid());
+    }
+
+
+
+    private void readMessage2() {
+        groupChatList = new ArrayList<>();
+        reference = FirebaseDatabase.getInstance().getReference("groups").child(groupName).child("chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                groupChatList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    GroupChat chat = snapshot.getValue(GroupChat.class);
+                    groupChatList.add(chat);
+                }
+                adapter = new GroupInChatAdapter(GroupInChatActivity.this, groupChatList);
+                listView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     //Method to read all the messages.
     private void readMessage(final String myid) {
-        groupChatList = new ArrayList<>(); //Arraylist to store our group-chats
+       // groupChatList = new ArrayList<>(); //Arraylist to store our group-chats
 
         reference = FirebaseDatabase.getInstance().getReference("groups").child(groupName).child("chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                groupChatList = new ArrayList<>();
 
                 for (int i = 0; i < groupUsers.size(); i++) {
 
