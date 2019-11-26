@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -61,20 +63,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainSettings extends AppCompatActivity {
+public class MainSettings extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     FirebaseUser user;
     DatabaseReference reference;
+    ArrayAdapter<CharSequence> adapter;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-    private EditText usernameTxt;
-    private EditText emailTxt;
-    private EditText bioTxt;
-    private Button manBtn;
-    private Button womanBtn;
+    private EditText usernameTxt, emailTxt, bioTxt;
     private Button calenderBtn;
+    private Spinner genderSpinner;
     private static String genderChoice;
     private TextView ageTxt;
     private final String TAG = "Settings";
@@ -114,37 +116,19 @@ public class MainSettings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        // Listen to when the user press on Man btn, gives a value of "Man" to the database
-        manBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.performClick();
-                v.setPressed(true);
-                womanBtn.setPressed(false);
-                genderChoice = getResources().getString(R.string.man_btn);
-                reference.child(getString(R.string.db_users)).
-                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
-                        child(getString(R.string.field_gender)).
-                        setValue(genderChoice);
-                return true;
-            }
-        });
+        // Here is the gender spinner
 
-        // Listen to when the user press on Woman btn, gives a value of "Woman" to the database
-        womanBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.performClick();
-                v.setPressed(true);
-                manBtn.setPressed(false);
-                genderChoice = getResources().getString(R.string.woman_btn);
-                reference.child(getString(R.string.db_users)).
-                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
-                        child(getString(R.string.field_gender)).
-                        setValue(genderChoice);
-                return true;
-            }
-        });
+        genderSpinner = findViewById(R.id.gender_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_choices, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        genderSpinner.setAdapter(adapter);
+        genderSpinner.setOnItemSelectedListener(this);
+
 
         calenderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,8 +203,8 @@ public class MainSettings extends AppCompatActivity {
     // Change from dark to day theme
     public void theme(View view) {
 
-        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+        sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        editor = sp.edit();
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -247,8 +231,6 @@ public class MainSettings extends AppCompatActivity {
     private void init() {
         ageTxt = findViewById(R.id.age_txt);
         calenderBtn = findViewById(R.id.calender_btn);
-        manBtn = findViewById(R.id.man_btn);
-        womanBtn = findViewById(R.id.woman_btn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         userPic = findViewById(R.id.user_mainpic_view);
         usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
@@ -290,11 +272,12 @@ public class MainSettings extends AppCompatActivity {
                         }
                     }
 
-                    if (!user.getGender().equals("nothing")) {
-                        if (user.getGender().equals("Man")){
-                            manBtn.setPressed(true);
-                        } else {
-                            womanBtn.setPressed(true);
+                    if(!user.getGender().equals("nothing")){
+                        if(user.getGender().equals("Man")){
+                            genderSpinner.setSelection(1);
+                        }
+                        if(user.getGender().equals("Woman")){
+                            genderSpinner.setSelection(2);
                         }
                     }
                 }
@@ -608,6 +591,36 @@ public class MainSettings extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         active = false;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (position) {
+            case 0:
+                // Whatever you want to happen when the first item gets selected
+                break;
+            case 1:
+                // Whatever you want to happen when the second item gets selected
+                genderChoice = String.valueOf(parent.getItemAtPosition(position));
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
+                break;
+            case 2:
+                // Whatever you want to happen when the third item gets selected
+                genderChoice = String.valueOf(parent.getItemAtPosition(position));
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
+                break;
+        }
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
 

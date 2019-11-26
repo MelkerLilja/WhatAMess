@@ -129,22 +129,13 @@
             android:layout_below="@id/gender_title"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/man_btn"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/gender_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:text="@string/man_btn" />
+                android:layout_weight="1"/>
 
-            <Button
-                android:id="@+id/woman_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="@string/woman_btn" />
         </LinearLayout>
 
         <TextView

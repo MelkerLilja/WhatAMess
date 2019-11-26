@@ -32,6 +32,13 @@
     <string name="age_title_txt">Age</string>
     <string name="age_txt">Your age is: </string>
     <string name="choose_date">Calender</string>
+    <string name="wrong_gender">You have choose something. Try again!</string>
+
+    <string-array name="gender_choices">
+        <item>Choose your gender</item>
+        <item>Man</item>
+        <item>Woman</item>
+    </string-array>
 
     //---firebase adding user---//
     <string name="db_users">users</string>
