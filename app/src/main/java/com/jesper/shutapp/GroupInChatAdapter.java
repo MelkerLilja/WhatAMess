@@ -10,12 +10,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.GroupChat;
+import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
 
@@ -26,6 +33,7 @@ public class GroupInChatAdapter extends BaseAdapter {
 
     Context context;
     public ArrayList<GroupChat> groupList;
+    User user;
 
     FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -53,6 +61,7 @@ public class GroupInChatAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView message;
         ImageView image;
+        ImageView profilePicture;
     }
 
     @Override
@@ -71,6 +80,8 @@ public class GroupInChatAdapter extends BaseAdapter {
                 convertView = mInflater.inflate(R.layout.chat_item_left, parent, false);
                 holder.message = (TextView) convertView.findViewById(R.id.show_message);
                 holder.image = convertView.findViewById(R.id.image_received);
+                holder.profilePicture = convertView.findViewById(R.id.profile_image_inchat);
+                getSender(groupList.get(position),convertView,holder);
                 convertView.setTag(holder);
             } else {
                 convertView = mInflater.inflate(R.layout.chat_item_right, parent, false);
@@ -104,5 +115,29 @@ public class GroupInChatAdapter extends BaseAdapter {
         } else {
             return MSG_TYPE_LEFT;
         }
+    }
+
+    private void getSender(final GroupChat groupChat, final View convertView, final ViewHolder holder) {
+        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (groupChat.getSender().equals(snapshot.getKey())){
+                        user = snapshot.getValue(User.class);
+                        Glide.with(convertView).load(user.getProfile_picture()).into(holder.profilePicture);
+                    }
+                }
+                //     Glide.with(convertView).load(user.getProfile_picture()).into(holder.image);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }

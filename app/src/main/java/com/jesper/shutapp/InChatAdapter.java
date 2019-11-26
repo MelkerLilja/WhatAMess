@@ -34,6 +34,7 @@ public class InChatAdapter extends BaseAdapter {
     FirebaseUser fuser;
 
 
+
     public InChatAdapter(Context context, ArrayList<Chat> chatList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
         this.chatList = chatList;
@@ -57,6 +58,7 @@ public class InChatAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView message;
         ImageView image;
+        ImageView profilePicture;
     }
 
     @Override
@@ -64,6 +66,11 @@ public class InChatAdapter extends BaseAdapter {
         int type = getItemViewType(position);
 
         ViewHolder holder = null;
+        final Chat chat_pos = chatList.get(position);
+
+
+
+
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         holder = new ViewHolder();
@@ -73,6 +80,10 @@ public class InChatAdapter extends BaseAdapter {
                 convertView = mInflater.inflate(R.layout.chat_item_left, parent, false);
                 holder.message = (TextView) convertView.findViewById(R.id.show_message);
                 holder.image = convertView.findViewById(R.id.image_received);
+                holder.profilePicture = convertView.findViewById(R.id.profile_image_inchat);
+                getOtherUser(chat_pos, convertView, holder);
+
+                Log.d("ANTON", "getView: " );
                 convertView.setTag(holder);
             } else {
                 convertView = mInflater.inflate(R.layout.chat_item_right, parent, false);
@@ -84,8 +95,8 @@ public class InChatAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Chat chat_pos = chatList.get(position);
-        getOtherUser(chat_pos);
+        /*final Chat chat_pos = chatList.get(position);
+        getOtherUser(chat_pos);*/
 
 
         if (chat_pos.getMessage().contains(".jpg") || chat_pos.getMessage().contains(".png")) {
@@ -110,15 +121,17 @@ public class InChatAdapter extends BaseAdapter {
         }
     }
 
-    private void getOtherUser(final Chat chat) {
+    private void getOtherUser(final Chat chat,final View convertView, final ViewHolder holder) {
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (chat.getReceiver().equals(snapshot.getKey())){
+                    if (chat.getSender().equals(snapshot.getKey())){
                         user = snapshot.getValue(User.class);
+                        Glide.with(convertView).load(user.getProfile_picture()).into(holder.profilePicture);
+
                     }
                 }
            //     Glide.with(convertView).load(user.getProfile_picture()).into(holder.image);
