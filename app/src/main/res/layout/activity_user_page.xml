@@ -22,7 +22,6 @@
             android:layout_marginTop="7dp"
             android:textColor="@color/daynight"
             android:textSize="18dp" />
-            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/profile_buttons"

@@ -29,7 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.Activities.GroupInChatActivity;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.GroupInviteAdapter;
 import com.jesper.shutapp.model.User;
@@ -97,25 +96,7 @@ public class GroupChatFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.groupchat_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.groupchat_check:
-                stringGroupName = groupName.getText().toString();
-                addGroupToDatabase(stringGroupName, groupUsers);
-                removeOldGroup();
-                Intent intent = new Intent(getActivity(), GroupInChatActivity.class);
-                intent.putStringArrayListExtra("groupChat", groupUsers);
-                intent.putExtra("groupName", stringGroupName);
-                startActivity(intent);
-
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void addGroupToDatabase(String string, List<String> users) {
@@ -129,9 +110,6 @@ public class GroupChatFragment extends Fragment {
         reference.child(string).setValue(hashMap);
 
         addGroupsToUsers();
-
-
-
 
     }
 

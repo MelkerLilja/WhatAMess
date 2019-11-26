@@ -24,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jesper.shutapp.GroupAdapter;
 import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
@@ -39,7 +38,6 @@ public class MessagesFragment extends Fragment {
 
     ListView usersListView, groupList;
     MessagesAdapter messagesAdapter;
-    GroupAdapter groupAdapter;
     ImageView userPicture;
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -60,10 +58,6 @@ public class MessagesFragment extends Fragment {
         setCurrentUser();
         getChatHistory();
         readChats();
-
-
-
-
 
         return view;
     }
@@ -137,8 +131,8 @@ public class MessagesFragment extends Fragment {
                         }
                     }
                 }
-       /*         messagesAdapter = new MessagesAdapter(getActivity(), usersList);
-                usersListView.setAdapter(messagesAdapter);*/
+                messagesAdapter = new MessagesAdapter(getActivity(), usersList);
+                usersListView.setAdapter(messagesAdapter);
             }
 
             @Override
@@ -211,9 +205,6 @@ public class MessagesFragment extends Fragment {
 
             }
         });
-
-
-
     }
 
 
