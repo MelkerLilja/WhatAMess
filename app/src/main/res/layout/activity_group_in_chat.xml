@@ -6,9 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".Activities.GroupInChatActivity">
 
+    <include
+        android:id="@+id/activity_chat_toolbar"
+        layout="@layout/mtoolbar" />
+
     <TextView
+        android:id="@+id/group_text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="YEY GROUPCHAT"/>
+        android:layout_below="@+id/image_user_chat"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/daynight"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_user"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+
+    <ListView
+        android:id="@+id/group_listview_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/group_layout_sendMessage"
+        android:layout_below="@id/group_text_name"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
+
+    <RelativeLayout
+        android:id="@+id/group_layout_sendMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/group_text_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/group_btn_send"
+            android:layout_toEndOf="@+id/add_image_image"
+            android:background="@android:color/transparent"
+            android:hint="Type a message..."
+            android:textColor="@color/daynight" />
+
+        <ImageView
+            android:id="@+id/group_add_image_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="AddPic"
+            android:src="@drawable/addimage"
+            android:tint="@color/daynight" />
+
+        <ImageButton
+            android:id="@+id/group_btn_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_button_send"
+            android:onClick="btnGroupSend" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
