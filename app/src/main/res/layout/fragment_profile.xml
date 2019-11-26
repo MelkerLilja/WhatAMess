@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="ABOUT"
             android:textSize="18sp"
-            android:textColor="#ffffff"
+            android:textColor="@color/daynight"
             android:shadowColor="#000000"
             android:shadowDx="1"
             android:shadowDy="1"
@@ -101,7 +101,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_centerHorizontal="true"
-            android:textColor="#ffffff"
+            android:textColor="@color/daynight"
             android:shadowColor="#000000"
             android:shadowDx="1"
             android:shadowDy="1"
@@ -115,6 +115,6 @@
             android:layout_below="@+id/bio_profile_text"
             android:elevation="2dp"
             android:layout_marginTop="30dp"
-            android:background="@color/lightGrey" />
+            android:background="@color/daynight" />
 
     </RelativeLayout>

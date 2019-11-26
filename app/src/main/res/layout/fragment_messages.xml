@@ -24,7 +24,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:textColor="@color/daynight" />
+        android:textColor="@color/daynight"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/layout_messages"
