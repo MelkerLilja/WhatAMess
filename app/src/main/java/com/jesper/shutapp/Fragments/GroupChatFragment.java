@@ -14,9 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,12 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.Activities.GroupInChatActivity;
 import com.jesper.shutapp.R;
-import com.jesper.shutapp.GroupChatAdapter;
+import com.jesper.shutapp.GroupInviteAdapter;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +38,7 @@ public class GroupChatFragment extends Fragment {
     private ListView listView;
     private ArrayList<User> friendListGroup;
     private FirebaseUser fuser;
-    private GroupChatAdapter groupChatAdapter;
+    private GroupInviteAdapter groupInviteAdapter;
     private Toolbar mToolbar;
     private DatabaseReference reference, userRef;
     private ArrayList<String> groupUsers;
@@ -174,8 +170,8 @@ public class GroupChatFragment extends Fragment {
                     User user = snapshot.getValue(User.class);
                     friendListGroup.add(user);
                 }
-                groupChatAdapter = new GroupChatAdapter(getActivity(), friendListGroup);
-                listView.setAdapter(groupChatAdapter);
+                groupInviteAdapter = new GroupInviteAdapter(getActivity(), friendListGroup);
+                listView.setAdapter(groupInviteAdapter);
 
 
             }
@@ -215,6 +211,7 @@ public class GroupChatFragment extends Fragment {
     private void startGroupChatActivity (){
         Intent intent = new Intent (getActivity(), GroupInChatActivity.class);
         intent.putExtra("groupname", stringGroupName);
+        intent.putExtra("grouplist", groupUsers);
         startActivity(intent);
     }
 }
