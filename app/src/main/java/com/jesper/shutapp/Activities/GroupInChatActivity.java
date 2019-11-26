@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.GroupInChatAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.GroupChat;
 
@@ -33,19 +34,16 @@ public class GroupInChatActivity extends AppCompatActivity {
     ImageButton btnSend;
     EditText txtSend;
     String message;
-    ListView messagesList;
     TextView userNameChat, txtUserGroup;
     ImageView userImage;
-
     DatabaseReference reference;
-   // ArrayList<User> groupClassUsers;
+    // ArrayList<User> groupClassUsers;
     FirebaseUser fuser;
     String groupName;
     ArrayList<String> groupUsers;
-    String userid;
     Intent intent;
     ArrayList<GroupChat> groupChatList;
-   // GroupInChatAdapter adapter;
+    GroupInChatAdapter adapter;
     ListView listView;
 
     private static String TAG = "JesperChat";
@@ -69,15 +67,13 @@ public class GroupInChatActivity extends AppCompatActivity {
         txtUserGroup = findViewById(R.id.group_text_name);
         listView = findViewById(R.id.group_listview_message);
 
-       // groupClassUsers = new ArrayList<>();
-     //   groupUsers = new ArrayList<>();
+        // groupClassUsers = new ArrayList<>();
+        //  groupUsers = new ArrayList<>();
         intent = getIntent();
         groupName = intent.getStringExtra("groupname");
         groupUsers = intent.getStringArrayListExtra("grouplist");
 
-
         txtUserGroup.setText(groupName);
-
         fuser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
@@ -99,9 +95,8 @@ public class GroupInChatActivity extends AppCompatActivity {
     private void readMessage(final String myid) {
         groupChatList = new ArrayList<>(); //Arraylist to store our group-chats
 
-
         reference = FirebaseDatabase.getInstance().getReference("groups").child(groupName).child("chats");
-        reference.addValueEventListener(new ValueEventListener() { //A listener to listen for any datachange.
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -117,11 +112,8 @@ public class GroupInChatActivity extends AppCompatActivity {
                             if (chat.getReceiver().get(j).equals(myid) && chat.getSender().equals(groupUsers.get(i)) ||
                                     chat.getReceiver().get(j).equals(groupUsers.get(i)) && chat.getSender().equals(myid)) {
 
-
-                                Log.d("ANTON", "HEJDÅ");
                                 groupChatList.add(chat);
                                 break;
-
                             }
                         }
                     }
@@ -129,10 +121,8 @@ public class GroupInChatActivity extends AppCompatActivity {
                   /*      adapter = new InChatAdapter(ChatActivity.this, chatList); //Creates our adapter with our ChatActivity and our chatList as constructor.
                         messagesList.setAdapter(adapter); //Set our listview to with our adapter*/
 
-         /*       adapter = new GroupInChatAdapter(GroupInChatActivity.this, groupChatList);
-                listView.setAdapter(adapter);*/
-
-
+                adapter = new GroupInChatAdapter(GroupInChatActivity.this, groupChatList);
+                listView.setAdapter(adapter);
             }
 
             @Override
