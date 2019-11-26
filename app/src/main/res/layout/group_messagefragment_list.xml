@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@mipmap/ic_launcher_round"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toEndOf="@id/group_image_1"
+        android:background="@mipmap/ic_launcher_round"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/group_image_1"
+        android:background="@mipmap/ic_launcher_round"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toEndOf="@id/group_image_1"
+        android:layout_below="@id/group_image_2"
+        android:background="@mipmap/ic_launcher_round"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/group_image_5"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/group_messagefragment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/group_image_5"
+        android:padding="8dp"
+        android:textColor="@color/daynight"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+
+
+</RelativeLayout>
+

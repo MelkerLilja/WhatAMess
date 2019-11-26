@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,7 @@ public class GroupListAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView userName;
+        ImageView currentUserPic;
         //Add more if we want
     }
 
@@ -66,8 +68,9 @@ public class GroupListAdapter extends BaseAdapter {
         holder = new ViewHolder();
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.group_item_list, parent, false);
-            holder.userName = (TextView) convertView.findViewById(R.id.text_groupName);
+            convertView = mInflater.inflate(R.layout.group_messagefragment_list, parent, false);
+            holder.userName = (TextView) convertView.findViewById(R.id.group_messagefragment_name);
+            holder.currentUserPic = convertView.findViewById(R.id.group_image_5);
 
             convertView.setTag(holder);
         } else {
