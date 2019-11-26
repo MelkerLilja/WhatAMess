@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,9 +25,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.GroupInviteAdapter;
+import com.jesper.shutapp.GroupListAdapter;
 import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
+import com.jesper.shutapp.model.GroupChat;
 import com.jesper.shutapp.model.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +40,18 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-    ListView usersListView;
+    ListView usersListView, groupsListView;
     MessagesAdapter messagesAdapter;
+    GroupListAdapter groupListAdapter;
     ImageView userPicture;
     FirebaseUser fuser;
     DatabaseReference reference;
     TextView userName;
     ArrayList<User> usersList;
+    ArrayList<String> userGroups;
     private List<String> chatUsers;
     Toolbar mToolbar;
+    ArrayList<GroupChat> groupChatArrayList;
 
     public MessagesFragment() {
     }
@@ -57,6 +65,8 @@ public class MessagesFragment extends Fragment {
         setCurrentUser();
         getChatHistory();
         readChats();
+        generateUserGroups();
+       // generateGroups();
 
         return view;
     }
@@ -66,10 +76,13 @@ public class MessagesFragment extends Fragment {
         setHasOptionsMenu(true);
         usersList = new ArrayList<>();
         chatUsers = new ArrayList<>();
+        userGroups = new ArrayList<>();
+        groupChatArrayList = new ArrayList<>();
         mToolbar = view.findViewById(R.id.userlist_toolbar);
         usersListView = view.findViewById(R.id.users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
+        groupsListView = view.findViewById(R.id.listview_groups);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setTitle("");
     }
@@ -162,6 +175,40 @@ public class MessagesFragment extends Fragment {
 
             }
         });
+    }
+
+    //Adds all the user groups to a string-array.
+    private void generateUserGroups() {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.child(fuser.getUid()).child("groups").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    userGroups.add(snapshot.getKey());
+                    Log.d("ANTON", "userGroups.add " + snapshot.getKey());
+                }
+                generateGroups();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void generateGroups() {
+        //Log.d("ANTON", userGroups.get(0));
+
+        for (int i = 0; i < userGroups.size() ; i++) {
+            GroupChat groupChat = new GroupChat();
+            groupChat.setGroupName(userGroups.get(i));
+            Log.d("ANTON", groupChat.getGroupName());
+            groupChatArrayList.add(groupChat);
+        }
+        groupListAdapter = new GroupListAdapter(getActivity(), groupChatArrayList);
+        groupsListView.setAdapter(groupListAdapter);
     }
 
     //Inflate our toolbar.

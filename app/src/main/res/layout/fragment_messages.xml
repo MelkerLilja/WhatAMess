@@ -46,10 +46,23 @@
     <ListView
         android:id="@+id/users_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="350dp"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_below="@+id/divider_line_friends"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Groups"
+        android:layout_below="@id/users_list"
+        android:layout_above="@id/listview_groups"/>
+
+    <ListView
+        android:id="@+id/listview_groups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/users_list"/>
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
