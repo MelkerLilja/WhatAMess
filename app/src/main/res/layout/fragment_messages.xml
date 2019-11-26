@@ -5,70 +5,110 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.MessagesFragment">
 
-    <include layout="@layout/mtoolbar"
-        android:id="@+id/userlist_toolbar" />
+    <include
+        android:id="@+id/userlist_toolbar"
+        layout="@layout/mtoolbar" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_picture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
     <TextView
+        android:id="@+id/user_name_homescreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/user_picture"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:textColor="@color/daynight"
-        android:layout_marginTop="5dp"
-        android:id="@+id/users_text"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/daynight" />
+
+    <LinearLayout
+        android:id="@+id/layout_messages"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/user_name_homescreen"
+        android:layout_marginTop="20dp"
+        android:divider="@color/lightGrey"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/btn_group_listview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="GROUPS"
+            android:textAlignment="center"
+            android:textColor="@color/daynight" />
+
+        <TextView
+            android:id="@+id/btn_messages_listview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="PRIVATE"
+            android:textAlignment="center"
+            android:textColor="@color/daynight"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/divider_line_groupspushed"
+        android:layout_width="206dp"
+        android:layout_height="3dp"
+        android:layout_below="@+id/layout_messages"
+        android:layout_marginTop="10dp"
+        android:background="@color/daynight"
+        android:elevation="1dp"
+        android:visibility="invisible" />
+
+    <View
+        android:id="@+id/divider_line_friendspushed"
+        android:layout_width="206dp"
+        android:layout_height="3dp"
+        android:layout_below="@+id/layout_messages"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/divider_line_groupspushed"
+        android:background="@color/daynight"
+        android:elevation="1dp"
+        android:visibility="invisible" />
+
 
     <View
         android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/user_name_homescreen"
-        android:elevation="2dp"
+        android:layout_below="@+id/layout_messages"
         android:layout_marginTop="10dp"
-        android:background="@color/lightGrey" />
+        android:background="@color/daynight"
+        android:elevation="0dp" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_marginTop="10dp"
-        android:id="@+id/user_picture"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/user_name_homescreen"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/daynight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
-        android:layout_below="@id/user_picture"/>
 
     <ListView
         android:id="@+id/users_list"
         android:layout_width="match_parent"
         android:layout_height="350dp"
+        android:layout_below="@+id/divider_line_friends"
         android:divider="@null"
-        android:dividerHeight="0dp"
-        android:layout_below="@+id/divider_line_friends"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Groups"
-        android:layout_below="@id/users_list"
-        android:layout_above="@id/listview_groups"/>
+        android:dividerHeight="0dp" />
 
     <ListView
         android:id="@+id/listview_groups"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/users_list"/>
+        android:layout_below="@id/divider_line_friends"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 
 </RelativeLayout>

@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.Activities.GroupInChatActivity;
+import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.GroupChat;
 import com.jesper.shutapp.model.User;
 
@@ -33,6 +34,8 @@ public class GroupListAdapter extends BaseAdapter {
     private ArrayList<String> groupUsers = new ArrayList<>();
     private ArrayList<User> groupMembers = new ArrayList<>();
     private ArrayList<String> userPics = new ArrayList<>();
+    String theLastMessage;
+    boolean haveLastMessage;
 
 
     public GroupListAdapter(Context context, ArrayList<GroupChat> groupList) {
@@ -62,6 +65,7 @@ public class GroupListAdapter extends BaseAdapter {
         ImageView imageView2;
         ImageView imageView3;
         ImageView imageView4;
+        TextView lastmessage;
         //Add more if we want
     }
 
@@ -83,13 +87,14 @@ public class GroupListAdapter extends BaseAdapter {
             holder.imageView2 = convertView.findViewById(R.id.group_image_2);
             holder.imageView3 = convertView.findViewById(R.id.group_image_3);
             holder.imageView4 = convertView.findViewById(R.id.group_image_4);
+            holder.lastmessage = convertView.findViewById(R.id.group_messagefragment_lastmessage);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         generateGroupUsers(groupList.get(position));
-
+        lastMessageMethod(holder.lastmessage, groupChat.getGroupName());
 
         getUserPictures(groupChat.getGroupName(), holder);
 
@@ -121,7 +126,6 @@ public class GroupListAdapter extends BaseAdapter {
                         groupUsers.add(snapshot.getKey());
                     }
                 }
-
             }
 
             @Override
@@ -132,6 +136,7 @@ public class GroupListAdapter extends BaseAdapter {
     }
 
     private void getUserPictures(final String groupname,final ViewHolder holder) {
+
         Log.d("ANTON", "getUserPictures: method running");
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -139,6 +144,7 @@ public class GroupListAdapter extends BaseAdapter {
         reference2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userPics.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     userPics.add(user.getProfile_picture());
@@ -182,15 +188,45 @@ public class GroupListAdapter extends BaseAdapter {
                     Glide.with(context).load(userPics.get(3)).into(holder.imageView3);
                     Glide.with(context).load(userPics.get(4)).into(holder.imageView4);
                 }
-
-
-
-
-
-
-
             }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+
+
+    //Method that displays the last message sent by users in our Messages view.
+    private void lastMessageMethod(final TextView lastMessage, String groupname) { //A method that loops the chat messages and checks what the last message sent
+        theLastMessage = "default";
+        //between the user and receiver then adds it to the user item.
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("groups").child(groupname).child("chats");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    GroupChat groupChat = snapshot.getValue(GroupChat.class);
+                        theLastMessage = groupChat.getMessage();
+                }
+                switch (theLastMessage) {
+                    case "default":  haveLastMessage = false;
+                        lastMessage.setText("No Message");
+
+                        break;
+
+                    default: haveLastMessage = true;
+                        lastMessage.setText(theLastMessage);
+                        break;
+                }
+                theLastMessage = "default";
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

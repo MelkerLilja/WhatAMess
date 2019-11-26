@@ -1,4 +1,5 @@
 package com.jesper.shutapp.Fragments;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +54,8 @@ public class MessagesFragment extends Fragment {
     Toolbar mToolbar;
     ArrayList<GroupChat> groupChatArrayList;
     ArrayList<String> groupUsers;
+    TextView textGroups, textMessages;
+    View dividerGroup, dividerMessage;
 
     public MessagesFragment() {
     }
@@ -68,6 +71,31 @@ public class MessagesFragment extends Fragment {
         readChats();
         generateUserGroups();
 
+        textGroups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                usersListView.setVisibility(View.GONE);
+                dividerMessage.setVisibility(View.INVISIBLE);
+                dividerGroup.setVisibility(View.VISIBLE);
+                groupsListView.setVisibility(View.VISIBLE);
+                textGroups.setTypeface(null, Typeface.BOLD);
+                textMessages.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+
+        textMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                groupsListView.setVisibility(View.GONE);
+                dividerGroup.setVisibility(View.INVISIBLE);
+                usersListView.setVisibility(View.VISIBLE);
+                dividerMessage.setVisibility(View.VISIBLE);
+                textGroups.setTypeface(null, Typeface.NORMAL);
+                textMessages.setTypeface(null, Typeface.BOLD);
+            }
+        });
+
 
         return view;
     }
@@ -80,10 +108,15 @@ public class MessagesFragment extends Fragment {
         userGroups = new ArrayList<>();
         groupChatArrayList = new ArrayList<>();
         mToolbar = view.findViewById(R.id.userlist_toolbar);
+        textGroups = view.findViewById(R.id.btn_group_listview);
         usersListView = view.findViewById(R.id.users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
         groupsListView = view.findViewById(R.id.listview_groups);
+        dividerGroup = view.findViewById(R.id.divider_line_groupspushed);
+        dividerMessage = view.findViewById(R.id.divider_line_friendspushed);
+        textMessages = view.findViewById(R.id.btn_messages_listview);
+        dividerMessage.setVisibility(View.VISIBLE);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setTitle("");
     }
