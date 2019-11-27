@@ -271,6 +271,8 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                         }
                     }
                     Log.d(TAG, "onDataChange: " + user.getGender());
+
+                    if(user.getGender() != null)
                         if(user.getGender().equals("Man")){
                             genderSpinner.setSelection(1);
                         }

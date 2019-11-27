@@ -82,7 +82,6 @@
         android:layout_marginTop="2dp"
         android:layout_below="@id/search_bar_layout"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_list"
         android:layout_width="match_parent"

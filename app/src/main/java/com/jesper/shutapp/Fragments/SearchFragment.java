@@ -60,6 +60,8 @@ public class SearchFragment extends Fragment {
     ArrayList<String> profilePicList;
     ArrayList<String> userBio;
     ArrayList<String> userUid;
+    ArrayList<String> userGender;
+    ArrayList<String> userAge;
     SearchAdapter searchAdapter;
     FrameLayout test;
 
@@ -97,6 +99,8 @@ public class SearchFragment extends Fragment {
         profilePicList = new ArrayList<>();
         userBio = new ArrayList<>();
         userUid = new ArrayList<>();
+        userGender = new ArrayList<>();
+        userAge = new ArrayList<>();
 
         searchUser.addTextChangedListener(new TextWatcher() {
             @Override
@@ -114,6 +118,8 @@ public class SearchFragment extends Fragment {
                 if(!s.toString().isEmpty()){
                     setAdapter(s.toString());
                 } else {
+                    userGender.clear();
+                    userAge.clear();
                     nameList.clear();
                     profilePicList.clear();
                     userBio.clear();
@@ -128,16 +134,16 @@ public class SearchFragment extends Fragment {
 
     }
 
-
     private void setAdapter(final String searchedString) {
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 nameList.clear();
                 profilePicList.clear();
                 userBio.clear();
                 userUid.clear();
+                userAge.clear();
+                userGender.clear();
                 recyclerView.removeAllViews();
                 int counter = 0;
 
@@ -146,6 +152,8 @@ public class SearchFragment extends Fragment {
                     String profilePic = snapshot.child("profile_picture").getValue(String.class);
                     String bio = snapshot.child("bio").getValue(String.class);
                     String uid = snapshot.child("uid").getValue(String.class);
+                    String age = snapshot.child("age").getValue(String.class);
+                    String gender = snapshot.child("gender").getValue(String.class);
 
 
                     if (name.toLowerCase().contains(searchedString.toLowerCase())){
@@ -161,7 +169,7 @@ public class SearchFragment extends Fragment {
                         break;
                 }
 
-                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid);
+                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid, userAge, userGender);
                 recyclerView.setAdapter(searchAdapter);
             }
 
