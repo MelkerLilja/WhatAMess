@@ -9,17 +9,16 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,6 +57,7 @@ import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.Fragments.TermsOfService;
 import com.jesper.shutapp.model.User;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -95,6 +96,8 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_settings);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         init();
 
@@ -168,7 +171,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
         Calendar today = Calendar.getInstance();
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
 
-        if(today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
+        if (today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
             age--;
         }
         return age;
@@ -448,10 +451,9 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                 }
             });
         }
-        if(resultCode == RESULT_OK && requestCode == IMAGE_CODE)
-        {
+        if (resultCode == RESULT_OK && requestCode == IMAGE_CODE) {
             Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
-            Log.d(TAG, "onActivityResult: " +imageUri);
+            Log.d(TAG, "onActivityResult: " + imageUri);
             userPic.setImageBitmap(bitmap);
 
             String uid = user.getUid();
@@ -504,7 +506,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     }
 
     // Log out and return to MainActivity
-    public void log_out(View view) {
+    public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -512,13 +514,14 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     }
 
     // Delete account and return to MainActivity
-    public void delete_account(View view) {
+    public void deleteAccount(View view) {
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         //Remove user from database
 
-        DatabaseReference userRef =FirebaseDatabase.getInstance().getReference()
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(user.getUid());
 
         userRef.removeValue();
@@ -532,48 +535,67 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                         if (task.isSuccessful()) {
                             Log.d("HEJ", "User account deleted.");
                             FirebaseDatabase.getInstance().getReference().child(getString
-                             (R.string.db_users)).child(FirebaseAuth.getInstance().
-                            getCurrentUser().getUid()).removeValue();
+                                    (R.string.db_users)).child(FirebaseAuth.getInstance().
+                                    getCurrentUser().getUid()).removeValue();
                         }
 
                     }
                 });
-        log_out(view);
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainSettings.this);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
+
+        logOut(view);
         finish();
+
+
     }
 
-    public void terms_of_service(View view) {
+    public void termsOfService(View view) {
         mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, tos, "Terms of Service").commit();
     }
 
-    public void takePic(View view)
-    {
+    public void takePic(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        if(cameraIntent.resolveActivity(getPackageManager())!= null)
-        {
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
             File imageFile = null;
             try {
                 imageFile = getImageFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(imageFile != null)
-            {
-                Uri imageUri = FileProvider.getUriForFile(this,"com.jesper.shutapp",imageFile);
+            if (imageFile != null) {
+                Uri imageUri = FileProvider.getUriForFile(this, "com.jesper.shutapp", imageFile);
                 this.imageUri = imageUri;
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-                startActivityForResult(cameraIntent,IMAGE_CODE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(cameraIntent, IMAGE_CODE);
             }
         }
     }
 
-    private File getImageFile() throws IOException
-    {
+    private File getImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageName = timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageName,".jpg", storageDir);
+        File imageFile = File.createTempFile(imageName, ".jpg", storageDir);
         currentImagePath = imageFile.getAbsolutePath();
 
         return imageFile;
@@ -616,9 +638,14 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                 break;
         }
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void reportAproblem(View view) {
+        //Send to new activity problemActivity
     }
 }
 

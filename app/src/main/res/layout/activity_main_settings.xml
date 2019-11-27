@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -282,16 +282,37 @@
             android:layout_below="@id/divider_line_two"
             android:layout_centerHorizontal="true"
             android:clickable="true"
-            android:onClick="terms_of_service"
+            android:onClick="termsOfService"
             android:text="@string/terms_of_service"
             android:textColor="@color/daynight"
             android:textSize="25sp" />
 
         <View
+            android:id="@+id/divider_line_two_and_half"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/terms_of_service"
+            android:layout_margin="10dp"
+            android:background="@color/lightGrey" />
+
+        <TextView
+            android:id="@+id/report_problem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_line_two_and_half"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="reportAproblem"
+            android:text="@string/report_a_problem"
+            android:textColor="@color/daynight"
+            android:textSize="25sp" />
+
+
+        <View
             android:id="@+id/divider_line_three"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/terms_of_service"
+            android:layout_below="@id/report_problem"
             android:layout_margin="10dp"
             android:background="@color/lightGrey" />
 
@@ -302,7 +323,7 @@
             android:layout_below="@+id/divider_line_three"
             android:layout_centerHorizontal="true"
             android:clickable="true"
-            android:onClick="log_out"
+            android:onClick="logOut"
             android:text="@string/log_out_txt"
             android:textColor="@color/colorAccent"
             android:textSize="25sp" />
@@ -314,7 +335,7 @@
             android:layout_below="@id/log_out"
             android:layout_centerHorizontal="true"
             android:clickable="true"
-            android:onClick="delete_account"
+            android:onClick="deleteAccount"
             android:text="@string/delete_account_txt"
             android:textColor="@color/colorAccent"
             android:textSize="25sp" />

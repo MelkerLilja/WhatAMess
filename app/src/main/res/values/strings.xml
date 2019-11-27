@@ -90,4 +90,5 @@
     <string name="enter_email_txt">Enter a new email</string>
     <string name="password_updated_toast">Password updated</string>
     <string name="password_not_updated_toast">Password not updated</string>
+    <string name="report_a_problem">Report a problem</string>
 </resources>
