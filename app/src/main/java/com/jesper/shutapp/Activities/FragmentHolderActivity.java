@@ -40,8 +40,6 @@ public class FragmentHolderActivity extends AppCompatActivity {
 
     //Initiate views and variables
     private void init () {
-        MessagesFragment messagesFragment = new MessagesFragment();
-        changeFragment(messagesFragment);
         notificationRequests = findViewById(R.id.notification_requests);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         messagesFragment = new MessagesFragment();
@@ -51,10 +49,7 @@ public class FragmentHolderActivity extends AppCompatActivity {
 
     //Method that change our View with the Fragment we pass in
     public void changeFragment(Fragment frag,String message) {
-
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
 
         fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, frag,message).addToBackStack("");
         fragmentTransaction.commit();
