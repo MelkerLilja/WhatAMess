@@ -9,13 +9,17 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -23,9 +27,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,18 +60,25 @@ import com.jesper.shutapp.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class MainSettings extends AppCompatActivity {
+public class MainSettings extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     FirebaseUser user;
+    DatabaseReference reference;
+    ArrayAdapter<CharSequence> adapter;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-    private EditText usernameTxt;
-    private EditText emailTxt;
-    private EditText bioTxt;
+    private EditText usernameTxt, emailTxt, bioTxt;
+    private Button calenderBtn;
+    private Spinner genderSpinner;
+    private static String genderChoice;
+    private TextView ageTxt;
     private final String TAG = "Settings";
 
     String currentImagePath = null;
@@ -97,13 +114,97 @@ public class MainSettings extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        // Here is the gender spinner
+
+        genderSpinner = findViewById(R.id.gender_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_choices, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        genderSpinner.setAdapter(adapter);
+        genderSpinner.setOnItemSelectedListener(this);
+
+
+        calenderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dateDialog = new DatePickerDialog(v.getContext(), datePickerListener, mYear, mMonth, mDay);
+                dateDialog.getDatePicker().setMaxDate(new Date().getTime());
+                dateDialog.show();
+            }
+        });
+
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, day);
+            String age = Integer.toString(calculateAge(c.getTimeInMillis()));
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_age)).
+                    setValue(age);
+            ageTxt.setText(age);
+        }
+    };
+
+    int calculateAge(long date) {
+        Calendar dob = Calendar.getInstance();
+        dob.setTimeInMillis(date);
+
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if(today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
+            age--;
+        }
+        return age;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout_settings) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(MainSettings.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        // fixed so the homebutton brings the user back to UserListAcitivity
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(MainSettings.this, FragmentHolderActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // Change from dark to day theme
     public void theme(View view) {
 
-        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+        sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        editor = sp.edit();
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -127,12 +228,15 @@ public class MainSettings extends AppCompatActivity {
     }
 
     private void init() {
+        ageTxt = findViewById(R.id.age_txt);
+        calenderBtn = findViewById(R.id.calender_btn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         userPic = findViewById(R.id.user_mainpic_view);
         usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
         emailTxt = findViewById(R.id.email_mainsettings_edittext);
         bioTxt = findViewById(R.id.user_bio_edittxt);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference();
         getUserAccountData();
     }
 
@@ -151,7 +255,7 @@ public class MainSettings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
                     bioTxt.setText(user.getBio());
-
+                    ageTxt.setText(user.getAge());
 
                     if (!user.getEmail().equals("nothing")) {
 
@@ -166,9 +270,18 @@ public class MainSettings extends AppCompatActivity {
                             }
                         }
                     }
+
+                    if(!user.getGender().equals("nothing")){
+                        if(user.getGender().equals("Man")){
+                            genderSpinner.setSelection(1);
+                        }
+                        if(user.getGender().equals("Woman")){
+                            genderSpinner.setSelection(2);
+                        }
+                    }
                 }
             }
-            //temp
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d(TAG, "getUserAccountData: couldn't retrieve data");
@@ -270,6 +383,7 @@ public class MainSettings extends AppCompatActivity {
                 }
             });
         }
+
     }
 
     private Boolean isValidEmail(String email) {
@@ -478,5 +592,34 @@ public class MainSettings extends AppCompatActivity {
         active = false;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (position) {
+            case 0:
+                // Whatever you want to happen when the first item gets selected
+                break;
+            case 1:
+                // Whatever you want to happen when the second item gets selected
+                genderChoice = String.valueOf(parent.getItemAtPosition(position));
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
+                break;
+            case 2:
+                // Whatever you want to happen when the third item gets selected
+                genderChoice = String.valueOf(parent.getItemAtPosition(position));
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
+                break;
+        }
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
 

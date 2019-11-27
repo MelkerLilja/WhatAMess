@@ -27,26 +27,20 @@ import com.jesper.shutapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
+
     //public FragmentManager fragmentManager;
     private ProgressBar progressBar;
     private EditText mEmail;
     private EditText mPassword;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+    private SharedPreferences sp;
+    String theme;
     private String TAG = "Jesper";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
-        String theme = sp.getString("theme_key", "default");
-
-        if (theme.equals("day")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (theme.equals("night")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
+        themeCheck();
 
         setContentView(R.layout.activity_main);
 
@@ -69,6 +63,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void themeCheck() {
+
+        sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        theme = sp.getString("theme_key", "default");
+
+        if (theme.equals("day")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (theme.equals("night")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
     }
 
     private void showProgress() //shows the progressbar when called upon

@@ -26,12 +26,27 @@
     <string name="update_profile_txt">Update profile</string>
     <string name="user_bio_txt">Bio</string>
     <string name="user_bio_hint">Write your bio here</string>
+    <string name="gender_title_txt">Gender</string>
+    <string name="man_btn">Man</string>
+    <string name="woman_btn">Woman</string>
+    <string name="age_title_txt">Age</string>
+    <string name="age_txt">Your age is: </string>
+    <string name="choose_date">Calender</string>
+    <string name="wrong_gender">You have choose something. Try again!</string>
+
+    <string-array name="gender_choices">
+        <item>Choose your gender</item>
+        <item>Man</item>
+        <item>Woman</item>
+    </string-array>
 
     //---firebase adding user---//
     <string name="db_users">users</string>
     <string name="field_name">name</string>
     <string name="field_email">email</string>
     <string name="field_bio">bio</string>
+    <string name="field_age">age</string>
+    <string name="field_gender">gender</string>
     <string name="field_picture">profile_picture</string>
     <string name="user_data_txt">User data</string>
     <string name="theme">Theme</string>
