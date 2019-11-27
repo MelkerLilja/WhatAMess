@@ -56,6 +56,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.Fragments.TermsOfService;
+import com.jesper.shutapp.Sqlite.SqlMain;
 import com.jesper.shutapp.model.User;
 
 import java.io.File;
@@ -627,6 +628,11 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
 
     public void reportAproblem(View view) {
         //Send to new activity problemActivity
+
+        Intent intent = new Intent(this, SqlMain.class);
+        startActivity(intent);
+        finish();
+
     }
 }
 
