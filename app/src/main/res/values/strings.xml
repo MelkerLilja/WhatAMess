@@ -92,4 +92,8 @@
     <string name="password_updated_toast">Password updated</string>
     <string name="password_not_updated_toast">Password not updated</string>
     <string name="report_a_problem">Report a problem</string>
+
+    <string name="hint_report">Report...</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Report not save because it is empty</string>
 </resources>
