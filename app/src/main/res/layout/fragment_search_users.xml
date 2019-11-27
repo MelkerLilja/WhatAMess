@@ -73,7 +73,6 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/daynight" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_list"
         android:layout_width="match_parent"
