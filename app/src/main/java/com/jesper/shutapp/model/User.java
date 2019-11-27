@@ -8,16 +8,17 @@ public class User {
     private String bio;
     private String age;
     private String gender;
-    private String status = "offline";
     private String from;
+    private String status = "offline";
 
-    public User(String name, String email, String profile_picture,String uid,String bio, String status, String gender, String age) {
+    public User(String name, String email, String profile_picture,String uid,String bio, String status, String gender, String age, String from) {
         this.name = name;
         this.email = email;
         this.profile_picture = profile_picture;
         this.uid = uid;
         this.bio = bio;
         this.age = age;
+        this.from = from;
         this.gender = gender;
         this.status = status;
     }

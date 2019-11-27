@@ -9,10 +9,9 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -29,10 +28,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -75,12 +74,13 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-    private EditText usernameTxt, emailTxt, bioTxt;
-    private Button calenderBtn;
+    private EditText usernameTxt, emailTxt, bioTxt, fromTxt;
+    private ImageButton calenderBtn;
     private Spinner genderSpinner;
     private static String genderChoice;
     private TextView ageTxt;
     private final String TAG = "Settings";
+    private String ageString;
 
     private String currentImagePath = null;
     private static final int IMAGE_CODE = 101;
@@ -160,7 +160,8 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                     child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
                     child(getString(R.string.field_age)).
                     setValue(age);
-            ageTxt.setText(age);
+            String ageOfTheUser = ageString + " " + age;
+            ageTxt.setText(ageOfTheUser);
         }
     };
 
@@ -180,17 +181,14 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
+        inflater.inflate(R.menu.main_settings_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout_settings) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(MainSettings.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        if (item.getItemId() == R.id.update_profile) {
+            updateUser();
         }
 
         // fixed so the homebutton brings the user back to UserListAcitivity
@@ -231,12 +229,14 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void init() {
+        fromTxt = findViewById(R.id.from_edittxt);
+        ageString = getString(R.string.age_txt);
         ageTxt = findViewById(R.id.age_txt);
         calenderBtn = findViewById(R.id.calender_btn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         userPic = findViewById(R.id.user_mainpic_view);
         usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
-        emailTxt = findViewById(R.id.email_mainsettings_edittext);
+        emailTxt = findViewById(R.id.email_edittext);
         bioTxt = findViewById(R.id.user_bio_edittxt);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         reference = FirebaseDatabase.getInstance().getReference();
@@ -259,6 +259,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                     usernameTxt.setText(user.getName());
                     bioTxt.setText(user.getBio());
                     ageTxt.setText(user.getAge());
+                    fromTxt.setText(user.getFrom());
 
                     if (!user.getEmail().equals("nothing")) {
 
@@ -281,6 +282,14 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                             genderSpinner.setSelection(2);
                         }
                     }
+                    if(user.getAge() != null) {
+                        String userAge = user.getAge();
+                        String ageOfTheUser = ageString + " " + userAge;
+                        ageTxt.setText(ageOfTheUser);
+                    }
+                    if (user.getFrom() != null) {
+                        fromTxt.setText(user.getFrom());
+                    }
                 }
             }
 
@@ -292,11 +301,11 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void updateUser(View view) {
-        EditText newEmailEdit = findViewById(R.id.email_mainsettings_edittext);
+    public void updateUser() {
+        EditText newEmailEdit = findViewById(R.id.email_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
         final EditText newBioEdit = findViewById(R.id.user_bio_edittxt);
-
+        final EditText newFromEdit = findViewById(R.id.from_edittxt);
         final EditText newUsername = findViewById(R.id.user_name_mainsettings_edittxt);
 
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -334,8 +343,6 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
             } else {
                 Toast.makeText(MainSettings.this, getString(R.string.invalid_email_txt), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(MainSettings.this, getString(R.string.enter_email_txt), Toast.LENGTH_SHORT).show();
         }
         if (!newPasswordEdit.getText().toString().equals("")) {
             user.updatePassword(newPasswordEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -381,11 +388,29 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: couldn't change username" + e.toString());
+                    Log.d(TAG, "onFailure: couldn't change userbio" + e.toString());
+                }
+            });
+        }
+        if (!newFromEdit.getText().toString().equals("")) {
+            //update userbio here
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_from)).
+                    setValue(newFromEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    newFromEdit.setText(newFromEdit.getText().toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: couldn't change user nationality" + e.toString());
                 }
             });
         }
 
+        Toast.makeText(MainSettings.this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
     }
 
     private Boolean isValidEmail(String email) {

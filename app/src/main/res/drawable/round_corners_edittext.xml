@@ -2,9 +2,9 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent"/>
-            <stroke android:width="1dp"
-                    android:color="@color/lightGrey"/>
-            <corners android:radius="20dp"/>
+            <stroke android:width="0.5dp"
+                    android:color="@color/daynight"/>
+            <corners android:radius="5dp"/>
         </shape>
     </item>
 </selector>
