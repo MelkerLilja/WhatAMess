@@ -169,7 +169,7 @@ public class MainSettings extends AppCompatActivity {
                     }
                 }
             }
-
+            //temp
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d(TAG, "getUserAccountData: couldn't retrieve data");
