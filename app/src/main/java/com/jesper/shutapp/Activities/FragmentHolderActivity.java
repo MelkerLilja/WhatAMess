@@ -26,6 +26,8 @@ public class FragmentHolderActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser fuser;
     ImageView notificationRequests;
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    MessagesFragment messagesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,44 +44,47 @@ public class FragmentHolderActivity extends AppCompatActivity {
         changeFragment(messagesFragment);
         notificationRequests = findViewById(R.id.notification_requests);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+        messagesFragment = new MessagesFragment();
+        fragmentManager.beginTransaction().add(R.id.fragment_activity_user_list_holder, messagesFragment, "message").commit();
+        //changeFragment(messagesFragment);
     }
 
     //Method that change our View with the Fragment we pass in
-    public void changeFragment(Fragment frag){
+    public void changeFragment(Fragment frag,String message) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 
-        fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, frag);
+        fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, frag,message).addToBackStack("");
         fragmentTransaction.commit();
     }
 
     //Button for calling ProfileFragment
     public void btnProfileFragment(View view) {
         ProfileFragment profileFragment = new ProfileFragment();
-        changeFragment(profileFragment);
+        changeFragment(profileFragment,"profile");
     }
 
     //Button for calling Message Fragment
     public void btnMessageFragment(View view) {
         MessagesFragment messagesFragment = new MessagesFragment();
-        changeFragment(messagesFragment);
+        changeFragment(messagesFragment,"message");
     }
 
     //Button for calling ContactsFragment
     public void btnContactsFragment(View view) {
         ContactsFragment contactsFragment = new ContactsFragment();
-        changeFragment(contactsFragment);
+        changeFragment(contactsFragment,"contact");
     }
 
     //Button for calling SearchFragment
     public void btnSearchFragment(View view) {
         SearchFragment searchFragment = new SearchFragment();
-        changeFragment(searchFragment);
+        changeFragment(searchFragment,"search");
     }
 
-    private void status (String status) {
+    private void status(String status) {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
 
@@ -120,5 +125,15 @@ public class FragmentHolderActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         status("offline");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.findFragmentByTag("message").isVisible()) {
+            fragmentManager.popBackStack();
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

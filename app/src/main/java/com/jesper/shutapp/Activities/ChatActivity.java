@@ -1,8 +1,10 @@
 package com.jesper.shutapp.Activities;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.InChatAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -72,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (!message.equals("")) {
                     sendMessage(fuser.getUid(), userid, message);
                 } else {
-                    Toast.makeText(ChatActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, getText(R.string.empty_message_toast), Toast.LENGTH_SHORT).show();
                 }
                 txtSend.setText("");
             }
@@ -160,7 +164,6 @@ public class ChatActivity extends AppCompatActivity {
 
     //Add picture method from gallery.
     public void addPic(View view) {
-        Log.d(TAG, "addPic: CLICK");
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
@@ -209,8 +212,30 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = new Intent(ChatActivity.this, UserPageActivity.class);
         intent.putExtra("name", username);
         intent.putExtra("bio", userbio);
-        intent.putExtra("photo",userpic);
+        intent.putExtra("photo", userpic);
         intent.putExtra("uid", userid);
         startActivity(intent);
+    }
+
+    public void zoomPic(View view) {
+        ImageView zoomPic = findViewById(R.id.zoomed_image);
+        ImageView temp = (ImageView) view;
+        zoomPic.setVisibility(View.VISIBLE);
+        zoomPic.setImageDrawable(temp.getDrawable());
+    }
+
+    public void zoomedOff(View view) {
+        ImageView zoomPic = findViewById(R.id.zoomed_image);
+        zoomPic.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ImageView zoomPic = findViewById(R.id.zoomed_image);
+        if (zoomPic.getVisibility() == View.VISIBLE) {
+            zoomPic.setVisibility(View.INVISIBLE);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

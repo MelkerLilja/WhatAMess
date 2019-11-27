@@ -113,12 +113,11 @@ public class MessagesAdapter extends BaseAdapter {
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                    //NEED TO ADD THOSE INTO STRINGS LATER ON !!!
-                    builder.setTitle("Delete conversation history");
-                    builder.setMessage("Are you sure you want to delete all conversation history");
+                    builder.setTitle(context.getString(R.string.delete_history_txt));
+                    builder.setMessage(context.getString(R.string.confirm_delete_conversation_txt));
                     builder.setCancelable(true);
 
-                    builder.setPositiveButton("Yes",
+                    builder.setPositiveButton(context.getText(R.string.yes_txt),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     deleteChat(usersList.get(position));
@@ -126,7 +125,7 @@ public class MessagesAdapter extends BaseAdapter {
                             });
 
                     //Negative Button
-                    builder.setNegativeButton("No",
+                    builder.setNegativeButton(context.getText(R.string.no_txt),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                 }
@@ -158,7 +157,7 @@ public class MessagesAdapter extends BaseAdapter {
                 }
                 switch (theLastMessage) {
                     case "default":  haveLastMessage = false;
-                        lastMessage.setText("No Message");
+                        lastMessage.setText(context.getString(R.string.no_message_txt));
 
                         break;
 
@@ -197,6 +196,6 @@ public class MessagesAdapter extends BaseAdapter {
             }
         });
 
-        Toast.makeText(context, "Conversation history deleted.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getText(R.string.delete_history_txt), Toast.LENGTH_SHORT).show();
     }
 }

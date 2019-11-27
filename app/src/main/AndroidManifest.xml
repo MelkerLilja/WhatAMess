@@ -57,5 +57,4 @@
                 android:resource="@xml/file_path" />
         </provider>
     </application>
-
 </manifest>

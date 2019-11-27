@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             if (!isEmpty(email) && !isEmpty(password)) //checks if both fields are filled or not
             {
                 showProgress();
-                Toast.makeText(this, "Login in", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getText(R.string.login_txt), Toast.LENGTH_SHORT).show();
 
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password) //making connection to the firebase database and checks if there is a user with email password credetnials
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() { //if it fails gives a toast saying it failed
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getText(R.string.authentication_failed_txt), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         } else {
-            Toast.makeText(this, "invalid email input", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.invalid_email_txt), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (user != null) { //if a user was found go to logged in activity
                     Log.d(TAG, "onAuthStateChanged: Signed in " + user.getUid());
-                    Toast.makeText(MainActivity.this, "Authenticated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getText(R.string.onauthentication_toast) + user.getEmail(), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(MainActivity.this, FragmentHolderActivity.class);
                     startActivity(intent);

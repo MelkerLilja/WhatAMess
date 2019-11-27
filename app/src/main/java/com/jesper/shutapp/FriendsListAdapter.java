@@ -92,16 +92,16 @@ public class FriendsListAdapter extends BaseAdapter {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(context, "Long Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getText(R.string.long_click_toast), Toast.LENGTH_SHORT).show();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
                 //NEED TO ADD THOSE INTO STRINGS LATER ON !!!
-                builder.setTitle("Delete friend");
-                builder.setMessage("Are you sure you want to delete " + user.getName() + " as friend?");
+                builder.setTitle(context.getString(R.string.delete_friend_txt));
+                builder.setMessage(context.getText(R.string.confirm_delete_friend_part1_txt)+ user.getName() + context.getText(R.string.confirm_delete_friend_part2_txt));
                 builder.setCancelable(true);
 
-                builder.setPositiveButton("Yes",
+                builder.setPositiveButton(context.getText(R.string.yes_txt),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 deleteFriend(user);
@@ -109,7 +109,7 @@ public class FriendsListAdapter extends BaseAdapter {
                         });
 
                 //Negative Button
-                builder.setNegativeButton("No",
+                builder.setNegativeButton(context.getText(R.string.no_txt),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
@@ -150,6 +150,6 @@ public class FriendsListAdapter extends BaseAdapter {
         reference.child("users").child(fuser.getUid()).child("friends").child(user.getUid()).removeValue();
         reference.child("users").child(user.getUid()).child("friends").child(fuser.getUid()).removeValue();
 
-        Toast.makeText(context, "Friend removed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getText(R.string.friend_removed_toast), Toast.LENGTH_SHORT).show();
     }
 }
