@@ -2,6 +2,7 @@ package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -75,9 +77,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-    private EditText usernameTxt, emailTxt, bioTxt;
-    private ImageButton calenderBtn;
-    private EditText usernameTxt, emailTxt, bioTxt, fromTxt;
+    private EditText usernameTxt, emailTxt, bioTxt,fromTxt;
     private ImageButton calenderBtn;
     private Spinner genderSpinner;
     private static String genderChoice;
