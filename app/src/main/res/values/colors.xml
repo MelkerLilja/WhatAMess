@@ -7,10 +7,16 @@
     <color name="black">#000000</color>
     <color name="orange">#ff8000</color>
 
+    <!-- three theme colors of the logo -->
+    <color name="lightBlue">#829CBC</color>
+    <color name="blue">#376996</color>
+    <color name="darkBlue">#1D3461</color>
+
     <color name="linkBlue">#4d94ff</color>
     <color name="background_tos_fragment">#AA5E5E5E</color>
     <color name="text_tos_fragment">#555555</color>
     <color name="daynight">#000000</color>
 
     <color name="buttonLabel">#454545</color>
+    <color name="shadow_color">#000000</color>
 </resources>
