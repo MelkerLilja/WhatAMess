@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -90,10 +91,14 @@ public class GroupChatFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.groupchat_check:
                 stringGroupName = groupName.getText().toString();
-                addGroupToDatabase();
-                removeOldGroup();
-                addGroupNameToUsers();
-                startGroupChatActivity();
+                if (!stringGroupName.equals("")) {
+                    addGroupToDatabase();
+                    removeOldGroup();
+                    addGroupNameToUsers();
+                    startGroupChatActivity();
+                }   else {
+                    Toast.makeText(getActivity(), "You need to choose a Group name", Toast.LENGTH_SHORT).show();
+                }
 
                 return true;
         }

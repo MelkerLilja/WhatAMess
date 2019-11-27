@@ -14,12 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Friends"
-        android:textSize="28sp"
-        android:layout_marginTop="20dp"
-        android:shadowColor="#000000"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="2"/>
+        android:textSize="25sp"
+        android:textColor="@color/daynight"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/id_requests"
@@ -27,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_friends"
-        android:text="Friend requests"/>
+        android:text="Friend requests"
+        android:textColor="@color/daynight"/>
 
     <View
         android:id="@+id/divider_line_requests"
@@ -35,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/id_requests"
-        android:background="@color/lightGrey" />
+        android:background="@color/daynight" />
 
     <ListView
         android:id="@+id/listview_friend_requests"
@@ -48,10 +46,11 @@
         android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/text_friends"
+        android:visibility="invisible"
+        android:layout_below="@+id/listview_friend_requests"
         android:elevation="2dp"
         android:layout_marginTop="20dp"
-        android:background="@color/lightGrey" />
+        android:background="@color/daynight" />
 
     <ListView
         android:id="@+id/listview_friends_list"
@@ -64,7 +63,5 @@
         android:id="@+id/fragment_activity_user_list_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
 
 </RelativeLayout>

@@ -117,8 +117,8 @@ public class MessagesFragment extends Fragment {
         dividerMessage = view.findViewById(R.id.divider_line_friendspushed);
         textMessages = view.findViewById(R.id.btn_messages_listview);
         dividerMessage.setVisibility(View.VISIBLE);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setTitle("");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
     }
 
     //Saves strings UID of all person current user have been chatting with

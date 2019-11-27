@@ -25,6 +25,27 @@
         android:textStyle="bold"
         />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/status_on"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="45dp"
+        android:src="@mipmap/ic_launcher"
+        android:visibility="gone"
+        app:civ_border_color="#05df29"
+        app:civ_border_width="10dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/status_off"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="45dp"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="#bfbfbf"
+        app:civ_border_width="10dp" />
+
     <ImageButton
         android:id="@+id/btn_add_group"
         android:layout_width="30dp"
