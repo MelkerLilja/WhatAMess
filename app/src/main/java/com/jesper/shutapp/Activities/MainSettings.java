@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -76,7 +77,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     private Uri imageUri;
     private StorageReference mStorageRef;
     private EditText usernameTxt, emailTxt, bioTxt;
-    private Button calenderBtn;
+    private ImageButton calenderBtn;
     private Spinner genderSpinner;
     private static String genderChoice;
     private TextView ageTxt;
@@ -514,39 +515,55 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     }
 
     // Delete account and return to MainActivity
-    public void deleteAccount(View view) {
+    public void deleteAccount(final View view) {
 
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //Remove user from database
-
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(user.getUid());
-
-        userRef.removeValue();
-
-        /*-----Remove user from Authentication-----*/
-
-        user.delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("HEJ", "User account deleted.");
-                            FirebaseDatabase.getInstance().getReference().child(getString
-                                    (R.string.db_users)).child(FirebaseAuth.getInstance().
-                                    getCurrentUser().getUid()).removeValue();
-                        }
-
-                    }
-                });
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 
 
-        logOut(view);
-        finish();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                        /*-----Remove user from database-----*/
 
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
+                                .child("users").child(user.getUid());
+
+                        userRef.removeValue();
+
+                        /*-----Remove user from Authentication-----*/
+
+                        user.delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("HEJ", "User account deleted");
+                                            FirebaseDatabase.getInstance().getReference().child(getString
+                                                    (R.string.db_users)).child(FirebaseAuth.getInstance().
+                                                    getCurrentUser().getUid()).removeValue();
+                                        }
+
+                                    }
+                                });
+                        Toast.makeText(MainSettings.this, "Your account is deleted", Toast.LENGTH_SHORT).show();
+                        logOut(view);
+                        finish();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     public void termsOfService(View view) {
