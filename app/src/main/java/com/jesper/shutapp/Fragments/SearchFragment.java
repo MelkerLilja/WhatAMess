@@ -155,12 +155,13 @@ public class SearchFragment extends Fragment {
                     String age = snapshot.child("age").getValue(String.class);
                     String gender = snapshot.child("gender").getValue(String.class);
 
-
                     if (name.toLowerCase().contains(searchedString.toLowerCase())){
                         nameList.add(name);
                         profilePicList.add(profilePic);
                         userBio.add(bio);
                         userUid.add(uid);
+                        userAge.add(age);
+                        userGender.add(gender);
 
                         counter++;
                     }

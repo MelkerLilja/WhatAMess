@@ -9,6 +9,7 @@ public class User {
     private String age;
     private String gender;
     private String status = "offline";
+    private String from;
 
     public User(String name, String email, String profile_picture,String uid,String bio, String status, String gender, String age) {
         this.name = name;
@@ -96,5 +97,13 @@ public class User {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 }
