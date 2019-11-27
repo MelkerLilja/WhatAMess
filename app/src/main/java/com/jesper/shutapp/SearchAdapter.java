@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    Context context;
-    ArrayList<String> nameList;
-    ArrayList<String> profilePicList;
-    ArrayList<String> userBio;
-    ArrayList<String> userUid;
-    ArrayList<String> userAge;
-    ArrayList<String> userGender;
+    private Context context;
+    private ArrayList<String> nameList;
+    private ArrayList<String> profilePicList;
+    private ArrayList<String> userBio;
+    private ArrayList<String> userUid;
+    private ArrayList<String> userAge;
+    private ArrayList<String> userGender;
     final String TAG = "LALA";
 
     public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

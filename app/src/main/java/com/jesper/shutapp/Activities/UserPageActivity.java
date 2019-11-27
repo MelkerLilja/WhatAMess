@@ -24,18 +24,19 @@ import com.jesper.shutapp.model.User;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class UserPageActivity extends AppCompatActivity {
-    DatabaseReference reference;
-    FirebaseUser fuser;
-    ImageView imageView, background;
-    ImageButton btnAddFriend, btnFriendAdded, btnFriendChat;
-    TextView userName, userBio, friends;
-    Intent intent;
-    String name;
-    String bio;
-    String photo;
-    String uid;
-    User user;
-    int friendCount;
+
+    private DatabaseReference reference;
+    private FirebaseUser fuser;
+    private ImageView imageView, background;
+    private ImageButton btnAddFriend, btnFriendAdded, btnFriendChat;
+    private TextView userName, userBio, friends;
+    private Intent intent;
+    private String name;
+    private String bio;
+    private String photo;
+    private String uid;
+    private User user;
+    private int friendCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

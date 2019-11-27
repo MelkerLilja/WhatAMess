@@ -41,22 +41,22 @@ import java.util.HashMap;
 
 public class ChatActivity extends AppCompatActivity {
 
-    ImageButton btnSend;
-    EditText txtSend;
-    String message;
-    ListView messagesList;
-    TextView userNameChat;
-    ImageView userImage;
-    Toolbar mToolbar;
-    InChatAdapter adapter;
-    DatabaseReference reference;
-    ArrayList<Chat> chatList;
-    FirebaseUser fuser;
-    String userid;
-    String username;
-    String userpic;
-    String userbio;
-    Intent intent;
+    private ImageButton btnSend;
+    private EditText txtSend;
+    private String message;
+    private ListView messagesList;
+    private TextView userNameChat;
+    private ImageView userImage;
+    private Toolbar mToolbar;
+    private InChatAdapter adapter;
+    private DatabaseReference reference;
+    private ArrayList<Chat> chatList;
+    private FirebaseUser fuser;
+    private String userid;
+    private String username;
+    private String userpic;
+    private String userbio;
+    private Intent intent;
     private static String TAG = "JesperChat";
     private static int PICK_IMAGE = 100;
     private RequestManager imageLoader;

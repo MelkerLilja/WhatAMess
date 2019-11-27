@@ -41,21 +41,21 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-    ListView usersListView, groupsListView;
-    MessagesAdapter messagesAdapter;
-    GroupListAdapter groupListAdapter;
-    ImageView userPicture;
-    FirebaseUser fuser;
-    DatabaseReference reference;
-    TextView userName;
-    ArrayList<User> usersList;
-    ArrayList<String> userGroups;
+    private ListView usersListView, groupsListView;
+    private MessagesAdapter messagesAdapter;
+    private GroupListAdapter groupListAdapter;
+    private ImageView userPicture;
+    private FirebaseUser fuser;
+    private DatabaseReference reference;
+    private TextView userName;
+    private ArrayList<User> usersList;
+    private ArrayList<String> userGroups;
     private List<String> chatUsers;
-    Toolbar mToolbar;
-    ArrayList<GroupChat> groupChatArrayList;
-    ArrayList<String> groupUsers;
-    TextView textGroups, textMessages;
-    View dividerGroup, dividerMessage;
+    private Toolbar mToolbar;
+    private ArrayList<GroupChat> groupChatArrayList;
+    private ArrayList<String> groupUsers;
+    private TextView textGroups, textMessages;
+    private View dividerGroup, dividerMessage;
 
     public MessagesFragment() {
     }

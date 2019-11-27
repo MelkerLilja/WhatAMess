@@ -29,10 +29,10 @@ public class InChatAdapter extends BaseAdapter {
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
-    Context context;
+    private Context context;
     private ArrayList<Chat> chatList;
-    User user;
-    FirebaseUser fuser;
+    private User user;
+    private FirebaseUser fuser;
 
 
 

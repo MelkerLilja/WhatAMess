@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,9 @@ import com.jesper.shutapp.model.User;
 import java.util.ArrayList;
 
 public class FriendsListAdapter extends BaseAdapter {
-    Context context;
+    private Context context;
     private ArrayList<User> friendsList;
+
 
     public FriendsListAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -58,6 +60,7 @@ public class FriendsListAdapter extends BaseAdapter {
         ImageView profilePicture;
         ImageView imgOn;
         ImageView imgOff;
+        ImageButton removeFrdBtn;
     }
 
     @Override
@@ -75,6 +78,8 @@ public class FriendsListAdapter extends BaseAdapter {
             holder.profilePicture = (ImageView) convertView.findViewById(R.id.friendlist_profile_image);
             holder.imgOn = (ImageView) convertView.findViewById(R.id.status_on);
             holder.imgOff = (ImageView) convertView.findViewById(R.id.status_off);
+            holder.removeFrdBtn = convertView.findViewById(R.id.remove_friend_list_btn);
+
 
             convertView.setTag(holder);
         } else {
@@ -88,6 +93,38 @@ public class FriendsListAdapter extends BaseAdapter {
             holder.imgOn.setVisibility(View.GONE);
             holder.imgOff.setVisibility(View.VISIBLE);
         }
+        holder.removeFrdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Jesper", "onClick: ");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                //NEED TO ADD THOSE INTO STRINGS LATER ON !!!
+                builder.setTitle("Delete friend");
+                builder.setMessage("Are you sure you want to delete " + user.getName() + " as friend?");
+                builder.setCancelable(true);
+
+                builder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteFriend(user);
+                            }
+                        });
+
+                //Negative Button
+                builder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -151,5 +188,9 @@ public class FriendsListAdapter extends BaseAdapter {
         reference.child("users").child(user.getUid()).child("friends").child(fuser.getUid()).removeValue();
 
         Toast.makeText(context, context.getText(R.string.friend_removed_toast), Toast.LENGTH_SHORT).show();
+    }
+    private void activatebtn(ImageButton btn)
+    {
+
     }
 }

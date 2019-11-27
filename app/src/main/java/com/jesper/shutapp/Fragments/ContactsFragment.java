@@ -25,10 +25,10 @@ import java.util.ArrayList;
  */
 public class ContactsFragment extends Fragment {
 
-    ListView listView;
-    ArrayList<User> friendList;
-    ArrayList<User> requestList;
-    FriendsListAdapter friendsListAdapter;
+    private ListView listView;
+    private ArrayList<User> friendList;
+    private ArrayList<User> requestList;
+    private FriendsListAdapter friendsListAdapter;
     FirebaseUser fuser;
     DatabaseReference reference;
     FriendRequestAdapter friendRequestAdapter;

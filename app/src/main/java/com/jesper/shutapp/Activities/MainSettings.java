@@ -82,13 +82,13 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     private TextView ageTxt;
     private final String TAG = "Settings";
 
-    String currentImagePath = null;
+    private String currentImagePath = null;
     private static final int IMAGE_CODE = 101;
 
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
 
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     private static boolean active = false;
 
