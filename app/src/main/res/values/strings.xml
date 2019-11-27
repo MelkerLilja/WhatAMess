@@ -96,4 +96,8 @@
     <string name="hint_report">Report...</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Report not save because it is empty</string>
+
+    //--- GroupListAdapter ---//
+    <string name="delete_group">Delete group</string>
+    <string name="delete_group_sure">Are you sure you want to delete group and all conversation history</string>
 </resources>

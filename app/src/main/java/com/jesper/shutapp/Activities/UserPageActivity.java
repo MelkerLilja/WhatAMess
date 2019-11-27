@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
@@ -35,6 +37,7 @@ public class UserPageActivity extends AppCompatActivity {
     private String bio;
     private String photo;
     private String uid;
+    private LinearLayout linearLayout;
     private User user;
     private int friendCount;
 
@@ -67,6 +70,7 @@ public class UserPageActivity extends AppCompatActivity {
         btnFriendChat = findViewById(R.id.button_chat_userpage);
         background = findViewById(R.id.userpage_background);
         friends = findViewById(R.id.userpage_friends);
+        linearLayout = findViewById(R.id.friend_buttons_layout);
 
         Glide.with(this).load(photo).into(imageView);
         setBlurryPhoto(photo);
@@ -76,32 +80,31 @@ public class UserPageActivity extends AppCompatActivity {
 
     //Method that checks if users is friends and changes views.
     private void checkIfFriends() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-        reference.child("users").child(fuser.getUid()).child("friends").child(uid).addValueEventListener(new ValueEventListener() {
+        reference.child("users").child(fuser.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    btnAddFriend.setVisibility(View.GONE);
-                    btnFriendAdded.setVisibility(View.VISIBLE);
-                    btnFriendChat.setVisibility(View.VISIBLE);
-                } else {
-                    btnAddFriend.setVisibility(View.VISIBLE);
-                    btnFriendAdded.setVisibility(View.GONE);
-                    btnFriendChat.setVisibility(View.GONE);
+                    if (dataSnapshot.hasChild(uid)) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                        btnAddFriend.setVisibility(View.GONE);
+                        Log.d("ANTON", "onDataChange: friend");
+                    }   else {
+                        linearLayout.setVisibility(View.GONE);
+                        btnAddFriend.setVisibility(View.VISIBLE);
+                        Log.d("ANTON", "onDataChange: not friend");
+                    }
                 }
-            }
+
+
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-    }
-
-    //Call the send request method.
-    public void btnAddFriend(View view) {
-        Toast.makeText(this, "Friend request sent", Toast.LENGTH_SHORT).show();
-        sendFriendRequest();
     }
 
     //Button for remove friend.
@@ -167,7 +170,7 @@ public class UserPageActivity extends AppCompatActivity {
     private void setFriendCount() {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users").child(uid);
-        reference.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 friendCount = (int) dataSnapshot.getChildrenCount();
@@ -180,5 +183,11 @@ public class UserPageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    //Button send friend request
+    public void btnAddFriend(View view) {
+        Toast.makeText(this, "Friend request sent", Toast.LENGTH_SHORT).show();
+        sendFriendRequest();
     }
 }

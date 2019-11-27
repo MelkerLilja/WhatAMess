@@ -146,7 +146,7 @@ public class ProfileFragment extends Fragment {
     private void setFriendCount() {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid());
-        reference.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 friendCount = (int) dataSnapshot.getChildrenCount();

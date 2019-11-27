@@ -1,6 +1,7 @@
 package com.jesper.shutapp;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +35,7 @@ public class GroupListAdapter extends BaseAdapter {
     FirebaseUser fuser;
     DatabaseReference reference;
     private ArrayList<String> groupUsers = new ArrayList<>();
-    private ArrayList<User> groupMembers = new ArrayList<>();
+    private ArrayList<String> groupMembers = new ArrayList<>();
     private ArrayList<String> userPics = new ArrayList<>();
     String theLastMessage;
     boolean haveLastMessage;
@@ -98,6 +101,9 @@ public class GroupListAdapter extends BaseAdapter {
 
         getUserPictures(groupChat.getGroupName(), holder);
 
+
+
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,8 +114,37 @@ public class GroupListAdapter extends BaseAdapter {
             }
         });
 
-        GroupChat groupChat_pos = groupList.get(position);
+        final GroupChat groupChat_pos = groupList.get(position);
         holder.userName.setText(groupChat_pos.getGroupName());
+
+        //OnLongClick for being able to delete a chat message
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setTitle(context.getString(R.string.delete_group));
+                builder.setMessage(context.getString(R.string.delete_group_sure));
+                builder.setCancelable(true);
+
+                builder.setPositiveButton(context.getText(R.string.yes_txt),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                               deleteGroup(groupChat_pos);
+                            }
+                        });
+
+                //Negative Button
+                builder.setNegativeButton(context.getText(R.string.no_txt),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
+            }
+        });
 
 
         return convertView;
@@ -135,13 +170,14 @@ public class GroupListAdapter extends BaseAdapter {
         });
     }
 
+
     private void getUserPictures(final String groupname,final ViewHolder holder) {
 
         Log.d("ANTON", "getUserPictures: method running");
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("groups").child(groupname).child("members");
-        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userPics.clear();
@@ -181,7 +217,7 @@ public class GroupListAdapter extends BaseAdapter {
                     holder.imageView4.setVisibility(View.GONE);
 
                 }
-                if (a == 5){
+                if (a >= 5){
                     Glide.with(context).load(userPics.get(0)).into(holder.currentUserPic);
                     Glide.with(context).load(userPics.get(1)).into(holder.imageView1);
                     Glide.with(context).load(userPics.get(2)).into(holder.imageView2);
@@ -233,5 +269,12 @@ public class GroupListAdapter extends BaseAdapter {
 
             }
         });
+    }
+
+    private void deleteGroup(final GroupChat groupChat) {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("groups").child(groupChat.getGroupName()).child("members").child(fuser.getUid()).removeValue();
+        reference.child("users").child(fuser.getUid()).child("groups").child(groupChat.getGroupName()).removeValue();
     }
 }
