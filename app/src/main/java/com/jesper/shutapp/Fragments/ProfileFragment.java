@@ -1,10 +1,12 @@
 package com.jesper.shutapp.Fragments;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,7 +73,7 @@ public class ProfileFragment extends Fragment {
     }
 
     //Initiate all variables and views.
-    private void init (View view){
+    private void init(View view) {
         setHasOptionsMenu(true);
         mToolbar = view.findViewById(R.id.include_toolbar_xml);
         friends = view.findViewById(R.id.profile_friends);
@@ -78,7 +81,7 @@ public class ProfileFragment extends Fragment {
         profileImg = view.findViewById(R.id.profile_image);
         usernameText = view.findViewById(R.id.user_name_profile_text);
         bioText = view.findViewById(R.id.bio_profile_text);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setTitle("");
     }
 
@@ -111,9 +114,9 @@ public class ProfileFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (isVisible() && user != null) {
 
-                if (isVisible()) {
-                    User user = dataSnapshot.getValue(User.class);
                     usernameText.setText(user.getName());
                     bioText.setText(user.getBio());
                     Glide.with(getActivity()).load(user.getProfile_picture()).into(profileImg);
@@ -130,13 +133,13 @@ public class ProfileFragment extends Fragment {
     }
 
     //Method to set a blurry photo.
-    private void setBlurryPhoto(User user){
+    private void setBlurryPhoto(User user) {
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
         test.setColorFilter(filter);
 
-        Glide.with(getContext()).load(user.getProfile_picture()).transform(new BlurTransformation(7,10)).into(test);
+        Glide.with(getContext()).load(user.getProfile_picture()).transform(new BlurTransformation(7, 10)).into(test);
     }
 
     //Method to check how many friends user got.
@@ -146,7 +149,7 @@ public class ProfileFragment extends Fragment {
         reference.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               friendCount = (int) dataSnapshot.getChildrenCount();
+                friendCount = (int) dataSnapshot.getChildrenCount();
                 String s = Integer.toString(friendCount);
                 friends.setText(s);
             }
