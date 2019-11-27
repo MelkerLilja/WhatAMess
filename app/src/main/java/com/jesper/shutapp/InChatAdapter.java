@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,7 +64,7 @@ public class InChatAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         int type = getItemViewType(position);
 
         ViewHolder holder = null;
@@ -107,6 +108,14 @@ public class InChatAdapter extends BaseAdapter {
         } else {
             holder.message.setText(chat_pos.getMessage());
         }
+
+        final View finalConvertView = convertView;
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(position, finalConvertView, parent);
+            }
+        });
         return convertView;
     }
 
@@ -145,5 +154,10 @@ public class InChatAdapter extends BaseAdapter {
         });
 
 
+    }
+
+    private void hideKeyboard (final int position,final View convertView, final ViewGroup parent){
+        final InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView(position, convertView, parent).getWindowToken(), 0);
     }
 }

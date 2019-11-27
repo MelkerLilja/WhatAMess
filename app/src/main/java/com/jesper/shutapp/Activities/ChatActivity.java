@@ -5,16 +5,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +64,7 @@ public class ChatActivity extends AppCompatActivity {
     private static String TAG = "JesperChat";
     private static int PICK_IMAGE = 100;
     private RequestManager imageLoader;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,13 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, getText(R.string.empty_message_toast), Toast.LENGTH_SHORT).show();
                 }
                 txtSend.setText("");
+            }
+        });
+
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
             }
         });
 
@@ -103,6 +115,7 @@ public class ChatActivity extends AppCompatActivity {
         messagesList = findViewById(R.id.listview_message);
         userNameChat = findViewById(R.id.text_userName_chat);
         userImage = findViewById(R.id.image_user_chat);
+        frameLayout = findViewById(R.id.frame_chat);
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
@@ -237,5 +250,10 @@ public class ChatActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void hideKeyboard (){
+        final InputMethodManager imm = (InputMethodManager) ChatActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 }

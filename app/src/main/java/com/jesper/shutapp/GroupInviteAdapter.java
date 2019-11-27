@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,7 +25,6 @@ public class GroupInviteAdapter extends BaseAdapter {
     private ArrayList<User> friendsList;
     DatabaseReference reference;
     FirebaseUser fuser;
-
 
     public GroupInviteAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -56,7 +56,7 @@ public class GroupInviteAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         final User user = friendsList.get(position);
 
         GroupInviteAdapter.ViewHolder holder = null;
@@ -97,7 +97,6 @@ public class GroupInviteAdapter extends BaseAdapter {
                 reference.child("groups").child(fuser.getUid()).child(friendsList.get(position).getUid()).setValue(friendsList.get(position).getUid());
                 finalHolder.btnAddGroup.setVisibility(View.GONE);
                 finalHolder1.btnRemoveGroup.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -116,8 +115,14 @@ public class GroupInviteAdapter extends BaseAdapter {
             }
         });
 
+        final View finalConvertView = convertView;
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(position, finalConvertView, parent);
 
-
+            }
+        });
 
         User user_pos = friendsList.get(position);
         holder.userName.setText(user_pos.getName());
@@ -126,6 +131,10 @@ public class GroupInviteAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private void hideKeyboard (final int position,final View convertView, final ViewGroup parent){
+        final InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView(position, convertView, parent).getWindowToken(), 0);
+    }
 }
 
 

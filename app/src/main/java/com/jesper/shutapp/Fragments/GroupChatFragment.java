@@ -1,4 +1,5 @@
 package com.jesper.shutapp.Fragments;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,8 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +45,12 @@ public class GroupChatFragment extends Fragment {
     private FirebaseUser fuser;
     private GroupInviteAdapter groupInviteAdapter;
     private Toolbar mToolbar;
-    private DatabaseReference reference, userRef;
+    private DatabaseReference reference;
     private ArrayList<String> groupUsers;
     private EditText groupName;
     private String user;
     private String stringGroupName;
+    private RelativeLayout relativeLayout;
 
     public GroupChatFragment() {
         // Required empty public constructor
@@ -61,6 +66,13 @@ public class GroupChatFragment extends Fragment {
         getUsersFromFB();
         generateFriendList();
 
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
+            }
+        });
+
         return view;
     }
 
@@ -72,6 +84,7 @@ public class GroupChatFragment extends Fragment {
         listView = view.findViewById(R.id.listview_friends_groupchat);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         mToolbar = view.findViewById(R.id.include_toolbar_groupchat);
+        relativeLayout = view.findViewById(R.id.layout_addgroupmembers);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         groupUsers.add(fuser.getUid());
         mToolbar.setTitle("");
@@ -209,11 +222,17 @@ public class GroupChatFragment extends Fragment {
         });
     }
 
-    //Calls the GroupChatActivity
+    //Calls the GroupChatActivity.
     private void startGroupChatActivity (){
         Intent intent = new Intent (getActivity(), GroupInChatActivity.class);
         intent.putExtra("groupname", stringGroupName);
         intent.putExtra("grouplist", groupUsers);
         startActivity(intent);
+    }
+
+    //Method that hides the keyboard.
+    private void hideKeyboard (){
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }
