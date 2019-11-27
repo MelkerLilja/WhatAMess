@@ -92,4 +92,8 @@
     <string name="password_updated_toast">Password updated</string>
     <string name="password_not_updated_toast">Password not updated</string>
     <string name="report_a_problem">Report a problem</string>
+
+    //--- GroupListAdapter ---//
+    <string name="delete_group">Delete group</string>
+    <string name="delete_group_sure">Are you sure you want to delete group and all conversation history</string>
 </resources>

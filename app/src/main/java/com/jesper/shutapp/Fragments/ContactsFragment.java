@@ -70,6 +70,7 @@ public class ContactsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                friendList.clear();
              /*   if(friendList.size() >= 1)
                 {
                     friendList.clear();
@@ -96,9 +97,13 @@ public class ContactsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                requestList.clear();
                 if (dataSnapshot.exists()){
                     dividerRequests.setVisibility(View.VISIBLE);
                     idRequest.setVisibility(View.VISIBLE);
+                }   else{
+                    dividerRequests.setVisibility(View.GONE);
+                    idRequest.setVisibility(View.GONE);
                 }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);

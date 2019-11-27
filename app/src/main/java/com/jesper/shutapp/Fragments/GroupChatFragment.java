@@ -116,7 +116,6 @@ public class GroupChatFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     for (int i = 0; i < groupUsers.size() ; i++) {
 
-
                         if (snapshot.getKey().equals(groupUsers.get(i))) {
                             User user = snapshot.getValue(User.class);
                             DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
@@ -131,9 +130,7 @@ public class GroupChatFragment extends Fragment {
 
             }
         });
-
-
-        }
+    }
 
     //Gets the group-users from FireBase.
     private void getUsersFromFB() {

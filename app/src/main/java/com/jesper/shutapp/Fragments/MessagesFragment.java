@@ -215,9 +215,10 @@ public class MessagesFragment extends Fragment {
     private void generateUserGroups() {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.child(fuser.getUid()).child("groups").addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(fuser.getUid()).child("groups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userGroups.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     userGroups.add(snapshot.getKey());
                     Log.d("ANTON", "userGroups.add " + snapshot.getKey());
@@ -233,7 +234,8 @@ public class MessagesFragment extends Fragment {
     }
 
     private void generateGroups() {
-        //Log.d("ANTON", userGroups.get(0));
+        groupChatArrayList.clear();
+        Log.d("ANTON", "generateGroups: generating groups");
 
         for (int i = 0; i < userGroups.size() ; i++) {
             GroupChat groupChat = new GroupChat();
