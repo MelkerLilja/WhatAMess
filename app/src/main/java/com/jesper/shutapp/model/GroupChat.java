@@ -28,10 +28,6 @@ public class GroupChat {
         this.groupName = groupName;
     }
 
-    public GroupChat (){
-
-    }
-
     public String getMessage() {
         return message;
     }

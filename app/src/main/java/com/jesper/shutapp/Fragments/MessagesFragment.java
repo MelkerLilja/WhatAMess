@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-    private ListView usersListView, groupsListView;
+    private ListView usersListView, groupsListView,groupList;
     private MessagesAdapter messagesAdapter;
     private GroupListAdapter groupListAdapter;
     private ImageView userPicture;
@@ -50,13 +50,7 @@ public class MessagesFragment extends Fragment {
     private TextView userName;
     private ArrayList<User> usersList;
     private ArrayList<String> userGroups;
-    ListView usersListView, groupList;
-    MessagesAdapter messagesAdapter;
-    ImageView userPicture;
-    FirebaseUser fuser;
-    DatabaseReference reference;
-    TextView userName;
-    ArrayList<User> usersList;
+
     private List<String> chatUsers;
     private Toolbar mToolbar;
     private ArrayList<GroupChat> groupChatArrayList;

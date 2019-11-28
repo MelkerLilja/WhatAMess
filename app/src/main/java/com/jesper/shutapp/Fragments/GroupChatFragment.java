@@ -1,6 +1,7 @@
 package com.jesper.shutapp.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,11 +17,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,19 +58,9 @@ public class GroupChatFragment extends Fragment {
     private String user;
     private String stringGroupName;
     private RelativeLayout relativeLayout;
-    ListView listView;
-    ArrayList<User> friendListGroup;
-    FirebaseUser fuser;
-    GroupInviteAdapter groupInviteAdapter;
-    Toolbar mToolbar;
     CheckBox mCheckbox;
     ImageView btnChecked;
-    DatabaseReference reference;
-    ArrayList<String> groupUsers;
     TextView textView;
-    EditText groupName;
-    String user;
-    String stringGroupName;
 
 
     public GroupChatFragment() {
@@ -161,13 +155,13 @@ public class GroupChatFragment extends Fragment {
 
             }
         });
-        for (int i = 0; i < users.size(); i++) {
+       /*for (int i = 0; i < users.size(); i++) {
             hashMap.put(users.get(i) , users.get(i));
         }
         hashMap.put(fuser.getUid(), fuser.getUid());
         reference.child(string).setValue(hashMap);
 
-        addGroupsToUsers();
+        addGroupsToUsers();*/
 
     }
 
