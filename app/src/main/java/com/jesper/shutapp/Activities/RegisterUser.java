@@ -69,6 +69,8 @@ public class RegisterUser extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.register_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(null);
+
 
         mTos.setOnTouchListener(new View.OnTouchListener()
         {

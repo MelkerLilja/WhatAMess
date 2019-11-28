@@ -6,6 +6,20 @@
     <include layout="@layout/mtoolbar"
         android:id="@+id/register_toolbar"/>
 
+    <TextView
+        android:id="@+id/settings_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="@string/register_title"
+        android:textColor="@color/daynight"
+        android:shadowColor="@color/black"
+        android:textSize="30sp" />
+
     <EditText
         android:id="@+id/email_register_edittxt"
         android:layout_width="match_parent"

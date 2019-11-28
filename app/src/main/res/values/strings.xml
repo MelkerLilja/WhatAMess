@@ -110,7 +110,7 @@
     <string name="invitation_title">Invitation</string>
     <string name="message_text">Discover our new chat app: What A Mess</string>
     <string name="image">https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg</string>
-
+    <string name="register_title">Register</string>
 
 
 </resources>
