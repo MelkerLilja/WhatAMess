@@ -11,6 +11,20 @@
         android:layout_height="wrap_content"
         tools:context=".Activities.MainSettings">
 
+        <ImageButton
+            android:id="@+id/invite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/change_profile_pic"
+            android:layout_below="@id/settings_title"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_toLeftOf="@id/user_mainpic_view"
+            android:background="@null"
+            android:onClick="inviteFriendToApp"
+            android:src="@drawable/add_friend_to_app_icon"
+            android:text="Invite Friends" />
+
 
         <TextView
             android:id="@+id/settings_title"
@@ -45,10 +59,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/change_profile_pic"
+            android:layout_below="@id/settings_title"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/user_mainpic_view"
+            android:background="@null"
             android:onClick="takePic"
-            android:src="@drawable/cameraicon"
-            android:tint="@color/daynight" />
+            android:src="@drawable/camera_icon" />
 
         <TextView
             android:id="@+id/change_profile_pic"

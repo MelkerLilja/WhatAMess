@@ -1,7 +1,12 @@
 package com.jesper.shutapp.Fragments;
+
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -15,10 +20,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +42,7 @@ import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.GroupChat;
 import com.jesper.shutapp.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +67,7 @@ public class MessagesFragment extends Fragment {
     private TextView textGroups, textMessages;
     private View dividerGroup, dividerMessage;
 
+
     public MessagesFragment() {
     }
 
@@ -70,6 +81,7 @@ public class MessagesFragment extends Fragment {
         getChatHistory();
         readChats();
         generateUserGroups();
+
 
         textGroups.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +112,9 @@ public class MessagesFragment extends Fragment {
         return view;
     }
 
+
     //Initiate all view and variables and set Current user.
-    private void init (View view) {
+    private void init(View view) {
         setHasOptionsMenu(true);
         usersList = new ArrayList<>();
         chatUsers = new ArrayList<>();
@@ -118,11 +131,12 @@ public class MessagesFragment extends Fragment {
         textMessages = view.findViewById(R.id.btn_messages_listview);
         dividerMessage.setVisibility(View.VISIBLE);
         mToolbar.setTitle("");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
     }
 
+
     //Saves strings UID of all person current user have been chatting with
-    private void getChatHistory (){
+    private void getChatHistory() {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
         reference.addValueEventListener(new ValueEventListener() {
@@ -147,11 +161,13 @@ public class MessagesFragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}});
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     //Locates the user class which we've chat with and adds to adapter.
-    private void readChats () {
+    private void readChats() {
         reference = FirebaseDatabase.getInstance().getReference("users");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -166,12 +182,12 @@ public class MessagesFragment extends Fragment {
                         if (user.getUid().equals(id)) {
                             if (usersList.size() != 0) {
                                 for (User user1 : usersList) {
-                                    if (!user.getUid().equals(user1.getUid())){
+                                    if (!user.getUid().equals(user1.getUid())) {
                                         usersList.add(user);
                                         break;
                                     }
                                 }
-                            }   else {
+                            } else {
                                 usersList.add(user);
                             }
                         }
@@ -237,7 +253,7 @@ public class MessagesFragment extends Fragment {
         groupChatArrayList.clear();
         Log.d("ANTON", "generateGroups: generating groups");
 
-        for (int i = 0; i < userGroups.size() ; i++) {
+        for (int i = 0; i < userGroups.size(); i++) {
             GroupChat groupChat = new GroupChat();
             groupChat.setGroupName(userGroups.get(i));
             Log.d("ANTON", groupChat.getGroupName());
