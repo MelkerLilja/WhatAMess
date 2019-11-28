@@ -51,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/group_btn_send"
-            android:layout_toEndOf="@+id/add_image_image"
+            android:layout_toEndOf="@+id/group_add_image_image"
+            android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:hint="Type a message..."
             android:textColor="@color/daynight" />
@@ -60,17 +61,17 @@
             android:id="@+id/group_add_image_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:onClick="AddPic"
-            android:src="@drawable/addimage"
-            android:tint="@color/daynight" />
+            android:src="@drawable/svg_gallery"/>
 
         <ImageButton
             android:id="@+id/group_btn_send"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_button_send"
+            android:background="@null"
+            android:src="@drawable/svg_send"
             android:onClick="btnGroupSend" />
 
 

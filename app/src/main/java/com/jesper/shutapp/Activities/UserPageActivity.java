@@ -30,14 +30,13 @@ public class UserPageActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private FirebaseUser fuser;
     private ImageView imageView, background;
-    private ImageButton btnAddFriend, btnFriendAdded, btnFriendChat;
+    private ImageButton btnAddFriend, btnFriendChat;
     private TextView userName, userBio, friends;
     private Intent intent;
     private String name;
     private String bio;
     private String photo;
     private String uid;
-    private LinearLayout linearLayout;
     private User user;
     private int friendCount;
 
@@ -66,11 +65,10 @@ public class UserPageActivity extends AppCompatActivity {
         userBio = findViewById(R.id.text_userpage_bio);
         userName = findViewById(R.id.text_username_userpage);
         btnAddFriend = findViewById(R.id.btn_add_friend);
-        btnFriendAdded = findViewById(R.id.btn_friend_added);
         btnFriendChat = findViewById(R.id.button_chat_userpage);
         background = findViewById(R.id.userpage_background);
         friends = findViewById(R.id.userpage_friends);
-        linearLayout = findViewById(R.id.friend_buttons_layout);
+        btnFriendChat = findViewById(R.id.button_chat_userpage);
 
         Glide.with(this).load(photo).into(imageView);
         setBlurryPhoto(photo);
@@ -86,11 +84,11 @@ public class UserPageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.hasChild(uid)) {
-                        linearLayout.setVisibility(View.VISIBLE);
+                        btnFriendChat.setVisibility(View.VISIBLE);
                         btnAddFriend.setVisibility(View.GONE);
                         Log.d("ANTON", "onDataChange: friend");
                     }   else {
-                        linearLayout.setVisibility(View.GONE);
+                        btnFriendChat.setVisibility(View.GONE);
                         btnAddFriend.setVisibility(View.VISIBLE);
                         Log.d("ANTON", "onDataChange: not friend");
                     }
@@ -113,7 +111,7 @@ public class UserPageActivity extends AppCompatActivity {
         reference.child("users").child(uid).child("friends").child(fuser.getUid()).removeValue();
 
         btnAddFriend.setVisibility(View.VISIBLE);
-        btnFriendAdded.setVisibility(View.GONE);
+        //btnFriendAdded.setVisibility(View.GONE);
 
         Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show();
     }

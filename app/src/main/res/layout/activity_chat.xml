@@ -65,6 +65,7 @@
          android:id="@+id/text_send"
          android:background="@android:color/transparent"
          android:layout_toEndOf="@+id/add_image_image"
+         android:layout_marginStart="10dp"
          android:hint="@string/type_a_message_txt"
          android:textColor="@color/daynight"
          android:layout_toStartOf="@id/btn_send"
@@ -72,18 +73,18 @@
      <ImageView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:src="@drawable/addimage"
-         android:tint="@color/daynight"
+         android:src="@drawable/svg_gallery"
          android:id="@+id/add_image_image"
-         android:layout_marginTop="10dp"
+         android:layout_marginTop="6dp"
          android:onClick="addPic"
          />
 
      <ImageButton
          android:layout_width="40dp"
          android:layout_height="40dp"
-         android:background="@drawable/ic_button_send"
+         android:background="@null"
          android:id="@+id/btn_send"
+         android:src="@drawable/svg_send"
          android:layout_alignParentEnd="true" />
 
 

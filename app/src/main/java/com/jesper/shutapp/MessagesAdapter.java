@@ -97,6 +97,7 @@ public class MessagesAdapter extends BaseAdapter {
                 intent.putExtra("userid", user.getUid());
                 intent.putExtra("username", user.getName());
                 intent.putExtra("userpic", user.getProfile_picture());
+                intent.putExtra("bio", user.getBio());
                 context.startActivity(intent);
             }
         });
