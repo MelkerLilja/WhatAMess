@@ -5,19 +5,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,25 +45,26 @@ import java.util.HashMap;
 
 public class ChatActivity extends AppCompatActivity {
 
-    ImageButton btnSend;
-    EditText txtSend;
-    String message;
-    ListView messagesList;
-    TextView userNameChat;
-    ImageView userImage;
-    Toolbar mToolbar;
-    InChatAdapter adapter;
-    DatabaseReference reference;
-    ArrayList<Chat> chatList;
-    FirebaseUser fuser;
-    String userid;
-    String username;
-    String userpic;
-    String userbio;
-    Intent intent;
+    private ImageButton btnSend;
+    private EditText txtSend;
+    private String message;
+    private ListView messagesList;
+    private TextView userNameChat;
+    private ImageView userImage;
+    private Toolbar mToolbar;
+    private InChatAdapter adapter;
+    private DatabaseReference reference;
+    private ArrayList<Chat> chatList;
+    private FirebaseUser fuser;
+    private String userid;
+    private String username;
+    private String userpic;
+    private String userbio;
+    private Intent intent;
     private static String TAG = "JesperChat";
     private static int PICK_IMAGE = 100;
     private RequestManager imageLoader;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
 
         init();
 
-
+        //On click listener for send button.
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +81,16 @@ public class ChatActivity extends AppCompatActivity {
                 if (!message.equals("")) {
                     sendMessage(fuser.getUid(), userid, message);
                 } else {
-                    Toast.makeText(ChatActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, getText(R.string.empty_message_toast), Toast.LENGTH_SHORT).show();
                 }
                 txtSend.setText("");
+            }
+        });
+
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
             }
         });
 
@@ -99,12 +108,14 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void init() {
+    //Initiate all variables and views.
+    private void init () {
         btnSend = findViewById(R.id.btn_send);
         txtSend = findViewById(R.id.text_send);
         messagesList = findViewById(R.id.listview_message);
         userNameChat = findViewById(R.id.text_userName_chat);
         userImage = findViewById(R.id.image_user_chat);
+        frameLayout = findViewById(R.id.frame_chat);
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
@@ -164,8 +175,8 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    //Add picture method from gallery.
     public void addPic(View view) {
-        Log.d(TAG, "addPic: CLICK");
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
@@ -209,6 +220,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    //Button to get to user-page Activity.
     public void btnUserProfile(View view) {
         Intent intent = new Intent(ChatActivity.this, UserPageActivity.class);
         intent.putExtra("name", username);
@@ -216,5 +228,32 @@ public class ChatActivity extends AppCompatActivity {
         intent.putExtra("photo", userpic);
         intent.putExtra("uid", userid);
         startActivity(intent);
+    }
+
+    public void zoomPic(View view) {
+        ImageView zoomPic = findViewById(R.id.zoomed_image);
+        ImageView temp = (ImageView) view;
+        zoomPic.setVisibility(View.VISIBLE);
+        zoomPic.setImageDrawable(temp.getDrawable());
+    }
+
+    public void zoomedOff(View view) {
+        ImageView zoomPic = findViewById(R.id.zoomed_image);
+        zoomPic.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ImageView zoomPic = findViewById(R.id.zoomed_image);
+        if (zoomPic.getVisibility() == View.VISIBLE) {
+            zoomPic.setVisibility(View.INVISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void hideKeyboard (){
+        final InputMethodManager imm = (InputMethodManager) ChatActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 }

@@ -4,17 +4,20 @@ import java.util.ArrayList;
 
 public class GroupChat {
 
+    private String groupName;
+    private String message;
+    private ArrayList<String> receiver;
+    private String sender;
 
-   private String groupName;
-   private String message;
-   private ArrayList<String> receiver;
-   private String sender;
-
-    public GroupChat(String message, ArrayList<String> receiver, String sender, String groupName) {
+    public GroupChat(String groupName, String message, ArrayList<String> receiver, String sender) {
         this.groupName = groupName;
         this.message = message;
         this.receiver = receiver;
         this.sender = sender;
+    }
+
+    public GroupChat (){
+
     }
 
     public String getGroupName() {

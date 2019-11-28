@@ -1,11 +1,8 @@
 package com.jesper.shutapp;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,18 +23,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
-
 import java.util.ArrayList;
 
 public class MessagesAdapter extends BaseAdapter {
 
-    boolean haveLastMessage;
-    Context context;
+    private boolean haveLastMessage;
+    private Context context;
     private ArrayList<User> usersList;
-    String theLastMessage;
-    FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
+    private String theLastMessage;
+    private FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
     public MessagesAdapter(Context context, ArrayList<User> usersList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -73,11 +64,7 @@ public class MessagesAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-
         final User user = usersList.get(position);
-
-
         ViewHolder holder = null;
 
         final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -120,23 +107,17 @@ public class MessagesAdapter extends BaseAdapter {
 
         lastMessageMethod(user.getUid(), holder.lastMessage);
 
-
-
-
-
-
             //OnLongClick for being able to delete a chat message
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                    //NEED TO ADD THOSE INTO STRINGS LATER ON !!!
-                    builder.setTitle("Delete conversation history");
-                    builder.setMessage("Are you sure you want to delete all conversation history");
+                    builder.setTitle(context.getString(R.string.delete_history_txt));
+                    builder.setMessage(context.getString(R.string.confirm_delete_conversation_txt));
                     builder.setCancelable(true);
 
-                    builder.setPositiveButton("Yes",
+                    builder.setPositiveButton(context.getText(R.string.yes_txt),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     deleteChat(usersList.get(position));
@@ -144,7 +125,7 @@ public class MessagesAdapter extends BaseAdapter {
                             });
 
                     //Negative Button
-                    builder.setNegativeButton("No",
+                    builder.setNegativeButton(context.getText(R.string.no_txt),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                 }
@@ -157,19 +138,12 @@ public class MessagesAdapter extends BaseAdapter {
             return convertView;
     }
 
-
-
     //Method that displays the last message sent by users in our Messages view.
     private void lastMessageMethod(final String userid, final TextView lastMessage) { //A method that loops the chat messages and checks what the last message sent
         theLastMessage = "default";
         //between the user and receiver then adds it to the user item.
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
-
-
-
-
-
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -183,7 +157,7 @@ public class MessagesAdapter extends BaseAdapter {
                 }
                 switch (theLastMessage) {
                     case "default":  haveLastMessage = false;
-                        lastMessage.setText("No Message");
+                        lastMessage.setText(context.getString(R.string.no_message_txt));
 
                         break;
 
@@ -192,7 +166,6 @@ public class MessagesAdapter extends BaseAdapter {
                         break;
                 }
                 theLastMessage = "default";
-
             }
 
             @Override
@@ -200,15 +173,7 @@ public class MessagesAdapter extends BaseAdapter {
 
             }
         });
-
     }
-
-
-    private void deleteItemAtId(int id){
-        usersList.remove(id);
-        notifyDataSetChanged();
-    }
-
 
     //Method that checks all history between two users and deletes it from Firebase.
     private void deleteChat(final User user) {
@@ -231,6 +196,6 @@ public class MessagesAdapter extends BaseAdapter {
             }
         });
 
-        Toast.makeText(context, "Conversation history deleted.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getText(R.string.delete_history_txt), Toast.LENGTH_SHORT).show();
     }
 }

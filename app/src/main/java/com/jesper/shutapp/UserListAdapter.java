@@ -1,5 +1,4 @@
 package com.jesper.shutapp;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,16 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.model.User;
-
 import java.util.ArrayList;
 
 public class UserListAdapter extends BaseAdapter {
 
-    Context context;
+    private Context context;
     private ArrayList<User> usersList;
 
     public UserListAdapter(Context context, ArrayList<User> usersList) { //Constructor for InChatAdapter with the Context and our chatList.

@@ -5,84 +5,121 @@
     android:layout_height="match_parent"
     tools:context=".Activities.UserPageActivity">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_user_page"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/placeholder" />
+    <ImageView
+        android:id="@+id/userpage_background"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginBottom="100dp"
+        android:foregroundGravity="top"
+        android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/text_username_userpage"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_user_page"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/text_username_userpage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_user_page"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="#ffffff"
+        android:textSize="18dp" />
+
+
+    <LinearLayout
+        android:id="@+id/friend_buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="300dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/button_chat_userpage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/image_user_page"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="7dp"
-            android:textColor="@color/daynight"
-            android:textSize="18dp" />
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:onClick="btnSendMessage"
+            android:src="@drawable/message_black" />
 
-        <LinearLayout
-            android:id="@+id/profile_buttons"
+        <ImageButton
+            android:id="@+id/btn_friend_added"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_username_userpage"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/message_black"
-                    android:tint="@color/daynight"
-                    android:onClick="btnSendMessage"
-                    android:background="@drawable/circle_image_user_page_activity"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1" />
-
-                <ImageButton
-                    android:id="@+id/btn_add_friend"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/addpersonicon"
-                    android:tint="@color/daynight"
-                    android:background="@drawable/circle_image_user_page_activity"
-                    android:layout_weight="1"
-                    android:onClick="btnAddFriend"/>
-
-                <ImageButton
-                    android:id="@+id/btn_friend_added"
-                    android:visibility="gone"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:tint="@color/daynight"
-                    android:background="@drawable/ic_check_circle_black_24dp"
-                    android:layout_weight="1"
-                    android:onClick="btnRemoveFriend"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/bio_profile_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/daynight"
-            android:layout_below="@id/profile_buttons"
-            android:layout_marginLeft="50dp"
-            android:text="Bio" />
-
-        <TextView
-            android:id="@+id/text_userpage_bio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bio_profile_text"
-            android:layout_marginLeft="50dp"
-            android:textColor="@color/daynight"
-            android:layout_marginRight="50dp"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:onClick="btnRemoveFriend"
+            android:src="@drawable/deleteblack_24dp" />
 
 
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_add_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circle_image_user_page_activity"
+        android:onClick="btnAddFriend"
+        android:src="@drawable/addpersonicon"
+        android:tint="@color/daynight"
+        android:visibility="gone" />
 
 
+    <TextView
+        android:id="@+id/userpage_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="320dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="Friends"
+        android:textColor="#ffffff" />
+
+
+    <TextView
+        android:id="@+id/text_userpage_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userpage_background"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

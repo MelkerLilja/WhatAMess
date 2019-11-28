@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.Activities.GroupInChatActivity;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.GroupInviteAdapter;
 import com.jesper.shutapp.model.User;
@@ -42,6 +43,17 @@ import java.util.List;
  */
 public class GroupChatFragment extends Fragment {
 
+    private ListView listView;
+    private ArrayList<User> friendListGroup;
+    private FirebaseUser fuser;
+    private GroupInviteAdapter groupInviteAdapter;
+    private Toolbar mToolbar;
+    private DatabaseReference reference;
+    private ArrayList<String> groupUsers;
+    private EditText groupName;
+    private String user;
+    private String stringGroupName;
+    private RelativeLayout relativeLayout;
     ListView listView;
     ArrayList<User> friendListGroup;
     FirebaseUser fuser;
@@ -61,11 +73,9 @@ public class GroupChatFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_group_chat, container, false);
 
         setHasOptionsMenu(true);
@@ -73,36 +83,84 @@ public class GroupChatFragment extends Fragment {
         getUsersFromFB();
         generateFriendList();
 
-
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
+            }
+        });
 
 
         return view;
     }
 
+    //Initiate all variables and views.
     private void init (View view) {
         groupUsers = new ArrayList<>();
-        textView = view.findViewById(R.id.test_test);
+        friendListGroup = new ArrayList<>();
         groupName = view.findViewById(R.id.edittext_groupchat);
         listView = view.findViewById(R.id.listview_friends_groupchat);
-        friendListGroup = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         mToolbar = view.findViewById(R.id.include_toolbar_groupchat);
+        relativeLayout = view.findViewById(R.id.layout_addgroupmembers);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        btnChecked = view.findViewById(R.id.imagebutton_checkbox);
+        groupUsers.add(fuser.getUid());
         mToolbar.setTitle("");
     }
 
+    //Inflate our toolbar.
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.groupchat_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-
     }
 
-    private void addGroupToDatabase(String string, List<String> users) {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        reference = FirebaseDatabase.getInstance().getReference("groups");
+    //Switch case for toolbar.
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.groupchat_check:
+                stringGroupName = groupName.getText().toString();
+                if (!stringGroupName.equals("")) {
+                    addGroupToDatabase();
+                    removeOldGroup();
+                    addGroupNameToUsers();
+                    startGroupChatActivity();
+                }   else {
+                    Toast.makeText(getActivity(), "You need to choose a Group name", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Adds the group to database.
+    private void addGroupToDatabase() {
+
+        reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    for (int i = 0; i < groupUsers.size() ; i++) {
+
+                        if (snapshot.getKey().equals(groupUsers.get(i))) {
+                            User user = snapshot.getValue(User.class);
+                            DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("groups");
+                            groupRef.child(stringGroupName).child("members").child(user.getUid()).setValue(user);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         for (int i = 0; i < users.size(); i++) {
             hashMap.put(users.get(i) , users.get(i));
         }
@@ -113,6 +171,7 @@ public class GroupChatFragment extends Fragment {
 
     }
 
+    //Gets the group-users from FireBase.
     private void getUsersFromFB() {
 
         stringGroupName = groupName.getText().toString();
@@ -135,12 +194,13 @@ public class GroupChatFragment extends Fragment {
         });
     }
 
+    //Removes the old group from FireBase.
     private void removeOldGroup() {
         reference = FirebaseDatabase.getInstance().getReference("groups").child(fuser.getUid());
         reference.removeValue();
     }
 
-    //Generate all user to the list
+    //Generate all user to the list.
     private void generateFriendList() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(fuser.getUid()).child("friends");
         reference.addValueEventListener(new ValueEventListener() {
@@ -165,6 +225,42 @@ public class GroupChatFragment extends Fragment {
 
     }
 
+    //Adds group-names into Users profiles.
+    private void addGroupNameToUsers(){
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (int i = 0; i < groupUsers.size(); i++) {
+                        if (snapshot.getKey().equals(groupUsers.get(i))){
+                            reference.child(snapshot.getKey()).child("groups").child(stringGroupName).setValue(stringGroupName);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Calls the GroupChatActivity.
+    private void startGroupChatActivity (){
+        Intent intent = new Intent (getActivity(), GroupInChatActivity.class);
+        intent.putExtra("groupname", stringGroupName);
+        intent.putExtra("grouplist", groupUsers);
+        startActivity(intent);
+    }
+
+    //Method that hides the keyboard.
+    private void hideKeyboard (){
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
     private void addGroupsToUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
 

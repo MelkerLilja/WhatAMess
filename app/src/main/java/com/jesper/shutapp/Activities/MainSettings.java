@@ -2,6 +2,7 @@ package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -9,7 +10,10 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -23,9 +27,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,31 +57,41 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.Fragments.TermsOfService;
+import com.jesper.shutapp.Sqlite.SqlMain;
 import com.jesper.shutapp.model.User;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class MainSettings extends AppCompatActivity {
+public class MainSettings extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     FirebaseUser user;
+    DatabaseReference reference;
+    ArrayAdapter<CharSequence> adapter;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
     private static final int PICK_IMAGE = 100;
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-    private EditText usernameTxt;
-    private EditText emailTxt;
-    private EditText bioTxt;
+    private EditText usernameTxt, emailTxt, bioTxt,fromTxt;
+    private ImageButton calenderBtn;
+    private Spinner genderSpinner;
+    private static String genderChoice;
+    private TextView ageTxt;
     private final String TAG = "Settings";
+    private String ageString;
 
-    String currentImagePath = null;
+    private String currentImagePath = null;
     private static final int IMAGE_CODE = 101;
 
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
 
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     private static boolean active = false;
 
@@ -78,6 +99,8 @@ public class MainSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_settings);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         init();
 
@@ -98,22 +121,77 @@ public class MainSettings extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        // Here is the gender spinner
+
+        genderSpinner = findViewById(R.id.gender_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_choices, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        genderSpinner.setAdapter(adapter);
+        genderSpinner.setOnItemSelectedListener(this);
+
+
+        calenderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dateDialog = new DatePickerDialog(v.getContext(), datePickerListener, mYear, mMonth, mDay);
+                dateDialog.getDatePicker().setMaxDate(new Date().getTime());
+                dateDialog.show();
+            }
+        });
+
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, day);
+            String age = Integer.toString(calculateAge(c.getTimeInMillis()));
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_age)).
+                    setValue(age);
+            String ageOfTheUser = ageString + " " + age;
+            ageTxt.setText(ageOfTheUser);
+        }
+    };
+
+    int calculateAge(long date) {
+        Calendar dob = Calendar.getInstance();
+        dob.setTimeInMillis(date);
+
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
+            age--;
+        }
+        return age;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
+        inflater.inflate(R.menu.main_settings_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout_settings) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(MainSettings.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        if (item.getItemId() == R.id.update_profile) {
+            updateUser();
         }
 
         // fixed so the homebutton brings the user back to UserListAcitivity
@@ -129,17 +207,17 @@ public class MainSettings extends AppCompatActivity {
     // Change from dark to day theme
     public void theme(View view) {
 
-        SharedPreferences sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+        sp = getSharedPreferences("theme", Activity.MODE_PRIVATE);
+        editor = sp.edit();
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            Toast.makeText(this, "Day theme activated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.day_theme_toast), Toast.LENGTH_SHORT).show();
             editor.putString("theme_key", "day");
 
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            Toast.makeText(this, "Night theme activated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.night_theme_toast), Toast.LENGTH_SHORT).show();
             editor.putString("theme_key", "night");
         }
         editor.apply();
@@ -153,14 +231,18 @@ public class MainSettings extends AppCompatActivity {
         finish();
     }
 
-
     private void init() {
+        fromTxt = findViewById(R.id.from_edittxt);
+        ageString = getString(R.string.age_txt);
+        ageTxt = findViewById(R.id.age_txt);
+        calenderBtn = findViewById(R.id.calender_btn);
         user = FirebaseAuth.getInstance().getCurrentUser();
         userPic = findViewById(R.id.user_mainpic_view);
         usernameTxt = findViewById(R.id.user_name_mainsettings_edittxt);
-        emailTxt = findViewById(R.id.email_mainsettings_edittext);
+        emailTxt = findViewById(R.id.email_edittext);
         bioTxt = findViewById(R.id.user_bio_edittxt);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference();
         getUserAccountData();
     }
 
@@ -179,7 +261,8 @@ public class MainSettings extends AppCompatActivity {
                     emailTxt.setText(user.getEmail());
                     usernameTxt.setText(user.getName());
                     bioTxt.setText(user.getBio());
-
+                    ageTxt.setText(user.getAge());
+                    fromTxt.setText(user.getFrom());
 
                     if (!user.getEmail().equals("nothing")) {
 
@@ -194,6 +277,22 @@ public class MainSettings extends AppCompatActivity {
                             }
                         }
                     }
+                    Log.d(TAG, "onDataChange: " + user.getGender());
+                    if (user.getGender() != null) {
+                        if (user.getGender().equals("Man")) {
+                            genderSpinner.setSelection(1);
+                        } else if (user.getGender().equals("Woman")) {
+                            genderSpinner.setSelection(2);
+                        }
+                    }
+                    if(user.getAge() != null) {
+                        String userAge = user.getAge();
+                        String ageOfTheUser = ageString + " " + userAge;
+                        ageTxt.setText(ageOfTheUser);
+                    }
+                    if (user.getFrom() != null) {
+                        fromTxt.setText(user.getFrom());
+                    }
                 }
             }
 
@@ -205,11 +304,11 @@ public class MainSettings extends AppCompatActivity {
 
     }
 
-    public void updateUser(View view) {
-        EditText newEmailEdit = findViewById(R.id.email_mainsettings_edittext);
+    public void updateUser() {
+        EditText newEmailEdit = findViewById(R.id.email_edittext);
         EditText newPasswordEdit = findViewById(R.id.new_password_edittxt);
         final EditText newBioEdit = findViewById(R.id.user_bio_edittxt);
-
+        final EditText newFromEdit = findViewById(R.id.from_edittxt);
         final EditText newUsername = findViewById(R.id.user_name_mainsettings_edittxt);
 
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -235,32 +334,30 @@ public class MainSettings extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: couldn't change email" + e.toString());
                             }
                         });
-                        Toast.makeText(MainSettings.this, "Email updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainSettings.this, getString(R.string.email_updated), Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainSettings.this, "Email couldn't be updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainSettings.this, getString(R.string.email_not_updated), Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onFailure: Email couldn't be updated" + e.toString());
                     }
                 });
             } else {
-                Toast.makeText(MainSettings.this, "Not a valid email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainSettings.this, getString(R.string.invalid_email_txt), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(MainSettings.this, "Enter a new email", Toast.LENGTH_SHORT).show();
         }
         if (!newPasswordEdit.getText().toString().equals("")) {
             user.updatePassword(newPasswordEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
 
-                    Toast.makeText(MainSettings.this, "Password updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainSettings.this, getString(R.string.password_updated_toast), Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(MainSettings.this, "Password couldn't be updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainSettings.this, getString(R.string.password_not_match_toast), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -294,12 +391,29 @@ public class MainSettings extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: couldn't change username" + e.toString());
+                    Log.d(TAG, "onFailure: couldn't change userbio" + e.toString());
+                }
+            });
+        }
+        if (!newFromEdit.getText().toString().equals("")) {
+            //update userbio here
+            reference.child(getString(R.string.db_users)).
+                    child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                    child(getString(R.string.field_from)).
+                    setValue(newFromEdit.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    newFromEdit.setText(newFromEdit.getText().toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: couldn't change user nationality" + e.toString());
                 }
             });
         }
 
-
+        Toast.makeText(MainSettings.this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
     }
 
     private Boolean isValidEmail(String email) {
@@ -365,10 +479,9 @@ public class MainSettings extends AppCompatActivity {
                 }
             });
         }
-        if(resultCode == RESULT_OK && requestCode == IMAGE_CODE)
-        {
+        if (resultCode == RESULT_OK && requestCode == IMAGE_CODE) {
             Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
-            Log.d(TAG, "onActivityResult: " +imageUri);
+            Log.d(TAG, "onActivityResult: " + imageUri);
             userPic.setImageBitmap(bitmap);
 
             String uid = user.getUid();
@@ -421,7 +534,7 @@ public class MainSettings extends AppCompatActivity {
     }
 
     // Log out and return to MainActivity
-    public void log_out(View view) {
+    public void logOut(View view) {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -429,68 +542,85 @@ public class MainSettings extends AppCompatActivity {
     }
 
     // Delete account and return to MainActivity
-    public void delete_account(View view) {
+    public void deleteAccount(final View view) {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        //Remove user from database
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 
-        DatabaseReference userRef =FirebaseDatabase.getInstance().getReference()
-                .child("users").child(user.getUid());
 
-        userRef.removeValue();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        //Remove user from Authentication
+                        /*-----Remove user from database-----*/
 
-        user.delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("HEJ", "User account deleted.");
-                            FirebaseDatabase.getInstance().getReference().child(getString
-                             (R.string.db_users)).child(FirebaseAuth.getInstance().
-                            getCurrentUser().getUid()).removeValue();
-                        }
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
+                                .child("users").child(user.getUid());
 
-                    }
-                });
-        log_out(view);
-        finish();
+                        userRef.removeValue();
+
+                        /*-----Remove user from Authentication-----*/
+
+                        user.delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("HEJ", "User account deleted");
+                                            FirebaseDatabase.getInstance().getReference().child(getString
+                                                    (R.string.db_users)).child(FirebaseAuth.getInstance().
+                                                    getCurrentUser().getUid()).removeValue();
+                                        }
+
+                                    }
+                                });
+                        Toast.makeText(MainSettings.this, "Your account is deleted", Toast.LENGTH_SHORT).show();
+                        logOut(view);
+                        finish();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
-    public void terms_of_service(View view) {
+    public void termsOfService(View view) {
         mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, tos, "Terms of Service").commit();
     }
 
-    public void takePic(View view)
-    {
+    public void takePic(View view) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        if(cameraIntent.resolveActivity(getPackageManager())!= null)
-        {
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
             File imageFile = null;
             try {
                 imageFile = getImageFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(imageFile != null)
-            {
-                Uri imageUri = FileProvider.getUriForFile(this,"com.jesper.shutapp",imageFile);
+            if (imageFile != null) {
+                Uri imageUri = FileProvider.getUriForFile(this, "com.jesper.shutapp", imageFile);
                 this.imageUri = imageUri;
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-                startActivityForResult(cameraIntent,IMAGE_CODE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(cameraIntent, IMAGE_CODE);
             }
         }
     }
 
-    private File getImageFile() throws IOException
-    {
+    private File getImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageName = timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageName,".jpg", storageDir);
+        File imageFile = File.createTempFile(imageName, ".jpg", storageDir);
         currentImagePath = imageFile.getAbsolutePath();
 
         return imageFile;
@@ -508,5 +638,44 @@ public class MainSettings extends AppCompatActivity {
         active = false;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (position) {
+            case 0:
+                // Whatever you want to happen when the first item gets selected
+                break;
+            case 1:
+                // Whatever you want to happen when the second item gets selected
+                genderChoice = String.valueOf(parent.getItemAtPosition(position));
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
+                break;
+            case 2:
+                // Whatever you want to happen when the third item gets selected
+                genderChoice = String.valueOf(parent.getItemAtPosition(position));
+                reference.child(getString(R.string.db_users)).
+                        child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                        child(getString(R.string.field_gender)).
+                        setValue(genderChoice);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void reportAproblem(View view) {
+        //Send to new activity problemActivity
+
+        Intent intent = new Intent(this, SqlMain.class);
+        startActivity(intent);
+        finish();
+
+    }
 }
 

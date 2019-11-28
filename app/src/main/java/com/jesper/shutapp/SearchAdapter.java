@@ -19,11 +19,13 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    Context context;
-    ArrayList<String> nameList;
-    ArrayList<String> profilePicList;
-    ArrayList<String> userBio;
-    ArrayList<String> userUid;
+    private Context context;
+    private ArrayList<String> nameList;
+    private ArrayList<String> profilePicList;
+    private ArrayList<String> userBio;
+    private ArrayList<String> userUid;
+    private ArrayList<String> userAge;
+    private ArrayList<String> userGender;
     final String TAG = "LALA";
 
     public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -37,6 +39,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             profilePic = itemView.findViewById(R.id.profile_pic);
             nameOfUser = itemView.findViewById(R.id.name_of_user);
             itemView.setOnClickListener(this);
+            init();
+        }
+
+        private void init()
+        {
+
         }
 
         @Override
@@ -46,10 +54,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             String bio = userBio.get(getAdapterPosition());
             String photo = profilePicList.get(getAdapterPosition());
             String uid = userUid.get(getAdapterPosition());
+            String age = userAge.get(getAdapterPosition());
+            String gender = userGender.get(getAdapterPosition());
             intent.putExtra("bio", bio);
             intent.putExtra("photo", photo);
             intent.putExtra("name", name);
             intent.putExtra("uid", uid);
+            intent.putExtra("age", age);
+            intent.putExtra("gender",gender);
             itemView.getContext().startActivity(intent);
             Log.d("MELKER", "onClick: click");
         }
@@ -57,12 +69,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
 
     public SearchAdapter(Context context, ArrayList<String> nameList,
-                         ArrayList<String> profilePicList, ArrayList<String> userBio, ArrayList<String> userUid) {
+                         ArrayList<String> profilePicList, ArrayList<String> userBio,
+                         ArrayList<String> userUid, ArrayList<String> userAge, ArrayList<String> userGender) {
         this.context = context;
         this.nameList = nameList;
         this.profilePicList = profilePicList;
         this.userBio = userBio;
         this.userUid = userUid;
+        this.userAge = userAge;
+        this.userGender = userGender;
     }
 
     @NonNull

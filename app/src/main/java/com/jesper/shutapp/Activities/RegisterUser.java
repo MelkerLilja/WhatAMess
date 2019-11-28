@@ -103,16 +103,16 @@ public class RegisterUser extends AppCompatActivity {
                         registerUser(email, password);
 
                     } else {
-                        Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getText(R.string.password_not_match_toast), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "Not a valid Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getText(R.string.invalid_email_txt), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "password too short, need to be atleast 6 characters", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.too_short_password_toast), Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, "You have to fill all the fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.all_field_toast), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -159,6 +159,9 @@ public class RegisterUser extends AppCompatActivity {
                     user.setProfile_picture("https://www.cfdating.com/user_images/default.png");
                     user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     user.setBio("");
+                    user.setAge("");
+                    user.setFrom("");
+                    user.setGender("");
 
                     FirebaseDatabase.
                             getInstance().
@@ -189,7 +192,7 @@ public class RegisterUser extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     redirectLoginScreen();
                 } else {
-                    Toast.makeText(RegisterUser.this, "Unable to register", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUser.this, getText(R.string.unable_register_toast), Toast.LENGTH_SHORT).show();
                 }
                 hideProgress();
             }

@@ -1,10 +1,13 @@
 package com.jesper.shutapp.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,8 +18,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,23 +44,26 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
-    UserListAdapter adapter;
-    ArrayList<User>userSearchList;
-    ListView listView;
-    Context context;
+    private  UserListAdapter adapter;
+    private ArrayList<User>userSearchList;
+    private ListView listView;
+    private Context context;
 
 
     /* Min från förut */
 
-    EditText searchUser;
-    RecyclerView recyclerView;
-    DatabaseReference databaseReference;
-    FirebaseUser firebaseUser;
-    ArrayList<String> nameList;
-    ArrayList<String> profilePicList;
-    ArrayList<String> userBio;
-    ArrayList<String> userUid;
-    SearchAdapter searchAdapter;
+    private EditText searchUser;
+    private RecyclerView recyclerView;
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
+    private ArrayList<String> nameList;
+    private ArrayList<String> profilePicList;
+    private ArrayList<String> userBio;
+    private ArrayList<String> userUid;
+    private ArrayList<String> userGender;
+    private ArrayList<String> userAge;
+    private SearchAdapter searchAdapter;
+    private FrameLayout test;
 
 
     public SearchFragment() {
@@ -65,6 +76,14 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_users, container, false);
         userSearchList = new ArrayList<>();
 
+        test = view.findViewById(R.id.test_test);
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
+            }
+        });
 
         searchUser = view.findViewById(R.id.search_users);
         recyclerView = view.findViewById(R.id.users_list);
@@ -80,6 +99,8 @@ public class SearchFragment extends Fragment {
         profilePicList = new ArrayList<>();
         userBio = new ArrayList<>();
         userUid = new ArrayList<>();
+        userGender = new ArrayList<>();
+        userAge = new ArrayList<>();
 
         searchUser.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,6 +118,8 @@ public class SearchFragment extends Fragment {
                 if(!s.toString().isEmpty()){
                     setAdapter(s.toString());
                 } else {
+                    userGender.clear();
+                    userAge.clear();
                     nameList.clear();
                     profilePicList.clear();
                     userBio.clear();
@@ -106,19 +129,21 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        return view;
-    }
 
+        return view;
+
+    }
 
     private void setAdapter(final String searchedString) {
         databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 nameList.clear();
                 profilePicList.clear();
                 userBio.clear();
                 userUid.clear();
+                userAge.clear();
+                userGender.clear();
                 recyclerView.removeAllViews();
                 int counter = 0;
 
@@ -127,13 +152,16 @@ public class SearchFragment extends Fragment {
                     String profilePic = snapshot.child("profile_picture").getValue(String.class);
                     String bio = snapshot.child("bio").getValue(String.class);
                     String uid = snapshot.child("uid").getValue(String.class);
-
+                    String age = snapshot.child("age").getValue(String.class);
+                    String gender = snapshot.child("gender").getValue(String.class);
 
                     if (name.toLowerCase().contains(searchedString.toLowerCase())){
                         nameList.add(name);
                         profilePicList.add(profilePic);
                         userBio.add(bio);
                         userUid.add(uid);
+                        userAge.add(age);
+                        userGender.add(gender);
 
                         counter++;
                     }
@@ -142,7 +170,7 @@ public class SearchFragment extends Fragment {
                         break;
                 }
 
-                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid);
+                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid, userAge, userGender);
                 recyclerView.setAdapter(searchAdapter);
             }
 
@@ -151,5 +179,10 @@ public class SearchFragment extends Fragment {
 
             }
         });
+    }
+
+    private void hideKeyboard (){
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }

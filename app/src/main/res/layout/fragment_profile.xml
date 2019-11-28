@@ -1,34 +1,67 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    tools:context=".Fragments.ProfileFragment">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".Activities.ProfileSetting">
+        <ImageView
+            android:id="@+id/profile_background"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginBottom="100dp"
+            android:foregroundGravity="top"
+            android:scaleType="fitXY" />
 
+        <include layout="@layout/mtoolbar"
+            android:id="@+id/include_toolbar_xml" />
 
         <TextView
-            android:id="@+id/profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"/>
+
+        <TextView
+            android:id="@+id/profile_friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/profile_txt"
-            android:layout_marginTop="5dp"
-            android:textSize="30sp" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:layout_marginTop="300dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friends"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:layout_marginTop="320dp"
+            android:layout_centerHorizontal="true"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#ffffff"
             android:layout_below="@+id/include_toolbar_xml"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            app:civ_border_color="@color/black"
-            app:civ_border_width="2dp"
-            android:tooltipText="press to change picture" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/user_name_profile_text"
@@ -37,28 +70,50 @@
             android:layout_below="@id/profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
-            android:textColor="@color/daynight"
-            android:textSize="18dp" />
-
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"/>
 
         <TextView
             android:id="@+id/bio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_name_profile_text"
-            android:layout_marginLeft="50dp"
-            android:text="Bio"
-            android:textColor="@color/daynight" />
-        android:text="@string/user_bio_txt" />
+            android:text="ABOUT"
+            android:textSize="18sp"
+            android:textColor="@color/daynight"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:layout_below="@id/profile_background"
+            android:layout_marginStart="70dp"/>
+
 
         <TextView
             android:id="@+id/bio_profile_text"
-            android:layout_width="match_parent"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/bio_title"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:textColor="@color/daynight" />
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/daynight"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"/>
 
-    </RelativeLayout>
-</ScrollView>
+        <View
+            android:id="@+id/divider_line_friends"
+            android:layout_width="270dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/bio_profile_text"
+            android:elevation="2dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/daynight" />
+</RelativeLayout>

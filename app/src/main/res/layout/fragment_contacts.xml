@@ -8,30 +8,60 @@
     <include layout="@layout/mtoolbar"
         android:id="@+id/userlist_toolbar" />
 
+    <TextView
+        android:id="@+id/text_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Friends"
+        android:textSize="25sp"
+        android:textColor="@color/daynight"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/id_requests"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_friends"
+        android:text="Friend requests"
+        android:textColor="@color/daynight"/>
+
+    <View
+        android:id="@+id/divider_line_requests"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/id_requests"
+        android:background="@color/daynight" />
+
     <ListView
         android:id="@+id/listview_friend_requests"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_line_requests"/>
 
-    <SearchView
-        android:id="@+id/search_users"
+    <View
+        android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/listview_friend_requests"/>
+        android:layout_height="1dp"
+        android:visibility="invisible"
+        android:layout_below="@+id/listview_friend_requests"
+        android:elevation="2dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/daynight" />
 
     <ListView
         android:id="@+id/listview_friends_list"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:layout_below="@+id/search_users"/>
+        android:layout_below="@+id/divider_line_friends"/>
 
     <FrameLayout
         android:id="@+id/fragment_activity_user_list_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
 
 </RelativeLayout>

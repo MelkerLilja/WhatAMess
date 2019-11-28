@@ -1,4 +1,5 @@
 package com.jesper.shutapp.Fragments;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,9 +26,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jesper.shutapp.GroupInviteAdapter;
+import com.jesper.shutapp.GroupListAdapter;
 import com.jesper.shutapp.MessagesAdapter;
 import com.jesper.shutapp.R;
 import com.jesper.shutapp.model.Chat;
+import com.jesper.shutapp.model.GroupChat;
 import com.jesper.shutapp.model.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,15 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
+    private ListView usersListView, groupsListView;
+    private MessagesAdapter messagesAdapter;
+    private GroupListAdapter groupListAdapter;
+    private ImageView userPicture;
+    private FirebaseUser fuser;
+    private DatabaseReference reference;
+    private TextView userName;
+    private ArrayList<User> usersList;
+    private ArrayList<String> userGroups;
     ListView usersListView, groupList;
     MessagesAdapter messagesAdapter;
     ImageView userPicture;
@@ -44,7 +58,11 @@ public class MessagesFragment extends Fragment {
     TextView userName;
     ArrayList<User> usersList;
     private List<String> chatUsers;
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
+    private ArrayList<GroupChat> groupChatArrayList;
+    private ArrayList<String> groupUsers;
+    private TextView textGroups, textMessages;
+    private View dividerGroup, dividerMessage;
 
     public MessagesFragment() {
     }
@@ -58,6 +76,33 @@ public class MessagesFragment extends Fragment {
         setCurrentUser();
         getChatHistory();
         readChats();
+        generateUserGroups();
+
+        textGroups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                usersListView.setVisibility(View.GONE);
+                dividerMessage.setVisibility(View.INVISIBLE);
+                dividerGroup.setVisibility(View.VISIBLE);
+                groupsListView.setVisibility(View.VISIBLE);
+                textGroups.setTypeface(null, Typeface.BOLD);
+                textMessages.setTypeface(null, Typeface.NORMAL);
+            }
+        });
+
+        textMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                groupsListView.setVisibility(View.GONE);
+                dividerGroup.setVisibility(View.INVISIBLE);
+                usersListView.setVisibility(View.VISIBLE);
+                dividerMessage.setVisibility(View.VISIBLE);
+                textGroups.setTypeface(null, Typeface.NORMAL);
+                textMessages.setTypeface(null, Typeface.BOLD);
+            }
+        });
+
 
         return view;
     }
@@ -67,11 +112,20 @@ public class MessagesFragment extends Fragment {
         setHasOptionsMenu(true);
         usersList = new ArrayList<>();
         chatUsers = new ArrayList<>();
+        userGroups = new ArrayList<>();
+        groupChatArrayList = new ArrayList<>();
         mToolbar = view.findViewById(R.id.userlist_toolbar);
+        textGroups = view.findViewById(R.id.btn_group_listview);
         usersListView = view.findViewById(R.id.users_list);
         groupList = view.findViewById(R.id.group_users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
+        groupsListView = view.findViewById(R.id.listview_groups);
+        dividerGroup = view.findViewById(R.id.divider_line_groupspushed);
+        dividerMessage = view.findViewById(R.id.divider_line_friendspushed);
+        textMessages = view.findViewById(R.id.btn_messages_listview);
+        dividerMessage.setVisibility(View.VISIBLE);
+        mToolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
     }
 
@@ -165,32 +219,43 @@ public class MessagesFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.friendlist_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+    //Adds all the user groups to a string-array.
+    private void generateUserGroups() {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.child(fuser.getUid()).child("groups").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userGroups.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    userGroups.add(snapshot.getKey());
+                    Log.d("ANTON", "userGroups.add " + snapshot.getKey());
+                }
+                generateGroups();
+            }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        switch (item.getItemId()) {
-            case R.id.add_personToChat_button:
-                GroupChatFragment groupChatFragment = new GroupChatFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-
-                fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, groupChatFragment);
-                fragmentTransaction.commit();
-
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
     }
 
     private void generateGroups() {
+        groupChatArrayList.clear();
+        Log.d("ANTON", "generateGroups: generating groups");
+
+        for (int i = 0; i < userGroups.size() ; i++) {
+            GroupChat groupChat = new GroupChat();
+            groupChat.setGroupName(userGroups.get(i));
+            Log.d("ANTON", groupChat.getGroupName());
+            groupChatArrayList.add(groupChat);
+        }
+        groupListAdapter = new GroupListAdapter(getActivity(), groupChatArrayList);
+        groupsListView.setAdapter(groupListAdapter);
+    }
+
+    /*private void generateGroups() {
         reference = FirebaseDatabase.getInstance().getReference("groups");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -205,7 +270,36 @@ public class MessagesFragment extends Fragment {
 
             }
         });
+    }*/
+
+
+
+    //Inflate our toolbar.
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.friendlist_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
+
+    //Switch case for toolbar.
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add_personToChat_button:
+                GroupChatFragment groupChatFragment = new GroupChatFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.fragment_activity_user_list_holder, groupChatFragment);
+                fragmentTransaction.commit();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
     @Override

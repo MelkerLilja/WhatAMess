@@ -2,44 +2,40 @@ package com.jesper.shutapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
-import android.util.Log;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.jesper.shutapp.Activities.ChatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.Chat;
+import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
 
 public class InChatAdapter extends BaseAdapter {
 
-    public static final int MSG_TYPE_LEFT = 0; // Need to use later on with our user to check which chat layout we want
+    public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
-
-    Context context;
+    private Context context;
     private ArrayList<Chat> chatList;
+    private User user;
+    private FirebaseUser fuser;
 
-    FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
 
     public InChatAdapter(Context context, ArrayList<Chat> chatList) { //Constructor for InChatAdapter with the Context and our chatList.
         this.context = context;
@@ -64,14 +60,19 @@ public class InChatAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView message;
         ImageView image;
-
+        ImageView profilePicture;
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         int type = getItemViewType(position);
 
         ViewHolder holder = null;
+        final Chat chat_pos = chatList.get(position);
+
+
+
+
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         holder = new ViewHolder();
@@ -81,6 +82,10 @@ public class InChatAdapter extends BaseAdapter {
                 convertView = mInflater.inflate(R.layout.chat_item_left, parent, false);
                 holder.message = (TextView) convertView.findViewById(R.id.show_message);
                 holder.image = convertView.findViewById(R.id.image_received);
+                holder.profilePicture = convertView.findViewById(R.id.profile_image_inchat);
+                getOtherUser(chat_pos, convertView, holder);
+
+                Log.d("ANTON", "getView: " );
                 convertView.setTag(holder);
             } else {
                 convertView = mInflater.inflate(R.layout.chat_item_right, parent, false);
@@ -92,7 +97,10 @@ public class InChatAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Chat chat_pos = chatList.get(position);
+        /*final Chat chat_pos = chatList.get(position);
+        getOtherUser(chat_pos);*/
+
+
         if (chat_pos.getMessage().contains(".jpg") || chat_pos.getMessage().contains(".png")) {
             Glide.with(context).load(chat_pos.getMessage()).into(holder.image);
             Log.d("JesperChat", "getView: ");
@@ -100,9 +108,18 @@ public class InChatAdapter extends BaseAdapter {
         } else {
             holder.message.setText(chat_pos.getMessage());
         }
+
+        final View finalConvertView = convertView;
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(position, finalConvertView, parent);
+            }
+        });
         return convertView;
     }
 
+    //Method to check which sides of chat to put message.
     @Override
     public int getItemViewType(int position) {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -112,5 +129,35 @@ public class InChatAdapter extends BaseAdapter {
         } else {
             return MSG_TYPE_LEFT;
         }
+    }
+
+    private void getOtherUser(final Chat chat,final View convertView, final ViewHolder holder) {
+        FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (chat.getSender().equals(snapshot.getKey())){
+                        user = snapshot.getValue(User.class);
+                        Glide.with(convertView).load(user.getProfile_picture()).into(holder.profilePicture);
+
+                    }
+                }
+           //     Glide.with(convertView).load(user.getProfile_picture()).into(holder.image);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void hideKeyboard (final int position,final View convertView, final ViewGroup parent){
+        final InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView(position, convertView, parent).getWindowToken(), 0);
     }
 }

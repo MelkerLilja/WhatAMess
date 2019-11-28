@@ -5,18 +5,18 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/ic_launcher_round" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_inchat"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/ic_launcher_round"/>
 
     <TextView
         android:id="@+id/show_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/profile_image"
+        android:layout_toEndOf="@+id/profile_image_inchat"
         android:background="@drawable/background_left"
         android:padding="8dp"
         android:textColor="@color/daynight"
@@ -30,6 +30,7 @@
         android:adjustViewBounds="true"
         android:background="@drawable/background_left"
         android:maxWidth="100dp"
-        android:maxHeight="100dp" />
+        android:maxHeight="100dp"
+        android:onClick="zoomPic"/>
 
 </RelativeLayout>
