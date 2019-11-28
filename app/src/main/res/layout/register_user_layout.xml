@@ -8,42 +8,65 @@
 
     <EditText
         android:id="@+id/email_register_edittxt"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/daynight"
-        android:layout_marginTop="200dp"
+        android:padding="10dp"
+        android:background="@drawable/round_corners_edittext"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:hint="@string/email_hint"
         android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/password_register_edittxt"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:textColor="@color/daynight"
+        android:background="@drawable/round_corners_edittext"
         android:layout_below="@+id/email_register_edittxt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:hint="@string/Password_hint"
         android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/confirm_password_register_edittxt"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
+        android:padding="10dp"
         android:layout_height="wrap_content"
         android:textColor="@color/daynight"
+        android:background="@drawable/round_corners_edittext"
         android:layout_below="@id/password_register_edittxt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:hint="@string/confirm_password_hint"
         android:inputType="textPassword" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/confirm_password_register_edittxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:onClick="confirmTos"
+        android:textColor="@color/daynight"
+        android:text="@string/terms_of_service_box"
+        android:id="@+id/tos_checkbox"/>
 
     <Button
         android:id="@+id/register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/daynight"
-        android:layout_below="@+id/confirm_password_register_edittxt"
+        android:layout_below="@+id/tos_checkbox"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:onClick="registerOnClick"
@@ -61,17 +84,6 @@
         android:textColor="@color/linkBlue"
         android:textSize="15sp" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/confirm_password_register_edittxt"
-        android:layout_marginTop="7dp"
-        android:layout_toEndOf="@id/register_btn"
-        android:onClick="confirmTos"
-        android:textColor="@color/daynight"
-        android:text="@string/terms_of_service_box"
-        android:id="@+id/tos_checkbox"/>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -79,6 +91,7 @@
         android:id="@+id/fragment_holder_register"/>
 
     <RelativeLayout
+        android:id="@+id/progress_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">

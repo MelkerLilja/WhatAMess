@@ -44,18 +44,12 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
-    private  UserListAdapter adapter;
-    private ArrayList<User>userSearchList;
-    private ListView listView;
-    private Context context;
-
-
-    /* Min från förut */
 
     private EditText searchUser;
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
+    private DatabaseReference myDatabase;
     private ArrayList<String> nameList;
     private ArrayList<String> profilePicList;
     private ArrayList<String> userBio;
@@ -64,19 +58,17 @@ public class SearchFragment extends Fragment {
     private ArrayList<String> userAge;
     private SearchAdapter searchAdapter;
     private FrameLayout test;
-
+    private String myUser;
 
     public SearchFragment() {
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_users, container, false);
-        userSearchList = new ArrayList<>();
-
-        test = view.findViewById(R.id.test_test);
+        init(view);
+        setCurrentUser();
 
         test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,23 +76,6 @@ public class SearchFragment extends Fragment {
                 hideKeyboard();
             }
         });
-
-        searchUser = view.findViewById(R.id.search_users);
-        recyclerView = view.findViewById(R.id.users_list);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-
-        nameList = new ArrayList<>();
-        profilePicList = new ArrayList<>();
-        userBio = new ArrayList<>();
-        userUid = new ArrayList<>();
-        userGender = new ArrayList<>();
-        userAge = new ArrayList<>();
 
         searchUser.addTextChangedListener(new TextWatcher() {
             @Override
@@ -115,7 +90,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().isEmpty()){
+                if (!s.toString().isEmpty()) {
                     setAdapter(s.toString());
                 } else {
                     userGender.clear();
@@ -128,10 +103,33 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-
-
         return view;
+    }
 
+    //Initiate all view and variables and set Current user.
+    private void init(View view) {
+        test = view.findViewById(R.id.test_test);
+        searchUser = view.findViewById(R.id.search_users);
+        recyclerView = view.findViewById(R.id.users_list);
+        nameList = new ArrayList<>();
+        profilePicList = new ArrayList<>();
+        userBio = new ArrayList<>();
+        userUid = new ArrayList<>();
+        userGender = new ArrayList<>();
+        userAge = new ArrayList<>();
+
+        // For searching of our users in the database
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Current user initiate
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        myDatabase = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+
+        // RecyclerView initiate
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
     }
 
     private void setAdapter(final String searchedString) {
@@ -147,7 +145,7 @@ public class SearchFragment extends Fragment {
                 recyclerView.removeAllViews();
                 int counter = 0;
 
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String name = snapshot.child("name").getValue(String.class);
                     String profilePic = snapshot.child("profile_picture").getValue(String.class);
                     String bio = snapshot.child("bio").getValue(String.class);
@@ -155,7 +153,7 @@ public class SearchFragment extends Fragment {
                     String age = snapshot.child("age").getValue(String.class);
                     String gender = snapshot.child("gender").getValue(String.class);
 
-                    if (name.toLowerCase().contains(searchedString.toLowerCase())){
+                    if (name.toLowerCase().contains(searchedString.toLowerCase()) && !name.toLowerCase().contains(myUser.toLowerCase())) {
                         nameList.add(name);
                         profilePicList.add(profilePic);
                         userBio.add(bio);
@@ -181,8 +179,25 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void hideKeyboard (){
+    private void hideKeyboard() {
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
+    //Method for setting up the current user in a string
+    private void setCurrentUser() {
+        myDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (isVisible()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    myUser = user.getName();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
