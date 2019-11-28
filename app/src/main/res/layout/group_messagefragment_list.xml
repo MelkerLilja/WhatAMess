@@ -53,7 +53,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/group_image_5"
         android:padding="8dp"
         android:textColor="@color/daynight"
@@ -66,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:textColor="@color/daynight"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:layout_toEndOf="@id/group_image_5"
         android:maxLines="1"
         android:padding="8dp"/>

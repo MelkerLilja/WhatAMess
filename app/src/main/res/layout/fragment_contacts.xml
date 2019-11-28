@@ -18,21 +18,14 @@
         android:textColor="@color/daynight"
         android:layout_marginTop="10dp" />
 
-    <TextView
-        android:id="@+id/id_requests"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_friends"
-        android:text="Friend requests"
-        android:textColor="@color/daynight"/>
 
     <View
         android:id="@+id/divider_line_requests"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/id_requests"
+        android:layout_height="0.2dp"
+        android:layout_below="@+id/text_friends"
+        android:layout_marginTop="30dp"
         android:background="@color/daynight" />
 
     <ListView
@@ -43,18 +36,24 @@
         android:layout_below="@id/divider_line_requests"/>
 
     <View
+        android:id="@+id/divider_line_requests_bottom"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@+id/listview_friend_requests"
+        android:background="@color/daynight" />
+
+    <View
         android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:visibility="invisible"
         android:layout_below="@+id/listview_friend_requests"
         android:elevation="2dp"
-        android:layout_marginTop="20dp"
         android:background="@color/daynight" />
 
     <ListView
         android:id="@+id/listview_friends_list"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/divider_line_friends"/>

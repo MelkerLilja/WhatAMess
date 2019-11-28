@@ -25,7 +25,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/daynight"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/layout_messages"
@@ -58,29 +58,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
-    <View
-        android:id="@+id/divider_line_groupspushed"
-        android:layout_width="206dp"
-        android:layout_height="3dp"
-        android:layout_below="@+id/layout_messages"
-        android:layout_marginTop="10dp"
-        android:background="@color/daynight"
-        android:elevation="1dp"
-        android:visibility="invisible" />
-
-    <View
-        android:id="@+id/divider_line_friendspushed"
-        android:layout_width="206dp"
-        android:layout_height="3dp"
-        android:layout_below="@+id/layout_messages"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@id/divider_line_groupspushed"
-        android:background="@color/daynight"
-        android:elevation="1dp"
-        android:visibility="invisible" />
-
-
     <View
         android:id="@+id/divider_line_friends"
         android:layout_width="match_parent"
@@ -89,6 +66,36 @@
         android:layout_marginTop="10dp"
         android:background="@color/daynight"
         android:elevation="0dp" />
+
+    <LinearLayout
+        android:id="@+id/layout_pushes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_line_friends"
+        android:divider="@color/lightGrey"
+        android:showDividers="middle">
+
+
+        <View
+            android:id="@+id/divider_line_groupspushed"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/daynight"
+            android:elevation="5dp"
+            android:visibility="invisible" />
+
+        <View
+            android:id="@+id/divider_line_friendspushed"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/daynight"
+            android:elevation="5dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+
 
 
     <ListView

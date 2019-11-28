@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment {
     private Toolbar mToolbar;
     private ImageView profileImg;
     private TextView usernameText;
-    private TextView bioText;
+    private TextView bioText, from;
     private ImageView test;
     private TextView friends;
     private int friendCount;
@@ -68,7 +68,6 @@ public class ProfileFragment extends Fragment {
         setCurrentUser();
         setFriendCount();
 
-
         return view;
     }
 
@@ -81,6 +80,7 @@ public class ProfileFragment extends Fragment {
         profileImg = view.findViewById(R.id.profile_image);
         usernameText = view.findViewById(R.id.user_name_profile_text);
         bioText = view.findViewById(R.id.bio_profile_text);
+        from = view.findViewById(R.id.profile_country);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setTitle("");
     }
@@ -120,6 +120,7 @@ public class ProfileFragment extends Fragment {
                     usernameText.setText(user.getName());
                     bioText.setText(user.getBio());
                     Glide.with(getActivity()).load(user.getProfile_picture()).into(profileImg);
+                    from.setText(user.getFrom());
 
                     setBlurryPhoto(user);
                 }

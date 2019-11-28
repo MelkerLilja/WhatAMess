@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/friendrequests_profile_image"
@@ -13,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/friendrequests_profile_image"
         android:padding="8dp"
         android:textColor="@color/daynight"
@@ -26,7 +26,7 @@
         android:layout_toEndOf="@id/friendrequests_profile_image"
         android:layout_marginStart="5dp"
         android:padding="8dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="28dp"
         android:text="Has requested you as a friend"/>
 
 
@@ -36,7 +36,7 @@
         android:layout_height="30dp"
         android:background="@drawable/ic_check_black_24dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="60dp"/>
 
     <ImageButton
@@ -45,7 +45,7 @@
         android:layout_height="30dp"
         android:background="@drawable/ic_close_black_24dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="10dp"/>
 
 

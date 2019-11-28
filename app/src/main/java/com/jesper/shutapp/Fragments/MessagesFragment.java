@@ -116,6 +116,7 @@ public class MessagesFragment extends Fragment {
         dividerGroup = view.findViewById(R.id.divider_line_groupspushed);
         dividerMessage = view.findViewById(R.id.divider_line_friendspushed);
         textMessages = view.findViewById(R.id.btn_messages_listview);
+        dividerGroup.setVisibility(View.INVISIBLE);
         dividerMessage.setVisibility(View.VISIBLE);
         mToolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
@@ -246,7 +247,6 @@ public class MessagesFragment extends Fragment {
         groupListAdapter = new GroupListAdapter(getActivity(), groupChatArrayList);
         groupsListView.setAdapter(groupListAdapter);
     }
-
 
     //Inflate our toolbar.
     @Override
