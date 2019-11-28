@@ -243,15 +243,6 @@
                 android:text="@string/age_txt"
                 android:textSize="20sp" />
 
-            <ImageButton
-                android:id="@+id/calender_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/calendar_icon"
-                android:text="@string/choose_date" />
 
         </LinearLayout>
 
