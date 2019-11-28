@@ -92,4 +92,12 @@
     <string name="password_updated_toast">Password updated</string>
     <string name="password_not_updated_toast">Password not updated</string>
     <string name="report_a_problem">Report a problem</string>
+
+    //---Invite friends to app using firebase---//
+    <string name="invitation_title">whatAmess</string>
+    <string name="message_text">Discover our new chat app: whatAmess</string>
+    <string name="deep_link">https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg</string>
+
+
+
 </resources>

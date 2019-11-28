@@ -40,6 +40,11 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     compile 'jp.wasabeef:blurry:3.0.0'
 
+    implementation 'com.google.firebase:firebase-invites:17.0.0'
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
+    implementation 'com.google.android.gms:play-services-games:19.0.0'
+
+
 
     def recyclerview_version = "1.0.0"
 

@@ -39,6 +39,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.bumptech.glide.Glide;
@@ -85,6 +88,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
 
     private String currentImagePath = null;
     private static final int IMAGE_CODE = 101;
+    private static final int REQUEST_INVITE = 0;
 
     private FragmentManager mFragmentManager;
     private TermsOfService tos;
@@ -146,6 +150,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                 dateDialog.show();
             }
         });
+
 
     }
 
@@ -404,6 +409,21 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
+
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+            } else {
+                // Sending failed or it was canceled, show failure message to the user
+                // ...
+            }
+        }
+
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
@@ -643,7 +663,19 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void reportAproblem(View view) {
+
         //Send to new activity problemActivity
     }
+
+
+    public void inviteFriendToApp(View view) {
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                .setMessage(getString(R.string.message_text))
+                .setDeepLink(Uri.parse(getString(R.string.deep_link)))
+                .setCustomImage(Uri.parse("https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg"))
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+    }
 }
+
 
