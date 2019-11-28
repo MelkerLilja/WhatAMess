@@ -94,9 +94,9 @@
     <string name="report_a_problem">Report a problem</string>
 
     //---Invite friends to app using firebase---//
-    <string name="invitation_title">whatAmess</string>
-    <string name="message_text">Discover our new chat app: whatAmess</string>
-    <string name="deep_link">https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg</string>
+    <string name="invitation_title">Invitation</string>
+    <string name="message_text">Discover our new chat app: What A Mess</string>
+    <string name="image">https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg</string>
 
 
 

@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -40,8 +39,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appinvite.AppInviteInvitation;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.bumptech.glide.Glide;
@@ -671,7 +668,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     public void inviteFriendToApp(View view) {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.message_text))
-                .setDeepLink(Uri.parse(getString(R.string.deep_link)))
+                .setDeepLink(Uri.parse(getString(R.string.image)))
                 .setCustomImage(Uri.parse("https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg"))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
