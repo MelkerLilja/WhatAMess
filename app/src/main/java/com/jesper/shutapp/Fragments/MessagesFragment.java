@@ -68,7 +68,7 @@ public class MessagesFragment extends Fragment {
         init(view);
         setCurrentUser();
         getChatHistory();
-        readChats();
+       // readChats();
         generateUserGroups();
 
         textGroups.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +145,7 @@ public class MessagesFragment extends Fragment {
                         }
                     }
                 }
+                readChats();
             }
 
             @Override
@@ -159,6 +160,7 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
+                Log.d("ANTON", "onDataChange: generating chats");
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);

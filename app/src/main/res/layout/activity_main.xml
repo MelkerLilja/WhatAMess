@@ -13,10 +13,10 @@
 
     <ImageView
         android:id="@+id/shutAppLogo_img"
-        android:layout_width="300dp"
+        android:layout_width="500dp"
         android:layout_height="300dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/klar2"
+        android:src="@drawable/whatamessbanner"
         android:layout_marginTop="50dp" />
 
     <EditText

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +53,9 @@ public class GroupChatFragment extends Fragment {
     private String user;
     private String stringGroupName;
     private RelativeLayout relativeLayout;
+    public ArrayList<String> userPictures;
+    Intent intent;
+
 
     public GroupChatFragment() {
         // Required empty public constructor
@@ -80,6 +85,7 @@ public class GroupChatFragment extends Fragment {
     private void init (View view) {
         groupUsers = new ArrayList<>();
         friendListGroup = new ArrayList<>();
+        userPictures = new ArrayList<>();
         groupName = view.findViewById(R.id.edittext_groupchat);
         listView = view.findViewById(R.id.listview_friends_groupchat);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -224,10 +230,31 @@ public class GroupChatFragment extends Fragment {
 
     //Calls the GroupChatActivity.
     private void startGroupChatActivity (){
-        Intent intent = new Intent (getActivity(), GroupInChatActivity.class);
-        intent.putExtra("groupname", stringGroupName);
-        intent.putExtra("grouplist", groupUsers);
-        startActivity(intent);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("groups").child(stringGroupName).child("members");
+        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userPictures.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    userPictures.add(user.getProfile_picture());
+                }
+
+                intent = new Intent (getActivity(), GroupInChatActivity.class);
+                intent.putExtra("groupname", stringGroupName);
+                intent.putExtra("grouplist", groupUsers);
+                intent.putStringArrayListExtra("pictures", userPictures);
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //Method that hides the keyboard.

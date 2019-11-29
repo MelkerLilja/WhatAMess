@@ -110,6 +110,7 @@ public class GroupListAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, GroupInChatActivity.class);
                 intent.putExtra("groupname", groupChat.getGroupName());
                 intent.putStringArrayListExtra("grouplist", groupUsers);
+                intent.putStringArrayListExtra("pictures", userPics);
                 context.startActivity(intent);
             }
         });
@@ -233,10 +234,6 @@ public class GroupListAdapter extends BaseAdapter {
         });
     }
 
-
-
-
-
     //Method that displays the last message sent by users in our Messages view.
     private void lastMessageMethod(final TextView lastMessage, String groupname) { //A method that loops the chat messages and checks what the last message sent
         theLastMessage = "default";
@@ -276,5 +273,19 @@ public class GroupListAdapter extends BaseAdapter {
         reference = FirebaseDatabase.getInstance().getReference();
         reference.child("groups").child(groupChat.getGroupName()).child("members").child(fuser.getUid()).removeValue();
         reference.child("users").child(fuser.getUid()).child("groups").child(groupChat.getGroupName()).removeValue();
+
+        reference.child("groups").child(groupChat.getGroupName()).child("members").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    reference.child("groups").child(groupChat.getGroupName()).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

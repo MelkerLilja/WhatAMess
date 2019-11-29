@@ -7,27 +7,57 @@
     tools:context=".Activities.GroupInChatActivity">
 
     <include
-        android:id="@+id/activity_chat_toolbar"
+        android:id="@+id/activity_group_chat_toolbar"
         layout="@layout/mtoolbar" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/groupchat_image_1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="170dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/groupchat_image_2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/groupchat_image_1"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/groupchat_image_3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/groupchat_image_1"
+        android:layout_marginStart="170dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/groupchat_image_4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_toEndOf="@id/groupchat_image_1"
+        android:layout_below="@id/groupchat_image_2"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/groupchat_image_5"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_centerHorizontal="true"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FFFFFF"
+        android:layout_marginTop="25dp"/>
 
     <TextView
         android:id="@+id/group_text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_user_chat"
+        android:layout_below="@+id/groupchat_image_4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         android:textColor="@color/daynight"
         android:textSize="15sp"
         android:textStyle="bold" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/group_image_user"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
-
 
     <ListView
         android:id="@+id/group_listview_message"
@@ -56,14 +86,6 @@
             android:background="@android:color/transparent"
             android:hint="Type a message..."
             android:textColor="@color/daynight" />
-
-        <ImageView
-            android:id="@+id/group_add_image_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:onClick="AddPic"
-            android:src="@drawable/svg_gallery"/>
 
         <ImageButton
             android:id="@+id/group_btn_send"
