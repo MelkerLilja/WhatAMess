@@ -73,6 +73,7 @@ public class ChatActivity extends AppCompatActivity {
 
         init();
 
+
         //On click listener for send button.
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
