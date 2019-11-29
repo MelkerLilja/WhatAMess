@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +23,8 @@ import com.jesper.shutapp.Fragments.MessagesFragment;
 import com.jesper.shutapp.Fragments.ProfileFragment;
 import com.jesper.shutapp.Fragments.SearchFragment;
 import com.jesper.shutapp.R;
+import com.jesper.shutapp.model.Chat;
+
 import java.util.HashMap;
 
 public class FragmentHolderActivity extends AppCompatActivity {
@@ -34,6 +38,7 @@ public class FragmentHolderActivity extends AppCompatActivity {
     ImageButton chatBtn;
     ImageButton profileBtn;
     ImageButton searchBtn;
+    ImageView notificationChats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class FragmentHolderActivity extends AppCompatActivity {
 
         init();
         checkForRequests();
+        checkForUnreadChats();
     }
 
     //Initiate views and variables
@@ -55,6 +61,7 @@ public class FragmentHolderActivity extends AppCompatActivity {
         contactBtn = findViewById(R.id.contacts_icon);
         chatBtn = findViewById(R.id.message_icon);
         profileBtn = findViewById(R.id.profile_icon);
+        notificationChats = findViewById(R.id.notification_chats);
     }
 
     //Method that change our View with the Fragment we pass in
@@ -138,6 +145,32 @@ public class FragmentHolderActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void checkForUnreadChats () {
+        reference = FirebaseDatabase.getInstance().getReference("chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if (chat.getReceiver().equals(fuser.getUid())){
+                        if (!chat.isIsseen()) {
+                            notificationChats.setVisibility(View.VISIBLE);
+                        }   else {
+                            notificationChats.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     @Override
     protected void onResume() {

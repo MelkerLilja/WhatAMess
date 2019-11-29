@@ -6,15 +6,17 @@ public class Chat { //A chat class that includes all of the info we want, need t
     private String message;
     private String receiver;
     private String sender;
+    private boolean isseen;
 
     public Chat() {
 
     }
 
-    public Chat(String message, String receiver, String sender) {
+    public Chat(String message, String receiver, String sender, boolean isseen) {
         this.message = message;
         this.receiver = receiver;
         this.sender = sender;
+        this.isseen = isseen;
     }
 
     public String getMessage() {
@@ -39,5 +41,13 @@ public class Chat { //A chat class that includes all of the info we want, need t
 
     public void Setsender(String sender) {
         this.sender = sender;
+    }
+
+    public boolean isIsseen() {
+        return isseen;
+    }
+
+    public void setIsseen(boolean isseen) {
+        this.isseen = isseen;
     }
 }
