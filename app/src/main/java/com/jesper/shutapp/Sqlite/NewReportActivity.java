@@ -16,7 +16,6 @@ public class NewReportActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "com.example.android.reportlistsql.REPLY";
     private EditText mEditReportView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
