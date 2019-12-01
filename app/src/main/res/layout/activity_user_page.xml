@@ -39,49 +39,33 @@
         android:id="@+id/friend_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="300dp"
-        android:layout_marginBottom="50dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:layout_marginTop="130dp">
 
         <ImageButton
             android:id="@+id/button_chat_userpage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="60dp"
+            android:layout_marginStart="82dp"
             android:layout_weight="1"
             android:background="@null"
+            android:elevation="3dp"
             android:onClick="btnSendMessage"
-            android:src="@drawable/message_black" />
+            android:src="@drawable/svg_chat"
+            android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/btn_friend_added"
+            android:id="@+id/btn_add_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="60dp"
+            android:layout_marginEnd="82dp"
             android:layout_weight="1"
             android:background="@null"
-            android:onClick="btnRemoveFriend"
-            android:src="@drawable/deleteblack_24dp" />
+            android:onClick="btnAddFriend"
+            android:src="@drawable/svg_add_user"
+            android:visibility="gone" />
 
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/btn_add_friend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/circle_image_user_page_activity"
-        android:onClick="btnAddFriend"
-        android:src="@drawable/addpersonicon"
-        android:tint="@color/daynight"
-        android:visibility="gone" />
 
 
     <TextView
@@ -108,18 +92,43 @@
         android:text="Friends"
         android:textColor="#ffffff" />
 
-
     <TextView
-        android:id="@+id/text_userpage_bio"
-        android:layout_width="match_parent"
+        android:id="@+id/bio_title_userpage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/userpage_background"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginStart="70dp"
         android:shadowColor="#000000"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="2"
-        android:textColor="#ffffff" />
+        android:text="ABOUT"
+        android:textColor="@color/daynight"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/text_userpage_bio"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/bio_title_userpage"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_centerHorizontal="true"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="@color/daynight" />
+
+    <View
+        android:id="@+id/divider_line_friends"
+        android:layout_width="270dp"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/text_userpage_bio"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/daynight"/>
 
 </RelativeLayout>
