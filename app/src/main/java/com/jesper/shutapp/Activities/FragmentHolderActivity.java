@@ -69,44 +69,30 @@ public class FragmentHolderActivity extends AppCompatActivity {
     public void btnProfileFragment(View view) {
         ProfileFragment profileFragment = new ProfileFragment();
         changeFragment(profileFragment,"profile");
-
-        profileBtn.setImageResource(R.drawable.profile_icon_filled);
-        chatBtn.setImageResource(R.drawable.chat_icon);
-        contactBtn.setImageResource(R.drawable.contacts_icon);
-        searchBtn.setImageResource(R.drawable.search_icon);
+        setProfileBtn();
     }
+
 
     //Button for calling Message Fragment
     public void btnMessageFragment(View view) {
         MessagesFragment messagesFragment = new MessagesFragment();
         changeFragment(messagesFragment,"message");
-
-        chatBtn.setImageResource(R.drawable.chat_icon_filled);
-        profileBtn.setImageResource(R.drawable.profile_icon);
-        contactBtn.setImageResource(R.drawable.contacts_icon);
-        searchBtn.setImageResource(R.drawable.search_icon);
+        setMessageBtn();
     }
 
     //Button for calling ContactsFragment
     public void btnContactsFragment(View view) {
         ContactsFragment contactsFragment = new ContactsFragment();
         changeFragment(contactsFragment,"contact");
-
-        contactBtn.setImageResource(R.drawable.contacts_icon_filled);
-        profileBtn.setImageResource(R.drawable.profile_icon);
-        chatBtn.setImageResource(R.drawable.chat_icon);
-        searchBtn.setImageResource(R.drawable.search_icon);
+        setContactsBtn();
     }
+
 
     //Button for calling SearchFragment
     public void btnSearchFragment(View view) {
         SearchFragment searchFragment = new SearchFragment();
         changeFragment(searchFragment,"search");
-
-        searchBtn.setImageResource(R.drawable.search_icon_filled);
-        profileBtn.setImageResource(R.drawable.profile_icon);
-        chatBtn.setImageResource(R.drawable.chat_icon);
-        contactBtn.setImageResource(R.drawable.contacts_icon);
+        setSearchBtn();
     }
 
     private void status(String status) {
@@ -162,11 +148,33 @@ public class FragmentHolderActivity extends AppCompatActivity {
         }
     }
 
-    private void setButtons()
+    private void setSearchBtn()
     {
         searchBtn.setImageResource(R.drawable.search_icon_filled);
         profileBtn.setImageResource(R.drawable.profile_icon);
         chatBtn.setImageResource(R.drawable.chat_icon);
         contactBtn.setImageResource(R.drawable.contacts_icon);
     }
+
+    private void setContactsBtn() {
+        contactBtn.setImageResource(R.drawable.contacts_icon_filled);
+        profileBtn.setImageResource(R.drawable.profile_icon);
+        chatBtn.setImageResource(R.drawable.chat_icon);
+        searchBtn.setImageResource(R.drawable.search_icon);
+    }
+
+    private void setMessageBtn() {
+        chatBtn.setImageResource(R.drawable.chat_icon_filled);
+        profileBtn.setImageResource(R.drawable.profile_icon);
+        contactBtn.setImageResource(R.drawable.contacts_icon);
+        searchBtn.setImageResource(R.drawable.search_icon);
+    }
+
+    private void setProfileBtn() {
+        profileBtn.setImageResource(R.drawable.profile_icon_filled);
+        chatBtn.setImageResource(R.drawable.chat_icon);
+        contactBtn.setImageResource(R.drawable.contacts_icon);
+        searchBtn.setImageResource(R.drawable.search_icon);
+    }
+
 }

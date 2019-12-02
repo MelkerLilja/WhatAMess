@@ -697,6 +697,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    // detta är ett push test
 
     public void inviteFriendToApp(View view) {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
