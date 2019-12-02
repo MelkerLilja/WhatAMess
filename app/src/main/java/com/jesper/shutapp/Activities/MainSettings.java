@@ -612,7 +612,31 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void termsOfService(View view) {
-        mFragmentManager.beginTransaction().add(R.id.fragment_holder_main_settings, tos, "Terms of Service").commit();
+
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        /*-----go to web link-----*/
+                        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://what-a-mess.flycricket.io/privacy.html") );
+
+                        startActivity( browse );
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("As the terms of service is long we have it on a dedicated website").setPositiveButton("Take me to the TOS", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
     }
 
     public void takePic(View view) {
@@ -708,5 +732,3 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
         startActivityForResult(intent, REQUEST_INVITE);
     }
 }
-
-

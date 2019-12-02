@@ -26,6 +26,11 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -59,6 +64,8 @@ public class SearchFragment extends Fragment {
     private SearchAdapter searchAdapter;
     private FrameLayout test;
     private String myUser;
+    private AdView mAdView;
+
 
     public SearchFragment() {
     }
@@ -103,6 +110,12 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
+        MobileAds.initialize(getActivity());
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         return view;
     }
 

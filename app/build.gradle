@@ -71,6 +71,8 @@ dependencies {
 
 // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
