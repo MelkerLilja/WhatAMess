@@ -78,7 +78,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
     private ImageView userPic;
     private Uri imageUri;
     private StorageReference mStorageRef;
-    private EditText usernameTxt, emailTxt, bioTxt,fromTxt;
+    private EditText usernameTxt, emailTxt, bioTxt, fromTxt;
     private ImageButton calenderBtn;
     private Spinner genderSpinner;
     private static String genderChoice;
@@ -288,7 +288,7 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                             genderSpinner.setSelection(2);
                         }
                     }
-                    if(user.getAge() != null) {
+                    if (user.getAge() != null) {
                         String userAge = user.getAge();
                         String ageOfTheUser = ageString + " " + userAge;
                         ageTxt.setText(ageOfTheUser);
@@ -621,9 +621,9 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         /*-----go to web link-----*/
-                        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://what-a-mess.flycricket.io/privacy.html") );
+                        Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://what-a-mess.flycricket.io/privacy.html"));
 
-                        startActivity( browse );
+                        startActivity(browse);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -721,14 +721,34 @@ public class MainSettings extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    // detta är ett push test
 
     public void inviteFriendToApp(View view) {
-        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
-                .setMessage(getString(R.string.message_text))
-                .setDeepLink(Uri.parse(getString(R.string.image)))
-                .setCustomImage(Uri.parse("https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg"))
-                .build();
-        startActivityForResult(intent, REQUEST_INVITE);
+
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                                .setMessage(getString(R.string.message_text))
+                                .setDeepLink(Uri.parse(getString(R.string.image)))
+                                .build();
+                        startActivityForResult(intent, REQUEST_INVITE);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You can only send invitations through sms").setPositiveButton("Invite friend to app", dialogClickListener)
+                .setNegativeButton("Cancel", dialogClickListener).show();
+
     }
 }

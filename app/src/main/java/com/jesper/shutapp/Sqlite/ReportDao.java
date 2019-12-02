@@ -17,4 +17,5 @@ public interface ReportDao {
 
     @Query("Select reportTxt from report")
     LiveData<List<Report>> getAllReports();
+
 }

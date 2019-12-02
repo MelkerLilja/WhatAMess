@@ -17,10 +17,10 @@ public abstract class ReportRoomDatabase extends RoomDatabase {
     public abstract ReportDao reportDao();
 
     private static volatile ReportRoomDatabase INSTANCE;
-    /*private static int NUMBER_OF_THREADS = 4;
+    private static int NUMBER_OF_THREADS = 4;
 
     static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);*/
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
 
     static ReportRoomDatabase getDatabase(final Context context) {
@@ -43,26 +43,28 @@ public abstract class ReportRoomDatabase extends RoomDatabase {
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
             new PopulateDbAsync(INSTANCE).execute();
-            /*databaseWriteExecutor.execute(() ->
+            databaseWriteExecutor.execute(() ->
             {
                 ReportDao dao = INSTANCE.reportDao();
 
-                Report report = new Report("hello");
+
+               /* Report report = new Report("hello");
                 dao.insert(report);
                 report = new Report("World");
-                dao.insert(report);
+                dao.insert(report);*/
 
-            });*/
+            });
 
         }
     };
 
-    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
+   private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final ReportDao mDao;
 
         PopulateDbAsync(ReportRoomDatabase db) {
             mDao = db.reportDao();
+
         }
 
         @Override
@@ -70,10 +72,10 @@ public abstract class ReportRoomDatabase extends RoomDatabase {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
 
-            Report report = new Report("Hello");
+            /*Report report = new Report("Hello");
             mDao.insert(report);
             report = new Report("World");
-            mDao.insert(report);
+            mDao.insert(report);*/
             return null;
         }
     }
