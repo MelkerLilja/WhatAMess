@@ -23,6 +23,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.GroupChat;
 import com.jesper.shutapp.model.User;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.jesper.shutapp.model.GroupChat;
 
 import java.util.ArrayList;
 

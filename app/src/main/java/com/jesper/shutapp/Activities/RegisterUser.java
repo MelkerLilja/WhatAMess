@@ -62,19 +62,21 @@ public class RegisterUser extends AppCompatActivity {
 
 
         mFragmentManager = getSupportFragmentManager();
-        FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder);
+        FrameLayout mFragmentLayout = findViewById(R.id.fragment_holder_register);
         TextView mTos = findViewById(R.id.tos_txt);
         tos = new TermsOfService();
 
         Toolbar mToolbar = findViewById(R.id.register_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(null);
+
 
         mTos.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                mFragmentManager.beginTransaction().add(R.id.fragment_holder, tos, "Terms of Service").commit();
+                mFragmentManager.beginTransaction().add(R.id.fragment_holder_register, tos, "Terms of Service").commit();
                 return false;
             }
         });
@@ -222,7 +224,7 @@ public class RegisterUser extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mFragmentManager.findFragmentById(R.id.fragment_holder).isVisible()) {
+        if (mFragmentManager.findFragmentById(R.id.fragment_holder_register).isVisible()) {
             mFragmentManager.beginTransaction().remove(tos).commit();
         } else {
             super.onBackPressed();

@@ -51,7 +51,7 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-    private ListView usersListView, groupsListView;
+    private ListView usersListView, groupsListView,groupList;
     private MessagesAdapter messagesAdapter;
     private GroupListAdapter groupListAdapter;
     private ImageView userPicture;
@@ -60,6 +60,7 @@ public class MessagesFragment extends Fragment {
     private TextView userName;
     private ArrayList<User> usersList;
     private ArrayList<String> userGroups;
+
     private List<String> chatUsers;
     private Toolbar mToolbar;
     private ArrayList<GroupChat> groupChatArrayList;
@@ -123,6 +124,7 @@ public class MessagesFragment extends Fragment {
         mToolbar = view.findViewById(R.id.userlist_toolbar);
         textGroups = view.findViewById(R.id.btn_group_listview);
         usersListView = view.findViewById(R.id.users_list);
+        groupList = view.findViewById(R.id.group_users_list);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
         groupsListView = view.findViewById(R.id.listview_groups);
@@ -263,6 +265,24 @@ public class MessagesFragment extends Fragment {
         groupsListView.setAdapter(groupListAdapter);
     }
 
+    /*private void generateGroups() {
+        reference = FirebaseDatabase.getInstance().getReference("groups");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
+
+
 
     //Inflate our toolbar.
     @Override
@@ -288,6 +308,8 @@ public class MessagesFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
     @Override

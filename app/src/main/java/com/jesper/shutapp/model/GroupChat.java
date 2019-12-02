@@ -1,4 +1,5 @@
 package com.jesper.shutapp.model;
+
 import java.util.ArrayList;
 
 public class GroupChat {

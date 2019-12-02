@@ -1,4 +1,6 @@
 package com.jesper.shutapp.Fragments;
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +39,8 @@ import com.jesper.shutapp.GroupInviteAdapter;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +58,10 @@ public class GroupChatFragment extends Fragment {
     private String user;
     private String stringGroupName;
     private RelativeLayout relativeLayout;
+    CheckBox mCheckbox;
+    ImageView btnChecked;
+    TextView textView;
+
 
     public GroupChatFragment() {
         // Required empty public constructor
@@ -72,6 +83,7 @@ public class GroupChatFragment extends Fragment {
                 hideKeyboard();
             }
         });
+
 
         return view;
     }
@@ -143,6 +155,14 @@ public class GroupChatFragment extends Fragment {
 
             }
         });
+       /*for (int i = 0; i < users.size(); i++) {
+            hashMap.put(users.get(i) , users.get(i));
+        }
+        hashMap.put(fuser.getUid(), fuser.getUid());
+        reference.child(string).setValue(hashMap);
+
+        addGroupsToUsers();*/
+
     }
 
     //Gets the group-users from FireBase.
@@ -235,4 +255,15 @@ public class GroupChatFragment extends Fragment {
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
+    private void addGroupsToUsers() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+
+        for (int i = 0; i < groupUsers.size() ; i++) {
+            reference.child(groupUsers.get(i)).child("groups").child(stringGroupName).setValue(stringGroupName);
+            Log.d("ANTON", groupUsers.get(i));
+
+        }
+        reference.child(fuser.getUid()).child("groups").child(stringGroupName).setValue(stringGroupName);
+    }
+
 }

@@ -57,10 +57,9 @@
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:background="@drawable/circle_image"
-            android:padding="5dp"
-            android:src="@drawable/search_icon"
-            android:tint="@color/daynight" />
+            android:background="@null"
+            android:src="@drawable/ic_magnifying_glass"
+            />
     </LinearLayout>
 
     <TextView
