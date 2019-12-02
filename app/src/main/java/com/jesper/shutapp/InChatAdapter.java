@@ -2,6 +2,8 @@ package com.jesper.shutapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -105,7 +108,15 @@ public class InChatAdapter extends BaseAdapter {
             Glide.with(context).load(chat_pos.getMessage()).into(holder.image);
             Log.d("JesperChat", "getView: ");
 
-        } else {
+        }else if(chat_pos.getMessage().contains("http"))
+        {
+
+            holder.message.setText(chat_pos.getMessage());
+            holder.message.setLinksClickable(true);
+            Linkify.addLinks(holder.message,Linkify.WEB_URLS);
+
+        }
+        else {
             holder.message.setText(chat_pos.getMessage());
         }
 

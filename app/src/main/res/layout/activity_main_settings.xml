@@ -32,12 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/settings_menu"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="30sp" />
 
         <include
@@ -51,9 +51,7 @@
             android:layout_below="@+id/settings_title"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:onClick="changePic"
-            app:civ_border_color="@color/daynight"
-            app:civ_border_width="2dp" />
+            android:onClick="changePic" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -86,12 +84,12 @@
             android:layout_below="@id/change_profile_pic"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/name_title_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
@@ -115,12 +113,12 @@
             android:layout_below="@id/user_name_mainsettings_edittxt"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/from_title_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
@@ -144,12 +142,12 @@
             android:layout_below="@id/from_edittxt"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/user_bio_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
@@ -174,12 +172,12 @@
             android:layout_below="@id/user_bio_edittxt"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/gender_title_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -190,8 +188,8 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatSpinner
-                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:id="@+id/gender_spinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -206,12 +204,12 @@
             android:layout_below="@id/gender_layout"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/age_title_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -235,9 +233,9 @@
                 android:id="@+id/calender_btn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/ic_calendar"
-                android:background="@null"
                 android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/ic_calendar"
                 android:text="@string/choose_date" />
 
 
@@ -256,14 +254,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider_line_settings"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/account_settings"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="25sp" />
 
         <TextView
@@ -273,12 +272,12 @@
             android:layout_below="@id/account_settings_title"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/password_title_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
@@ -302,12 +301,12 @@
             android:layout_below="@id/new_password_edittxt"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
             android:text="@string/email_title_txt"
             android:textColor="@color/daynight"
-            android:shadowColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
@@ -339,12 +338,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/divider_line"
             android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="theme"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:shadowColor="@color/black"
-            android:clickable="true"
-            android:onClick="theme"
             android:text="@string/theme"
             android:textColor="@color/daynight"
             android:textSize="20sp" />
@@ -363,12 +362,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/divider_line_two"
             android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="termsOfService"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:shadowColor="@color/black"
-            android:clickable="true"
-            android:onClick="termsOfService"
             android:text="@string/terms_of_service"
             android:textColor="@color/daynight"
             android:textSize="20sp" />
@@ -387,12 +386,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/divider_line_two_and_half"
             android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="reportAproblem"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:shadowColor="@color/black"
-            android:clickable="true"
-            android:onClick="reportAproblem"
             android:text="@string/report_a_problem"
             android:textColor="@color/daynight"
             android:textSize="20sp" />
@@ -411,12 +410,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider_line_three"
             android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="logOut"
+            android:shadowColor="@color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:shadowColor="@color/black"
-            android:clickable="true"
-            android:onClick="logOut"
             android:text="@string/log_out_txt"
             android:textColor="@color/daynight"
             android:textSize="20sp" />
@@ -435,13 +434,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/divider_line_four"
             android:layout_centerHorizontal="true"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowRadius="2"
-            android:shadowColor="@color/black"
             android:layout_marginBottom="20dp"
             android:clickable="true"
             android:onClick="deleteAccount"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
             android:text="@string/delete_account_txt"
             android:textColor="@color/daynight"
             android:textSize="20sp" />

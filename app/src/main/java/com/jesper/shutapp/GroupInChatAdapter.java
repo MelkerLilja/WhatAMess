@@ -2,6 +2,7 @@ package com.jesper.shutapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,7 +105,14 @@ public class GroupInChatAdapter extends BaseAdapter {
             Glide.with(context).load(group_pos.getMessage()).into(holder.image);
             Log.d("JesperChat", "getView: ");
 
-        } else {
+        }else if(group_pos.getMessage().contains("http"))
+        {
+
+            holder.message.setText(group_pos.getMessage());
+            holder.message.setLinksClickable(true);
+            Linkify.addLinks(holder.message,Linkify.WEB_URLS);
+        }
+        else {
             holder.message.setText(group_pos.getMessage());
         }
 
