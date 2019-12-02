@@ -61,6 +61,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<String> userUid;
     private ArrayList<String> userGender;
     private ArrayList<String> userAge;
+    private ArrayList<String> userFrom;
     private SearchAdapter searchAdapter;
     private FrameLayout test;
     private String myUser;
@@ -84,6 +85,24 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        searchUser = view.findViewById(R.id.search_users);
+        recyclerView = view.findViewById(R.id.users_list);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+        nameList = new ArrayList<>();
+        profilePicList = new ArrayList<>();
+        userBio = new ArrayList<>();
+        userUid = new ArrayList<>();
+        userGender = new ArrayList<>();
+        userAge = new ArrayList<>();
+        userFrom = new ArrayList<>();
+
         searchUser.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,6 +125,7 @@ public class SearchFragment extends Fragment {
                     profilePicList.clear();
                     userBio.clear();
                     userUid.clear();
+                    userFrom.clear();
                     recyclerView.removeAllViews();
                 }
             }
@@ -155,6 +175,7 @@ public class SearchFragment extends Fragment {
                 userUid.clear();
                 userAge.clear();
                 userGender.clear();
+                userFrom.clear();
                 recyclerView.removeAllViews();
                 int counter = 0;
 
@@ -165,6 +186,7 @@ public class SearchFragment extends Fragment {
                     String uid = snapshot.child("uid").getValue(String.class);
                     String age = snapshot.child("age").getValue(String.class);
                     String gender = snapshot.child("gender").getValue(String.class);
+                    String from = snapshot.child("from").getValue(String.class);
 
                     if (name.toLowerCase().contains(searchedString.toLowerCase()) && !name.toLowerCase().contains(myUser.toLowerCase())) {
                         nameList.add(name);
@@ -173,6 +195,7 @@ public class SearchFragment extends Fragment {
                         userUid.add(uid);
                         userAge.add(age);
                         userGender.add(gender);
+                        userFrom.add(from);
 
                         counter++;
                     }
@@ -181,7 +204,7 @@ public class SearchFragment extends Fragment {
                         break;
                 }
 
-                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid, userAge, userGender);
+                searchAdapter = new SearchAdapter(getContext(), nameList, profilePicList, userBio, userUid, userAge, userGender, userFrom);
                 recyclerView.setAdapter(searchAdapter);
             }
 

@@ -160,4 +160,6 @@ public class InChatAdapter extends BaseAdapter {
         final InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView(position, convertView, parent).getWindowToken(), 0);
     }
+
+
 }

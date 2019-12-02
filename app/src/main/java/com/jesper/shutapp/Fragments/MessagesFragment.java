@@ -80,7 +80,7 @@ public class MessagesFragment extends Fragment {
         init(view);
         setCurrentUser();
         getChatHistory();
-        readChats();
+       // readChats();
         generateUserGroups();
 
 
@@ -131,6 +131,7 @@ public class MessagesFragment extends Fragment {
         dividerGroup = view.findViewById(R.id.divider_line_groupspushed);
         dividerMessage = view.findViewById(R.id.divider_line_friendspushed);
         textMessages = view.findViewById(R.id.btn_messages_listview);
+        dividerGroup.setVisibility(View.INVISIBLE);
         dividerMessage.setVisibility(View.VISIBLE);
         mToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
@@ -160,6 +161,7 @@ public class MessagesFragment extends Fragment {
                         }
                     }
                 }
+                readChats();
             }
 
             @Override
@@ -176,6 +178,7 @@ public class MessagesFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
+                Log.d("ANTON", "onDataChange: generating chats");
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
@@ -264,25 +267,6 @@ public class MessagesFragment extends Fragment {
         groupListAdapter = new GroupListAdapter(getActivity(), groupChatArrayList);
         groupsListView.setAdapter(groupListAdapter);
     }
-
-    /*private void generateGroups() {
-        reference = FirebaseDatabase.getInstance().getReference("groups");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
-
-
 
     //Inflate our toolbar.
     @Override

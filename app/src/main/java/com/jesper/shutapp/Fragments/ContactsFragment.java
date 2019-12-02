@@ -36,6 +36,7 @@ public class ContactsFragment extends Fragment {
     FriendRequestAdapter friendRequestAdapter;
     ListView listViewRequest;
     View dividerRequests;
+    View getDividerRequestsBottom;
     TextView idRequest;
 
 
@@ -63,7 +64,8 @@ public class ContactsFragment extends Fragment {
         listView = view.findViewById(R.id.listview_friends_list);
         listViewRequest = view.findViewById(R.id.listview_friend_requests);
         dividerRequests = view.findViewById(R.id.divider_line_requests);
-        idRequest = view.findViewById(R.id.id_requests);
+        getDividerRequestsBottom = view.findViewById(R.id.divider_line_requests_bottom);
+
     }
 
     //Generate all user to the list
@@ -98,10 +100,12 @@ public class ContactsFragment extends Fragment {
                 requestList.clear();
                 if (dataSnapshot.exists()){
                     dividerRequests.setVisibility(View.VISIBLE);
-                    idRequest.setVisibility(View.VISIBLE);
+                    getDividerRequestsBottom.setVisibility(View.VISIBLE);
+
                 }   else{
                     dividerRequests.setVisibility(View.GONE);
-                    idRequest.setVisibility(View.GONE);
+                    getDividerRequestsBottom.setVisibility(View.GONE);
+
                 }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);

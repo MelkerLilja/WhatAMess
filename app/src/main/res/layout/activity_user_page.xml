@@ -15,8 +15,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_user_page"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />
 
@@ -34,6 +34,20 @@
         android:textColor="#ffffff"
         android:textSize="18dp" />
 
+    <TextView
+        android:id="@+id/userpage_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_username_userpage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="#EBEBEB"
+        android:textSize="13dp"/>
+
 
     <LinearLayout
         android:id="@+id/friend_buttons_layout"
@@ -45,7 +59,8 @@
             android:id="@+id/button_chat_userpage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="82dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:background="@null"
             android:elevation="3dp"
@@ -57,7 +72,8 @@
             android:id="@+id/btn_add_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="82dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:background="@null"
             android:onClick="btnAddFriend"
@@ -116,10 +132,6 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_centerHorizontal="true"
-        android:shadowColor="#000000"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="2"
         android:textColor="@color/daynight" />
 
     <View

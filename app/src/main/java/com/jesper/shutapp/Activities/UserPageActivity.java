@@ -31,12 +31,13 @@ public class UserPageActivity extends AppCompatActivity {
     private FirebaseUser fuser;
     private ImageView imageView, background;
     private ImageButton btnAddFriend, btnFriendChat;
-    private TextView userName, userBio, friends;
+    private TextView userName, userBio, friends, userFrom;
     private Intent intent;
     private String name;
     private String bio;
     private String photo;
     private String uid;
+    private String from;
     private User user;
     private int friendCount;
 
@@ -60,6 +61,7 @@ public class UserPageActivity extends AppCompatActivity {
         bio = intent.getStringExtra("bio");
         photo = intent.getStringExtra("photo");
         uid = intent.getStringExtra("uid");
+        from = intent.getStringExtra("from");
 
         imageView = findViewById(R.id.image_user_page);
         userBio = findViewById(R.id.text_userpage_bio);
@@ -68,12 +70,14 @@ public class UserPageActivity extends AppCompatActivity {
         btnFriendChat = findViewById(R.id.button_chat_userpage);
         background = findViewById(R.id.userpage_background);
         friends = findViewById(R.id.userpage_friends);
+        userFrom = findViewById(R.id.userpage_country);
         btnFriendChat = findViewById(R.id.button_chat_userpage);
 
         Glide.with(this).load(photo).into(imageView);
         setBlurryPhoto(photo);
         userName.setText(name);
         userBio.setText(bio);
+        userFrom.setText(from);
     }
 
     //Method that checks if users is friends and changes views.

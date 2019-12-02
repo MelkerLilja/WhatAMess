@@ -48,6 +48,8 @@
         android:layout_below="@id/text_userName_chat"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal"
         android:layout_above="@id/layout_sendMessage"/>
 
  <RelativeLayout

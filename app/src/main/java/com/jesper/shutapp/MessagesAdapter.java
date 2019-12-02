@@ -3,6 +3,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MessagesAdapter extends BaseAdapter {
 
@@ -107,6 +110,7 @@ public class MessagesAdapter extends BaseAdapter {
         Glide.with(context).load(user.getProfile_picture()).into(holder.profilePicture);
 
         lastMessageMethod(user.getUid(), holder.lastMessage);
+        messageSeen(user_pos, holder);
 
             //OnLongClick for being able to delete a chat message
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -178,15 +182,18 @@ public class MessagesAdapter extends BaseAdapter {
 
     //Method that checks all history between two users and deletes it from Firebase.
     private void deleteChat(final User user) {
+        Log.d("ANTON", "deleteChat: method");
+        reference = FirebaseDatabase.getInstance().getReference("chats");
 
-        reference.child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Log.d("ANTON", "onDataChange: listener");
                     Chat chat = snapshot.getValue(Chat.class);
                     if (chat.getReceiver().equals(fuser.getUid()) && chat.getSender().equals(user.getUid()) || chat.getReceiver().equals(user.getUid()) && chat.getSender().equals(fuser.getUid())){
-
-                        reference.child("chats").child(snapshot.getKey()).removeValue();
+                        Log.d("ANTON", "onDataChange: removing chat");
+                        reference.child(snapshot.getKey()).removeValue();
                     }
                 }
             }
@@ -198,5 +205,28 @@ public class MessagesAdapter extends BaseAdapter {
         });
 
         Toast.makeText(context, context.getText(R.string.delete_history_txt), Toast.LENGTH_SHORT).show();
+    }
+
+    private void messageSeen (User user, ViewHolder holder) {
+        reference = FirebaseDatabase.getInstance().getReference("chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if (chat.getReceiver().equals(fuser.getUid()) && chat.getSender().equals(user.getUid())){
+                        if (!chat.isIsseen()) {
+                            holder.lastMessage.setTypeface(null, Typeface.BOLD);
+                        }
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

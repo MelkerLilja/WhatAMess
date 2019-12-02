@@ -14,18 +14,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jesper.shutapp.Activities.ChatActivity;
 import com.jesper.shutapp.Activities.MainActivity;
 import com.jesper.shutapp.Activities.UserPageActivity;
 import com.jesper.shutapp.Fragments.ProfileFragment;
+import com.jesper.shutapp.model.Chat;
 import com.jesper.shutapp.model.User;
 
 import java.util.ArrayList;
@@ -33,6 +38,8 @@ import java.util.ArrayList;
 public class FriendsListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<User> friendsList;
+    FirebaseUser fuser;
+    DatabaseReference reference;
 
 
     public FriendsListAdapter(Context context, ArrayList<User> friendsList) { //Constructor for InChatAdapter with the Context and our chatList.
@@ -168,6 +175,7 @@ public class FriendsListAdapter extends BaseAdapter {
                 intent.putExtra("photo", user.getProfile_picture());
                 intent.putExtra("name", user.getName());
                 intent.putExtra("uid", user.getUid());
+                intent.putExtra("from", user.getFrom());
 
                 context.startActivity(intent);
             }
@@ -180,17 +188,42 @@ public class FriendsListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    //NEED TO ADD SO THAT USER REMOVES FROM LIST DIRECLY
     private void deleteFriend(User user){
         FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.child("users").child(fuser.getUid()).child("friends").child(user.getUid()).removeValue();
         reference.child("users").child(user.getUid()).child("friends").child(fuser.getUid()).removeValue();
+        deleteChat(user);
 
         Toast.makeText(context, context.getText(R.string.friend_removed_toast), Toast.LENGTH_SHORT).show();
     }
     private void activatebtn(ImageButton btn)
     {
 
+    }
+
+    //Method that checks all history between two users and deletes it from Firebase.
+    private void deleteChat(final User user) {
+        reference = FirebaseDatabase.getInstance().getReference();
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        reference.child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if (chat.getReceiver().equals(fuser.getUid()) && chat.getSender().equals(user.getUid()) || chat.getReceiver().equals(user.getUid()) && chat.getSender().equals(fuser.getUid())){
+
+                        reference.child("chats").child(snapshot.getKey()).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,9 +59,8 @@ public class GroupChatFragment extends Fragment {
     private String user;
     private String stringGroupName;
     private RelativeLayout relativeLayout;
-    CheckBox mCheckbox;
-    ImageView btnChecked;
-    TextView textView;
+    public ArrayList<String> userPictures;
+    Intent intent;
 
 
     public GroupChatFragment() {
@@ -84,7 +84,6 @@ public class GroupChatFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
@@ -92,6 +91,7 @@ public class GroupChatFragment extends Fragment {
     private void init (View view) {
         groupUsers = new ArrayList<>();
         friendListGroup = new ArrayList<>();
+        userPictures = new ArrayList<>();
         groupName = view.findViewById(R.id.edittext_groupchat);
         listView = view.findViewById(R.id.listview_friends_groupchat);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -155,14 +155,6 @@ public class GroupChatFragment extends Fragment {
 
             }
         });
-       /*for (int i = 0; i < users.size(); i++) {
-            hashMap.put(users.get(i) , users.get(i));
-        }
-        hashMap.put(fuser.getUid(), fuser.getUid());
-        reference.child(string).setValue(hashMap);
-
-        addGroupsToUsers();*/
-
     }
 
     //Gets the group-users from FireBase.
@@ -244,10 +236,31 @@ public class GroupChatFragment extends Fragment {
 
     //Calls the GroupChatActivity.
     private void startGroupChatActivity (){
-        Intent intent = new Intent (getActivity(), GroupInChatActivity.class);
-        intent.putExtra("groupname", stringGroupName);
-        intent.putExtra("grouplist", groupUsers);
-        startActivity(intent);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("groups").child(stringGroupName).child("members");
+        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userPictures.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    userPictures.add(user.getProfile_picture());
+                }
+
+                intent = new Intent (getActivity(), GroupInChatActivity.class);
+                intent.putExtra("groupname", stringGroupName);
+                intent.putExtra("grouplist", groupUsers);
+                intent.putStringArrayListExtra("pictures", userPictures);
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //Method that hides the keyboard.

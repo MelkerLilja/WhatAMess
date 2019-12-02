@@ -2,10 +2,12 @@ package com.jesper.shutapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +38,7 @@ public class GroupInChatActivity extends AppCompatActivity {
     EditText txtSend;
     String message;
     TextView userNameChat, txtUserGroup;
-    ImageView userImage;
+    ImageView userImage, user1, user2, user3, user4, user5;
     DatabaseReference reference;
     // ArrayList<User> groupClassUsers;
     FirebaseUser fuser;
@@ -45,6 +48,8 @@ public class GroupInChatActivity extends AppCompatActivity {
     ArrayList<GroupChat> groupChatList;
     GroupInChatAdapter adapter;
     ListView listView;
+    ArrayList<String> groupPictures;
+    Toolbar mToolbar;
 
     private static String TAG = "JesperChat";
     private static int PICK_IMAGE = 100;
@@ -57,6 +62,7 @@ public class GroupInChatActivity extends AppCompatActivity {
 
         init();
         readMessage2();
+        generateGroupPictures();
     }
 
     //Initiate all variables and views.
@@ -64,16 +70,29 @@ public class GroupInChatActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.group_btn_send);
         txtSend = findViewById(R.id.group_text_send);
         userNameChat = findViewById(R.id.text_userName_chat);
-        userImage = findViewById(R.id.group_image_user);
         txtUserGroup = findViewById(R.id.group_text_name);
         listView = findViewById(R.id.group_listview_message);
+        user1 = findViewById(R.id.groupchat_image_5);
+        user2 = findViewById(R.id.groupchat_image_2);
+        user3 = findViewById(R.id.groupchat_image_3);
+        user4 = findViewById(R.id.groupchat_image_4);
+        user5 = findViewById(R.id.groupchat_image_1);
+
+        groupPictures = new ArrayList<>();
 
         intent = getIntent();
         groupName = intent.getStringExtra("groupname");
         groupUsers = intent.getStringArrayListExtra("grouplist");
+        groupPictures = intent.getStringArrayListExtra("pictures");
 
         txtUserGroup.setText(groupName);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        mToolbar = findViewById(R.id.activity_group_chat_toolbar);
+
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     //Method to send a message and push it to firebase.
@@ -88,8 +107,6 @@ public class GroupInChatActivity extends AppCompatActivity {
 
         reference.child("groups").child(groupName).child("chats").push().setValue(hashMap);
     }
-
-
 
     private void readMessage2() {
         groupChatList = new ArrayList<>();
@@ -165,5 +182,64 @@ public class GroupInChatActivity extends AppCompatActivity {
             Toast.makeText(GroupInChatActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
         }
         txtSend.setText("");
+    }
+
+    private void generateGroupPictures() {
+        int a = groupPictures.size();
+        if (a == 1){
+            Glide.with(this).load(groupPictures.get(0)).into(user1);
+            user2.setVisibility(View.INVISIBLE);
+            user3.setVisibility(View.INVISIBLE);
+            user4.setVisibility(View.INVISIBLE);
+            user5.setVisibility(View.INVISIBLE);
+        }
+        if (a == 2){
+            Glide.with(this).load(groupPictures.get(0)).into(user1);
+            Glide.with(this).load(groupPictures.get(1)).into(user2);
+            user3.setVisibility(View.INVISIBLE);
+            user4.setVisibility(View.INVISIBLE);
+            user5.setVisibility(View.INVISIBLE);
+        }
+        if (a == 3){
+            Glide.with(this).load(groupPictures.get(0)).into(user1);
+            Glide.with(this).load(groupPictures.get(1)).into(user2);
+            Glide.with(this).load(groupPictures.get(2)).into(user3);
+            user4.setVisibility(View.INVISIBLE);
+            user5.setVisibility(View.INVISIBLE);
+
+        }
+        if (a == 4){
+            Glide.with(this).load(groupPictures.get(0)).into(user1);
+            Glide.with(this).load(groupPictures.get(1)).into(user2);
+            Glide.with(this).load(groupPictures.get(2)).into(user3);
+            Glide.with(this).load(groupPictures.get(3)).into(user4);
+            user5.setVisibility(View.INVISIBLE);
+
+        }
+        if (a >= 5){
+            Glide.with(this).load(groupPictures.get(0)).into(user1);
+            Glide.with(this).load(groupPictures.get(1)).into(user2);
+            Glide.with(this).load(groupPictures.get(2)).into(user3);
+            Glide.with(this).load(groupPictures.get(3)).into(user4);
+            Glide.with(this).load(groupPictures.get(4)).into(user5);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(GroupInChatActivity.this, FragmentHolderActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
