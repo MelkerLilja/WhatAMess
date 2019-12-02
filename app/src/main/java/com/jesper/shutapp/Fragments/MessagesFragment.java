@@ -124,7 +124,7 @@ public class MessagesFragment extends Fragment {
         mToolbar = view.findViewById(R.id.userlist_toolbar);
         textGroups = view.findViewById(R.id.btn_group_listview);
         usersListView = view.findViewById(R.id.users_list);
-        groupList = view.findViewById(R.id.group_users_list);
+        groupList = view.findViewById(R.id.listview_groups);
         userName = view.findViewById(R.id.user_name_homescreen);
         userPicture = view.findViewById(R.id.user_picture);
         groupsListView = view.findViewById(R.id.listview_groups);
@@ -136,7 +136,6 @@ public class MessagesFragment extends Fragment {
         mToolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
     }
-
 
     //Saves strings UID of all person current user have been chatting with
     private void getChatHistory() {
