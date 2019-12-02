@@ -113,5 +113,7 @@
     <string name="image">https://www.xda-developers.com/files/2013/05/mobile-phone-apps.jpg</string>
     <string name="register_title">Register</string>
 
+    <string name="reports_title">Reports</string>
+
 
 </resources>
